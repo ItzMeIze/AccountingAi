@@ -267,6 +267,7 @@
     const allItems = document.querySelectorAll('.drop-zone .drag-item');
 
     allItems.forEach((item) => {
+      if (item.getAttribute('data-is-header') === 'true') return; // skip label cards
       totalCount++;
       const correctZone = zones[item.getAttribute('data-correct')];
       const parentZone  = item.closest('.drop-zone');
@@ -281,11 +282,13 @@
     });
 
     // 2. Check ordering within each correctly-filled zone
+    const realAccountCount = accounts.filter(a => !a.isHeader).length;
     let orderErrors = [];
-    if (correctCount === totalCount && totalCount === accounts.length) {
+    if (correctCount === totalCount && totalCount === realAccountCount) {
       Object.entries(zones).forEach(([key, id]) => {
         const zone = document.getElementById(id);
-        const items = [...zone.querySelectorAll('.drag-item')];
+        // exclude header label cards from ordering check
+        const items = [...zone.querySelectorAll('.drag-item')].filter(el => el.getAttribute('data-is-header') !== 'true');
         for (let i = 0; i < items.length - 1; i++) {
           const curOrder  = Number(items[i].getAttribute('data-order'));
           const nextOrder = Number(items[i + 1].getAttribute('data-order'));
@@ -299,13 +302,14 @@
     }
 
     // Items still in bank
-    const bankItems = dragBank.querySelectorAll('.drag-item');
+    const bankItems = [...dragBank.querySelectorAll('.drag-item')]
+                         .filter(el => el.getAttribute('data-is-header') !== 'true');
     const bankCount = bankItems.length;
 
     if (bankCount > 0) {
       fb.className = 'drag-feedback partial';
       fb.textContent = `You still have ${bankCount} account(s) in the bank. Drag them all into a zone first!`;
-    } else if (correctCount === totalCount && totalCount === accounts.length && orderErrors.length === 0) {
+    } else if (correctCount === totalCount && totalCount === realAccountCount && orderErrors.length === 0) {
       const tA = document.getElementById('totalAssets').textContent;
       const tL = document.getElementById('totalLOE').textContent;
       if (tA === tL) {

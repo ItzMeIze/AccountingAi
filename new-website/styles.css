@@ -499,13 +499,11 @@ p:last-child { margin-bottom: 0; }
 .drag-item:active { cursor: grabbing; transform: scale(1.04); box-shadow: var(--shadow-lg); }
 .drag-val { font-family: var(--mono); font-size: .78rem; opacity: .8; }
 .drag-item[data-correct="CA"],
-.drag-item[data-correct="LTA"] { background: var(--blue-bg); border-color: var(--blue-border); color: var(--blue); }
-.drag-item[data-correct="CA"],
 .drag-item[data-correct="LTA"],
 .drag-item[data-correct="CL"],
 .drag-item[data-correct="LTL"],
 .drag-item[data-correct="OE"] {
-  background: transparent; /* remove color-coding for practice */
+  background: #fff;
   border: 1px solid var(--border);
   color: var(--text);
 }
@@ -943,12 +941,6 @@ ul, ol { padding-left: 1.4em; }
 }
 .drag-item:active { cursor: grabbing; transform: scale(1.05); box-shadow: 0 4px 16px rgba(0,0,0,.15); }
 .drag-item .drag-val { font-family: var(--mono); font-size: .8rem; opacity: .7; }
-
-.drag-item[data-correct="CA"],
-.drag-item[data-correct="LTA"] { background: var(--blue-bg); border: 1px solid var(--blue-border); color: var(--blue); }
-.drag-item[data-correct="CL"],
-.drag-item[data-correct="LTL"] { background: var(--red-bg); border: 1px solid var(--red-border); color: var(--red); }
-.drag-item[data-correct="OE"] { background: var(--green-bg); border: 1px solid var(--green-border); color: var(--green); }
 
 /* Drop zones */
 .drop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 24px; }
