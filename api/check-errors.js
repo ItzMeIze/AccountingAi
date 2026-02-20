@@ -8,6 +8,8 @@ export const config = { runtime: 'edge' };
 const GEMINI_MODELS = ['gemini-2.0-flash-lite', 'gemini-1.5-flash'];
 
 export default async function handler(req) {
+  const requestId = `chkerr_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
       status: 405, headers: corsHeaders()
@@ -26,6 +28,15 @@ export default async function handler(req) {
   catch { return new Response(JSON.stringify({ error: 'Invalid JSON' }), { status: 400, headers: corsHeaders() }); }
 
   const { studentAnswers, errors, company, totalErrors } = body;
+
+  console.info('[check-errors] request:start', {
+    requestId,
+    hasAnswers: !!studentAnswers,
+    answerCount: Array.isArray(studentAnswers) ? studentAnswers.length : (studentAnswers ? 1 : 0),
+    errorCount: Array.isArray(errors) ? errors.length : 0,
+    company: company || null,
+    totalErrors: totalErrors || null
+  });
 
   if (!studentAnswers || !errors || !Array.isArray(errors)) {
     return new Response(JSON.stringify({ error: 'Missing required fields' }), {
@@ -115,10 +126,12 @@ Rules:
   /* Call Gemini (with model fallback) ---------------------- */
   let geminiData = null;
   let lastErr = null;
+  const attemptLogs = [];
 
   for (const model of GEMINI_MODELS) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
     try {
+      const start = Date.now();
       const geminiRes = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -134,14 +147,17 @@ Rules:
 
       if (!geminiRes.ok) {
         const errText = await geminiRes.text().catch(() => '');
+        attemptLogs.push({ model, ok: false, status: geminiRes.status, ms: Date.now() - start });
         lastErr = { status: geminiRes.status, detail: errText, model };
         continue;
       }
 
       geminiData = await geminiRes.json();
+      attemptLogs.push({ model, ok: true, status: 200, ms: Date.now() - start });
       lastErr = null;
       break;
     } catch (err) {
+      attemptLogs.push({ model, ok: false, status: 502, ms: 0, message: String(err?.message || err) });
       lastErr = { status: 502, detail: String(err?.message || err), model };
     }
   }
@@ -152,11 +168,20 @@ Rules:
       ? 'Gemini quota exceeded for this API key/project. Check AI Studio quotas or billing, then retry.'
       : 'Could not reach Gemini right now. Please try again in a moment.';
 
+    console.error('[check-errors] request:failed', {
+      requestId,
+      status,
+      modelTried: lastErr?.model || null,
+      attempts: attemptLogs,
+      detail: lastErr?.detail || ''
+    });
+
     return new Response(JSON.stringify({
       error: `Gemini API error ${lastErr?.status || 502}`,
       userMessage: quotaMsg,
       detail: lastErr?.detail || '',
-      modelTried: lastErr?.model || null
+      modelTried: lastErr?.model || null,
+      requestId
     }), {
       status,
       headers: corsHeaders()
@@ -172,11 +197,25 @@ Rules:
     const cleaned = rawText.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
     result = JSON.parse(cleaned);
   } catch {
+    console.error('[check-errors] request:parse_error', {
+      requestId,
+      attempts: attemptLogs,
+      rawPreview: rawText?.slice(0, 350) || ''
+    });
     // Fallback: return raw text so frontend can show it
-    return new Response(JSON.stringify({ raw: rawText, parseError: true }), {
+    return new Response(JSON.stringify({ raw: rawText, parseError: true, requestId }), {
       status: 200, headers: corsHeaders()
     });
   }
+
+  console.info('[check-errors] request:success', {
+    requestId,
+    attempts: attemptLogs,
+    matched: Array.isArray(result?.matched) ? result.matched.length : 0,
+    partial: Array.isArray(result?.partial) ? result.partial.length : 0,
+    irrelevant: Array.isArray(result?.irrelevant) ? result.irrelevant.length : 0,
+    missed: Array.isArray(result?.missed) ? result.missed.length : 0
+  });
 
   return new Response(JSON.stringify(result), {
     status: 200, headers: corsHeaders()

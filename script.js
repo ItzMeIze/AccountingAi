@@ -1378,11 +1378,30 @@
         });
         const payload = await resp.json().catch(() => ({}));
         if (!resp.ok) {
+          console.groupCollapsed('[AI Error Check] API failure');
+          console.error('Status:', resp.status);
+          console.error('Payload:', payload);
+          console.error('Request context:', {
+            questionCompany: currentQ.company || null,
+            totalExpectedErrors: currentQ.errors.length,
+            studentAnswerCount: lines.length,
+            endpoint: '/api/check-errors'
+          });
+          console.groupEnd();
           const msg = payload?.userMessage || payload?.error || ('API returned ' + resp.status);
           throw new Error(msg);
         }
         result = payload;
       } catch (err) {
+        console.groupCollapsed('[AI Error Check] Network/parse exception');
+        console.error('Error object:', err);
+        console.error('Request context:', {
+          questionCompany: currentQ.company || null,
+          totalExpectedErrors: currentQ.errors.length,
+          studentAnswerCount: lines.length,
+          endpoint: '/api/check-errors'
+        });
+        console.groupEnd();
         fb.innerHTML = `<div class="ai-feedback-panel"><div class="ai-fb-header fb-fail">
           &#9888; Could not reach the AI marker (${err.message}). Click <strong>See All Errors</strong> to check manually.
         </div></div>`;
@@ -1392,6 +1411,10 @@
 
       /* Fallback: Gemini returned unparseable text */
       if (result.parseError) {
+        console.groupCollapsed('[AI Error Check] Parse fallback used');
+        console.error('Request ID:', result.requestId || null);
+        console.error('Raw model output:', result.raw);
+        console.groupEnd();
         fb.innerHTML = `<div class="ai-feedback-panel"><div class="ai-fb-header fb-fail">
           &#9888; AI response couldn't be parsed. Raw: <pre style="font-size:.75rem;white-space:pre-wrap">${result.raw}</pre>
         </div></div>`;
@@ -2372,5 +2395,21 @@
     show();
     syncMem();
   })(); // end calcModule
+
+  // Global diagnostics for quicker debugging in browser console
+  window.addEventListener('error', (event) => {
+    console.groupCollapsed('[Global JS Error]');
+    console.error('Message:', event.message);
+    console.error('Source:', event.filename);
+    console.error('Line/Col:', event.lineno, event.colno);
+    console.error('Error object:', event.error);
+    console.groupEnd();
+  });
+
+  window.addEventListener('unhandledrejection', (event) => {
+    console.groupCollapsed('[Unhandled Promise Rejection]');
+    console.error('Reason:', event.reason);
+    console.groupEnd();
+  });
 
 })();
