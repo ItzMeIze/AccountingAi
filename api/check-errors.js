@@ -129,13 +129,26 @@ Rules:
 - Keep "feedback" encouraging and Grade 11 appropriate
 `;
 
-  /* Call Gemini (with model fallback) ---------------------- */
+  /* Call Gemini (with model discovery + fallback) ---------- */
   let geminiData = null;
   let lastErr = null;
   const attemptLogs = [];
 
-  for (const apiVersion of GEMINI_API_VERSIONS) {
-    for (const model of GEMINI_MODELS) {
+  const discoveredModels = await discoverGenerateModels(apiKey);
+  const attemptTargets = discoveredModels.length
+    ? discoveredModels
+    : GEMINI_API_VERSIONS.flatMap(apiVersion => GEMINI_MODELS.map(model => ({ model, apiVersion })));
+
+  if (discoveredModels.length) {
+    console.info('[check-errors] model:discovery', {
+      requestId,
+      count: discoveredModels.length,
+      models: discoveredModels.slice(0, 8)
+    });
+  }
+
+  for (const target of attemptTargets) {
+    const { model, apiVersion } = target;
       const url = `https://generativelanguage.googleapis.com/${apiVersion}/models/${model}:generateContent?key=${apiKey}`;
       try {
         const start = Date.now();
@@ -166,7 +179,6 @@ Rules:
         attemptLogs.push({ model, apiVersion, ok: false, status: 502, ms: 0, message: String(err?.message || err) });
         lastErr = { status: 502, detail: String(err?.message || err), model, apiVersion };
       }
-    }
     if (geminiData) break;
   }
 
@@ -243,6 +255,40 @@ function corsHeaders() {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*'
   };
+}
+
+async function discoverGenerateModels(apiKey) {
+  const out = [];
+
+  for (const apiVersion of GEMINI_API_VERSIONS) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/${apiVersion}/models?key=${apiKey}`;
+      const res = await fetch(url);
+      if (!res.ok) continue;
+      const data = await res.json();
+      const models = Array.isArray(data?.models) ? data.models : [];
+
+      models.forEach((m) => {
+        const name = String(m?.name || ''); // e.g. models/gemini-2.0-flash
+        const short = name.startsWith('models/') ? name.slice(7) : name;
+        const methods = Array.isArray(m?.supportedGenerationMethods) ? m.supportedGenerationMethods : [];
+        if (!short.startsWith('gemini-')) return;
+        if (!methods.includes('generateContent')) return;
+        out.push({ model: short, apiVersion });
+      });
+    } catch {
+      // ignore discovery failures and rely on static fallback list
+    }
+  }
+
+  // de-dupe
+  const seen = new Set();
+  return out.filter((m) => {
+    const key = `${m.apiVersion}:${m.model}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function gradeWithHeuristics({ studentAnswers, errors, totalErrors, requestId, quotaMsg, failure }) {
