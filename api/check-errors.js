@@ -73,6 +73,7 @@ ${studentText || '(Student left the answer blank)'}
 
 MARKING TASK:
 Grade each of the student's answers against the errors in the answer key. Be lenient — accept paraphrasing, approximate descriptions, and partial descriptions as long as the core issue is correctly identified. Accounting terminology must be generally correct.
+Make fun of each of the mistakes in the students answers in a flabbergoony way, be as harsh and honest as possible (mention their weight, their family, their life choices, etc). Do not hold back. Be brutal. Make sure they understand how wrong they are and how disappointed you are in them.
 
 RESPOND WITH VALID JSON ONLY. No markdown. No explanation outside the JSON. Use this exact structure:
 {
