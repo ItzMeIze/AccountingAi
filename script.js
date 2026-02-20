@@ -1,5 +1,5 @@
-/* ============================================================
-   BAF3M Classified Balance Sheet — JavaScript
+﻿/* ============================================================
+   BAF3M Classified Balance Sheet â€” JavaScript
    ============================================================ */
 (function () {
   'use strict';
@@ -71,26 +71,26 @@
      Total Assets = $217,956  |  Total L + OE = $217,956
   */
   const accounts = [
-    // ── Current Assets (liquidity order: Cash → A/R → Supplies)
-    { name: 'Cash',                        value: 1636,   correct: 'CA',  order: 1, tip: 'Cash is the most liquid asset — it IS money. Must always be listed FIRST in Current Assets.' },
-    { name: 'A/R — J. Hoedl (debtor)',     value: 370,    correct: 'CA',  order: 2, tip: 'J. Hoedl owes the company money — Accounts Receivable. A/R comes after Cash (collected in 30–60 days).' },
-    { name: 'A/R — D. Marshall (debtor)',  value: 1100,   correct: 'CA',  order: 3, tip: 'D. Marshall owes the company money — another A/R sub-account. Listed alphabetically under A/R.' },
-    { name: 'A/R — H. Burns (debtor)',     value: 850,    correct: 'CA',  order: 4, tip: 'H. Burns owes the company money — another A/R sub-account. Debtors listed alphabetically.' },
-    { name: 'Supplies',                    value: 1200,   correct: 'CA',  order: 5, tip: 'Supplies are used up within the year but are the least liquid Current Asset — always listed LAST in CA.' },
-    // ── Long-Term Assets (longest useful life first: Land → Equipment → Vehicles)
+    // â”€â”€ Current Assets (liquidity order: Cash â†’ A/R â†’ Supplies)
+    { name: 'Cash',                        value: 1636,   correct: 'CA',  order: 1, tip: 'Cash is the most liquid asset â€” it IS money. Must always be listed FIRST in Current Assets.' },
+    { name: 'A/R â€” J. Hoedl (debtor)',     value: 370,    correct: 'CA',  order: 2, tip: 'J. Hoedl owes the company money â€” Accounts Receivable. A/R comes after Cash (collected in 30â€“60 days).' },
+    { name: 'A/R â€” D. Marshall (debtor)',  value: 1100,   correct: 'CA',  order: 3, tip: 'D. Marshall owes the company money â€” another A/R sub-account. Listed alphabetically under A/R.' },
+    { name: 'A/R â€” H. Burns (debtor)',     value: 850,    correct: 'CA',  order: 4, tip: 'H. Burns owes the company money â€” another A/R sub-account. Debtors listed alphabetically.' },
+    { name: 'Supplies',                    value: 1200,   correct: 'CA',  order: 5, tip: 'Supplies are used up within the year but are the least liquid Current Asset â€” always listed LAST in CA.' },
+    // â”€â”€ Long-Term Assets (longest useful life first: Land â†’ Equipment â†’ Vehicles)
     { name: 'Land',                        value: 160000, correct: 'LTA', order: 1, tip: 'Land has an unlimited useful life and is NEVER depreciated. Always listed first in Long-Term Assets.' },
     { name: 'Furniture & Equipment',       value: 14700,  correct: 'LTA', order: 2, tip: 'Furniture & Equipment is a capital asset used for many years. Listed after Land.' },
     { name: 'Delivery Equipment',          value: 20100,  correct: 'LTA', order: 3, tip: 'Delivery Equipment is a vehicle-class capital asset. Listed before Automobile (longer useful life).' },
-    { name: 'Automobile',                  value: 18000,  correct: 'LTA', order: 4, tip: 'Automobile is a capital asset with a shorter useful life — listed last in Long-Term Assets.' },
-    // ── Current Liabilities (most urgent first: A/P creditors)
-    { name: 'A/P — Anglo Supply Co.',      value: 740,    correct: 'CL',  order: 1, tip: 'Anglo Supply Co. is a creditor — the company owes them money. Accounts Payable, listed first (alphabetical).' },
-    { name: 'A/P — W. Anno',               value: 1200,   correct: 'CL',  order: 2, tip: 'W. Anno is a creditor — another A/P sub-account. Creditors listed alphabetically under A/P.' },
-    { name: 'A/P — M. Benrubi',            value: 3000,   correct: 'CL',  order: 3, tip: 'M. Benrubi is a creditor — another A/P sub-account. Largest individual creditor in this example.' },
-    // ── Long-Term Liabilities (shorter term before longer term)
-    { name: 'Bank Loan (3-year)',           value: 10000,  correct: 'LTL', order: 1, tip: 'A 3-year bank loan — due after one year. Long-Term Liability. Listed before Mortgage (shorter term).' },
-    { name: 'Mortgage Payable',            value: 80500,  correct: 'LTL', order: 2, tip: 'Mortgage Payable is a long-term debt secured by property. The largest liability — listed last in LTL.' },
-    // ── Owner's Equity
-    { name: 'L. Borel, Capital',           value: 122516, correct: 'OE',  order: 1, tip: 'Lennox Borel\'s capital — the owner\'s equity in New Western Company. Assets ($217,956) − Liabilities ($95,440) = $122,516.' },
+    { name: 'Automobile',                  value: 18000,  correct: 'LTA', order: 4, tip: 'Automobile is a capital asset with a shorter useful life â€” listed last in Long-Term Assets.' },
+    // â”€â”€ Current Liabilities (most urgent first: A/P creditors)
+    { name: 'A/P â€” Anglo Supply Co.',      value: 740,    correct: 'CL',  order: 1, tip: 'Anglo Supply Co. is a creditor â€” the company owes them money. Accounts Payable, listed first (alphabetical).' },
+    { name: 'A/P â€” W. Anno',               value: 1200,   correct: 'CL',  order: 2, tip: 'W. Anno is a creditor â€” another A/P sub-account. Creditors listed alphabetically under A/P.' },
+    { name: 'A/P â€” M. Benrubi',            value: 3000,   correct: 'CL',  order: 3, tip: 'M. Benrubi is a creditor â€” another A/P sub-account. Largest individual creditor in this example.' },
+    // â”€â”€ Long-Term Liabilities (shorter term before longer term)
+    { name: 'Bank Loan (3-year)',           value: 10000,  correct: 'LTL', order: 1, tip: 'A 3-year bank loan â€” due after one year. Long-Term Liability. Listed before Mortgage (shorter term).' },
+    { name: 'Mortgage Payable',            value: 80500,  correct: 'LTL', order: 2, tip: 'Mortgage Payable is a long-term debt secured by property. The largest liability â€” listed last in LTL.' },
+    // â”€â”€ Owner's Equity
+    { name: 'L. Borel, Capital',           value: 122516, correct: 'OE',  order: 1, tip: 'Lennox Borel\'s capital â€” the owner\'s equity in New Western Company. Assets ($217,956) âˆ’ Liabilities ($95,440) = $122,516.' },
   ];
 
   const dragBank = document.getElementById('dragBank');
@@ -244,7 +244,7 @@
     document.getElementById('totalLOE').textContent = formatDollar(totalLOE);
   }
 
-  /* Check balance — validates classification AND ordering within each zone */
+  /* Check balance â€” validates classification AND ordering within each zone */
   document.getElementById('checkBalance').addEventListener('click', () => {
     const fb = document.getElementById('dragFeedback');
     fb.classList.remove('hidden', 'success', 'error', 'partial');
@@ -301,7 +301,7 @@
         fb.innerHTML = `&#10003; Perfect! All ${correctCount} accounts are correctly classified <strong>and in the right order</strong>. Balance sheet balances: ${tA} = ${tL}.`;
       } else {
         fb.className = 'drag-feedback error';
-        fb.innerHTML = `Classifications are correct, but totals don't match: Assets ${tA} ≠ L &amp; OE ${tL}. Check your values.`;
+        fb.innerHTML = `Classifications are correct, but totals don't match: Assets ${tA} â‰  L &amp; OE ${tL}. Check your values.`;
       }
     } else if (orderErrors.length > 0) {
       const zoneNames = { CA: 'Current Assets', LTA: 'Long-Term Assets', CL: 'Current Liabilities', LTL: 'Long-Term Liabilities', OE: "Owner's Equity" };
@@ -310,7 +310,7 @@
       fb.innerHTML = `Placements are correct, but the <strong>order is wrong</strong> in: ${names}. Accounts must follow the rules (e.g., Cash first, Land first, liquidity order). Items highlighted in red.`;
     } else {
       fb.className = 'drag-feedback error';
-      fb.innerHTML = `${correctCount} of ${totalCount} accounts are in the correct zone. Items outlined in <span style="color:var(--red)">red</span> are misplaced — try again!`;
+      fb.innerHTML = `${correctCount} of ${totalCount} accounts are in the correct zone. Items outlined in <span style="color:var(--red)">red</span> are misplaced â€” try again!`;
     }
   });
 
@@ -347,7 +347,7 @@
     {
       q: 'What does the accounting equation state?',
       opts: [
-        'Assets = Liabilities − Owner\'s Equity',
+        'Assets = Liabilities âˆ’ Owner\'s Equity',
         'Assets = Liabilities + Owner\'s Equity',
         'Assets + Liabilities = Owner\'s Equity',
         'Liabilities = Assets + Owner\'s Equity'
@@ -371,18 +371,18 @@
       q: 'Accounts Payable is a:',
       opts: ['Current Asset', 'Long-Term Asset', 'Current Liability', 'Long-Term Liability'],
       answer: 2,
-      explain: 'Accounts Payable are amounts owed to suppliers, typically due within 30-60 days — making them a current liability.'
+      explain: 'Accounts Payable are amounts owed to suppliers, typically due within 30-60 days â€” making them a current liability.'
     },
     {
       q: 'How do you calculate Owner\'s Equity?',
       opts: [
-        'Liabilities − Assets',
+        'Liabilities âˆ’ Assets',
         'Assets + Liabilities',
-        'Assets − Liabilities',
-        'Liabilities ÷ Assets'
+        'Assets âˆ’ Liabilities',
+        'Liabilities Ã· Assets'
       ],
       answer: 2,
-      explain: 'Owner\'s Equity = Assets − Liabilities. It represents what is left for the owner after all debts are paid.'
+      explain: 'Owner\'s Equity = Assets âˆ’ Liabilities. It represents what is left for the owner after all debts are paid.'
     },
     {
       q: 'The heading date on a balance sheet should be:',
@@ -393,7 +393,7 @@
         'No date is needed'
       ],
       answer: 1,
-      explain: 'A balance sheet is a snapshot of one specific moment in time — always use a single date like "As at December 31, 2025."'
+      explain: 'A balance sheet is a snapshot of one specific moment in time â€” always use a single date like "As at December 31, 2025."'
     },
     {
       q: 'Drawings (withdrawals) affect Owner\'s Equity by:',
@@ -491,21 +491,31 @@
     result.classList.add(pct >= 70 ? 'pass' : 'fail');
     result.innerHTML = `
       You scored <strong>${score} / ${quizData.length}</strong> (${pct}%)
-      ${pct >= 70 ? '— Great job!' : '— Review the lesson above and try again.'}
+      ${pct >= 70 ? 'â€” Great job!' : 'â€” Review the lesson above and try again.'}
       <div class="score-bar"><div class="score-fill" style="width:${pct}%;background:${pct >= 70 ? 'var(--green)' : 'var(--red)'}"></div></div>`;
 
     result.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
   /* ==========================================================
-     SECTION 8 — AI QUESTIONS CONTROLLER
+     SECTION 8 â€” AI QUESTIONS CONTROLLER  (full interactive)
      ========================================================== */
   (function initAIQuestions() {
+
+    /* â”€â”€ state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     let currentType = 'preparation';
     let currentDiff = 1;
-    let currentQuestion = null;
+    let currentQ    = null;
+    // maps accountIndex â†’ classification code ('CA'|'LTA'|'CL'|'LTL'|'OE'|'')
+    const classified = {};
+    // tracks order accounts were placed into each section
+    const sectionOrder = { CA:[], LTA:[], CL:[], LTL:[], OE:[] };
 
-    // Type button toggles
+    /* â”€â”€ section â†” DOM id map â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    const SECTION_ROW_ID = { CA:'aiRowCA', LTA:'aiRowLTA', CL:'aiRowCL', LTL:'aiRowLTL', OE:'aiRowOE' };
+    const SECTION_LABEL  = { CA:'Current Asset', LTA:'Long-Term Asset', CL:'Current Liability', LTL:'Long-Term Liability', OE:"Owner's Equity" };
+
+    /* â”€â”€ type button toggles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     document.querySelectorAll('.ai-type-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.ai-type-btn').forEach(b => b.classList.remove('active'));
@@ -514,31 +524,33 @@
       });
     });
 
-    // Difficulty button toggles
-    document.querySelectorAll('.ai-diff-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.ai-diff-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentDiff = Number(btn.dataset.diff);
-      });
-    });
+    /* â”€â”€ difficulty select â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    const diffSel = document.getElementById('aiDiffSelect');
+    if (diffSel) diffSel.addEventListener('change', () => { currentDiff = Number(diffSel.value); });
 
-    const genBtn = document.getElementById('aiGenerate');
-    if (genBtn) genBtn.addEventListener('click', () => generateQuestion(currentType, currentDiff));
+    /* â”€â”€ generate â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    el('aiGenerate')?.addEventListener('click', () => generateQuestion(currentType, currentDiff));
 
-    const revealBtn = document.getElementById('aiReveal');
-    if (revealBtn) revealBtn.addEventListener('click', revealSolution);
+    /* â”€â”€ preparation / advanced buttons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    el('aiShowHint')     ?.addEventListener('click', showHint);
+    el('aiCheckAnswer')  ?.addEventListener('click', checkMyAnswer);
+    el('aiRevealSolution')?.addEventListener('click', () => revealSolution(false));
+    el('aiNewSame')      ?.addEventListener('click', () => generateQuestion(currentType, currentDiff));
 
-    const newSameBtn = document.getElementById('aiNewSame');
-    if (newSameBtn) newSameBtn.addEventListener('click', () => generateQuestion(currentType, currentDiff));
+    /* â”€â”€ error-finding buttons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    el('aiErrHint')   ?.addEventListener('click', showErrHint);
+    el('aiCheckErrors')?.addEventListener('click', checkErrors);
+    el('aiErrReveal') ?.addEventListener('click', () => revealSolution(true));
+    el('aiErrNewSame')?.addEventListener('click', () => generateQuestion(currentType, currentDiff));
 
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       GENERATE
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
     async function generateQuestion(type, difficulty) {
       setLoading(true);
       hideError();
-      const qa = document.getElementById('aiQuestionArea');
-      const kn = document.getElementById('aiKeyNotice');
-      if (qa) qa.classList.add('hidden');
-      if (kn) kn.classList.add('hidden');
+      hide('aiWorkspace');
+      hide('aiKeyNotice');
 
       try {
         const resp = await fetch('/api/generate', {
@@ -548,165 +560,491 @@
         });
         const data = await resp.json();
         if (data.error) { showError(data.error); return; }
-        currentQuestion = data;
+        currentQ = data;
         renderQuestion(data);
-      } catch (err) {
-        showError('Network error: ' + err.message);
+      } catch (e) {
+        showError('Network error: ' + e.message);
       } finally {
         setLoading(false);
       }
     }
 
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       RENDER QUESTION
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
     function renderQuestion(q) {
-      const typeLabels = { preparation: '📋 Preparation', error_finding: '🔍 Error Finding', advanced: '⚡ Advanced' };
-      const diffLabels = { 1: 'Level 1 — Basic', 2: 'Level 2 — Intermediate', 3: 'Level 3 — Advanced' };
-
-      const metaEl = document.getElementById('aiQMeta');
-      if (metaEl) metaEl.innerHTML = `
+      // Meta header
+      const typeLabels = { preparation:'ðŸ“‹ Preparation', error_finding:'ðŸ” Error Finding', advanced:'âš¡ Advanced' };
+      const diffLabels = { 1:'Level 1 â€” Basic', 2:'Level 2 â€” Intermediate', 3:'Level 3 â€” Advanced' };
+      setHTML('aiQMeta', `
         <span class="ai-q-meta-chip ai-chip-type">${typeLabels[q.type] || q.type}</span>
         <span class="ai-q-meta-chip ai-chip-diff">${diffLabels[q.difficulty] || 'Level ' + q.difficulty}</span>
-        <span class="ai-q-meta-chip ai-chip-co">🏢 ${q.company}</span>`;
+        <span class="ai-q-meta-chip ai-chip-co">ðŸ¢ ${q.company}</span>`);
+      setText('aiQTitle', q.company + ' â€” ' + q.date);
+      setText('aiQInstructions', q.instructions || '');
 
-      const titleEl = document.getElementById('aiQTitle');
-      if (titleEl) titleEl.textContent = q.company + ' — ' + q.date;
+      const sn = el('aiScenarioNote');
+      if (sn) {
+        if (q.scenario_context) { sn.textContent = 'ðŸ“Œ ' + q.scenario_context; show(sn); }
+        else hide(sn);
+      }
 
-      const instrEl = document.getElementById('aiQInstructions');
-      if (instrEl) instrEl.textContent = q.instructions;
-
-      const scenNote = document.getElementById('aiScenarioNote');
-      if (scenNote) {
-        if (q.scenario_context) {
-          scenNote.textContent = '📌 Scenario: ' + q.scenario_context;
-          scenNote.classList.remove('hidden');
-        } else {
-          scenNote.classList.add('hidden');
-        }
+      // Advanced notes
+      const anb = el('aiAdvancedNotes');
+      if (anb) {
+        if (q.advanced_notes?.length) {
+          anb.innerHTML = q.advanced_notes.map(n => `<div class="ai-adv-note">ðŸ’¡ ${n}</div>`).join('');
+          show(anb);
+        } else hide(anb);
       }
 
       // Reset panels
-      ['aiAcctPanel','aiErrorPanel','aiSolution','aiErrorsReveal'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.add('hidden');
-      });
-      const errInput = document.getElementById('aiErrorInput');
-      if (errInput) errInput.value = '';
+      hide('aiBsBuilder'); hide('aiErrorPanel'); hide('aiSolutionPanel');
+      hide('aiFeedbackPanel'); hide('aiErrFeedback');
 
       if (q.type === 'error_finding') {
-        const ep = document.getElementById('aiErrorPanel');
-        if (ep) ep.classList.remove('hidden');
-        renderBS(q.erroneous_sheet, 'aiErrorBS');
+        renderErrorQuestion(q);
       } else {
-        const ap = document.getElementById('aiAcctPanel');
-        if (ap) ap.classList.remove('hidden');
-        renderAccountList(q.accounts || []);
-        const advNotes = document.getElementById('aiAdvNotes');
-        if (advNotes) {
-          if (q.advanced_notes && q.advanced_notes.length) {
-            advNotes.innerHTML = q.advanced_notes.map(n => `<div class="ai-adv-note">💡 ${n}</div>`).join('');
-            advNotes.classList.remove('hidden');
-          } else {
-            advNotes.classList.add('hidden');
-          }
+        renderBuilderQuestion(q);
+      }
+
+      show('aiWorkspace');
+      el('aiWorkspace').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* â”€â”€ Preparation / Advanced â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    function renderBuilderQuestion(q) {
+      // Reset classification state
+      Object.keys(classified).forEach(k => delete classified[k]);
+      Object.keys(sectionOrder).forEach(k => { sectionOrder[k] = []; });
+
+      // Heading block
+      const hb = el('aiBSHeading');
+      if (hb) hb.innerHTML = `
+        <span class="ai-bs-hline ai-bs-hco">${q.company}</span>
+        <span class="ai-bs-hline ai-bs-htit">Balance Sheet</span>
+        <span class="ai-bs-hline ai-bs-hdate">As at ${q.date}</span>`;
+
+      // Account classification cards (shuffled)
+      const cards = el('aiAcctCards');
+      if (cards) {
+        const shuffled = [...(q.accounts || [])].map((a, i) => ({ ...a, _idx: i }))
+                           .sort(() => Math.random() - 0.5);
+        cards.innerHTML = shuffled.map(a => buildAccountCard(a)).join('');
+        // Wire up dropdowns
+        cards.querySelectorAll('.ai-card-classify').forEach(sel => {
+          sel.addEventListener('change', e => onClassify(e.target));
+        });
+      }
+
+      // Reset section rows
+      Object.values(SECTION_ROW_ID).forEach(id => {
+        const d = el(id);
+        if (d) d.innerHTML = `<div class="ai-empty-hint">Classify accounts in Step 1 â†‘</div>`;
+      });
+
+      // Clear inputs
+      ['inCA','inLTA','inTA','inCL','inLTL','inTL','inTLOE'].forEach(id => {
+        const inp = el(id);
+        if (inp) { inp.value = ''; inp.className = 'ai-amt-input'; }
+      });
+      el('inTA').classList.add('ai-grand-inp');
+      el('inTLOE').classList.add('ai-grand-inp');
+
+      hide('aiFeedbackPanel');
+      show('aiBsBuilder');
+    }
+
+    function buildAccountCard(a) {
+      const opts = [
+        ['', 'â€” classify this account â€”'],
+        ['CA',  'ðŸ“˜ Current Asset'],
+        ['LTA', 'ðŸª¨ Long-Term Asset'],
+        ['CL',  'ðŸ“• Current Liability'],
+        ['LTL', 'ðŸ— Long-Term Liability'],
+        ['OE',  'ðŸ“— Owner\'s Equity'],
+      ].map(([v, l]) => `<option value="${v}">${l}</option>`).join('');
+
+      return `<div class="ai-acct-card" data-idx="${a._idx}" data-correct="${a.correct_section}" data-order="${a.correct_order || 0}">
+        <div class="ai-card-top">
+          <span class="ai-card-name">${a.name}</span>
+          <span class="ai-card-amount">${fmtAI(a.value)}</span>
+        </div>
+        ${a.note ? `<div class="ai-card-note">${a.note}</div>` : ''}
+        <select class="ai-card-classify" data-idx="${a._idx}" data-name="${a.name}" data-value="${a.value}">${opts}</select>
+      </div>`;
+    }
+
+    /* â”€â”€ Error finding â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    function renderErrorQuestion(q) {
+      el('aiErrorInput').value = '';
+      renderBS(q.erroneous_sheet, 'aiErrorBS');
+      hide('aiErrFeedback');
+      show('aiErrorPanel');
+    }
+
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       CLASSIFY DROPDOWN CHANGE
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    function onClassify(sel) {
+      const idx   = Number(sel.dataset.idx);
+      const name  = sel.dataset.name;
+      const value = Number(sel.dataset.value);
+      const newSec = sel.value;  // '' | 'CA' | 'LTA' | 'CL' | 'LTL' | 'OE'
+      const oldSec = classified[idx] || '';
+
+      // Remove from old section order
+      if (oldSec && sectionOrder[oldSec]) {
+        sectionOrder[oldSec] = sectionOrder[oldSec].filter(i => i !== idx);
+      }
+
+      // Update classification
+      classified[idx] = newSec;
+
+      // Update card appearance
+      const card = el('aiAcctCards').querySelector(`[data-idx="${idx}"]`);
+      if (card) {
+        card.className = 'ai-acct-card' + (newSec ? ' cls-' + newSec : '');
+        // Remove old hint badge / feedback
+        card.querySelectorAll('.ai-card-hint-badge,.ai-card-feedback').forEach(e => e.remove());
+      }
+
+      // Add to new section order
+      if (newSec && sectionOrder[newSec]) {
+        sectionOrder[newSec].push(idx);
+      }
+
+      // Re-render both old and new section rows
+      if (oldSec) refreshSectionRows(oldSec);
+      if (newSec) refreshSectionRows(newSec);
+    }
+
+    function refreshSectionRows(sec) {
+      const rowsDiv = el(SECTION_ROW_ID[sec]);
+      if (!rowsDiv) return;
+      const indices = sectionOrder[sec];
+      if (!indices.length) {
+        rowsDiv.innerHTML = `<div class="ai-empty-hint">Classify accounts in Step 1 â†‘</div>`;
+        return;
+      }
+      const q = currentQ;
+      rowsDiv.innerHTML = indices.map((idx, pos) => {
+        const a = q.accounts[idx];
+        const indent = (a.name.includes('â€”') || a.note) ? 'ind1' : '';
+        return `<div class="ai-ibs-row ${indent}">
+          <span class="ai-ibs-row-name">${a.name}</span>
+          <span class="ai-ibs-row-amt">${fmtAI(a.value)}</span>
+        </div>`;
+      }).join('');
+    }
+
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       SHOW HINT
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    function showHint() {
+      if (!currentQ) return;
+      const cards = el('aiAcctCards');
+      if (!cards) return;
+      cards.querySelectorAll('.ai-acct-card').forEach(card => {
+        const correct = card.dataset.correct;
+        // Remove old hints first
+        card.querySelectorAll('.ai-card-hint-badge').forEach(e => e.remove());
+        const badge = document.createElement('div');
+        badge.className = `ai-card-hint-badge badge-${correct}`;
+        badge.textContent = 'â†’ ' + (SECTION_LABEL[correct] || correct);
+        card.appendChild(badge);
+      });
+    }
+
+    function showErrHint() {
+      if (!currentQ?.errors?.length) return;
+      const hint = currentQ.errors[0];
+      const fb = el('aiErrFeedback');
+      if (!fb) return;
+      fb.innerHTML = `<div class="ai-feedback-panel"><div class="ai-fb-header fb-fail">ðŸ’¡ Hint â€” look here first:</div>
+        <div class="ai-fb-items"><div class="ai-fb-item"><span class="ai-fb-icon">ðŸ“</span>
+        <span class="ai-fb-text">${hint.location}</span></div></div></div>`;
+      show(fb);
+    }
+
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       CHECK MY ANSWER
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    function checkMyAnswer() {
+      if (!currentQ) return;
+      const q  = currentQ;
+      const sol = q.solution;
+      const feedItems = [];
+      let correct = 0, total = 0;
+
+      // â”€â”€ 1. Classification checks â”€â”€
+      (q.accounts || []).forEach((a, idx) => {
+        total++;
+        const chosen  = classified[idx] || '';
+        const expected = a.correct_section;
+        const card = el('aiAcctCards')?.querySelector(`[data-idx="${idx}"]`);
+        card?.querySelectorAll('.ai-card-hint-badge,.ai-card-feedback,.card-correct,.card-wrong,.card-order-warn')
+             .forEach(e => e.remove());
+        if (!card) return;
+
+        if (!chosen) {
+          card.classList.remove('card-correct','card-wrong');
+          feedItems.push({ icon:'âš ï¸', text:`<strong>${a.name}</strong> â€” not yet classified.` });
+        } else if (chosen === expected) {
+          correct++;
+          card.classList.add('card-correct');
+          card.classList.remove('card-wrong','card-order-warn');
+          const fb = mkFeedback('âœ… Correct section: ' + SECTION_LABEL[expected], 'fb-good');
+          card.appendChild(fb);
+        } else {
+          card.classList.add('card-wrong');
+          card.classList.remove('card-correct','card-order-warn');
+          feedItems.push({ icon:'âŒ', text:`<strong>${a.name}</strong> classified as <em>${SECTION_LABEL[chosen]}</em> â€” should be <em>${SECTION_LABEL[expected]}</em>.` });
+          const fb = mkFeedback('âœ— Should be: ' + SECTION_LABEL[expected], 'fb-bad');
+          card.appendChild(fb);
+        }
+      });
+
+      // â”€â”€ 2. Order checks (within correctly classified sections) â”€â”€
+      const sections = ['CA','LTA','CL','LTL','OE'];
+      sections.forEach(sec => {
+        const placedIdxs = sectionOrder[sec]; // user's placement order
+        // Accounts that SHOULD be in this section
+        const correctInSec = (q.accounts || [])
+          .map((a, i) => ({ ...a, _idx: i }))
+          .filter(a => a.correct_section === sec)
+          .sort((a, b) => (a.correct_order || 0) - (b.correct_order || 0));
+
+        if (!correctInSec.length) return;
+
+        // Find accounts that user placed correctly in this section
+        const correctlyPlaced = placedIdxs.filter(i => (q.accounts[i]?.correct_section || '') === sec);
+        if (correctlyPlaced.length < 2) return; // can't check order with <2
+
+        // Compare order
+        const expectedOrder = correctInSec.map(a => a._idx);
+        const isOrderCorrect = correctlyPlaced.every((idx, pos) => {
+          const expectedIdx = expectedOrder.findIndex(e => e === idx);
+          const actualPos   = correctlyPlaced.indexOf(idx);
+          // check relative order matches expected
+          return correctlyPlaced.slice(0,pos).every(prev => {
+            return expectedOrder.indexOf(prev) < expectedOrder.indexOf(idx);
+          });
+        });
+
+        if (!isOrderCorrect) {
+          feedItems.push({
+            icon: 'ðŸ”€',
+            text: `Accounts in <strong>${SECTION_LABEL[sec]}</strong> are not in the correct order. Expected: ${correctInSec.map(a => a.name).join(', ')}.`
+          });
+          // Mark affected cards
+          correctlyPlaced.forEach((idx, pos) => {
+            const expPos = expectedOrder.indexOf(idx);
+            if (expPos !== pos) {
+              const card = el('aiAcctCards')?.querySelector(`[data-idx="${idx}"]`);
+              if (card) {
+                card.classList.add('card-order-warn');
+                card.classList.remove('card-correct');
+                const fb = mkFeedback('âš  Check ordering in this section', 'fb-order');
+                card.appendChild(fb);
+              }
+            }
+          });
+        }
+      });
+
+      // â”€â”€ 3. Subtotal & total input checks â”€â”€
+      const checks = [
+        { id:'inCA',   expected: sol?.assets?.current_total,              label:'Total Current Assets' },
+        { id:'inLTA',  expected: sol?.assets?.longterm_total,             label:'Total Long-Term Assets' },
+        { id:'inTA',   expected: sol?.assets?.total,                      label:'Total Assets' },
+        { id:'inCL',   expected: sol?.liabilities?.current_total,         label:'Total Current Liabilities' },
+        { id:'inLTL',  expected: sol?.liabilities?.longterm_total,        label:'Total Long-Term Liabilities' },
+        { id:'inTL',   expected: sol?.liabilities?.total,                 label:'Total Liabilities' },
+        { id:'inTLOE', expected: sol?.total_liabilities_oe,               label:"Total Liabilities & Owner's Equity" },
+      ];
+
+      checks.forEach(({ id, expected, label }) => {
+        total++;
+        const inp = el(id);
+        if (!inp) return;
+        const raw    = inp.value.trim();
+        const isGrand = inp.classList.contains('ai-grand-inp');
+        if (!raw) {
+          inp.classList.remove('inp-correct','inp-wrong');
+          feedItems.push({ icon:'âš ï¸', text:`<strong>${label}</strong> â€” not filled in.` });
+          return;
+        }
+        const entered = parseAmt(raw);
+        if (Math.abs(entered - expected) < 1) {
+          correct++;
+          inp.classList.add('inp-correct');
+          inp.classList.remove('inp-wrong');
+        } else {
+          inp.classList.add('inp-wrong');
+          inp.classList.remove('inp-correct');
+          feedItems.push({ icon:'âŒ', text:`<strong>${label}</strong>: you entered ${fmtAI(entered)}, correct is ${fmtAI(expected)}.` });
+        }
+      });
+
+      // â”€â”€ 4. Balance check â”€â”€
+      const ta  = parseAmt(el('inTA')?.value   || '');
+      const tloe = parseAmt(el('inTLOE')?.value || '');
+      const balanced = (ta > 0 && tloe > 0 && Math.abs(ta - tloe) < 1);
+
+      // â”€â”€ 5. Render feedback â”€â”€
+      const score = correct + '/' + total;
+      const allGood = feedItems.length === 0;
+      const header = el('aiFbHeader');
+      const items  = el('aiFbItems');
+      const balDiv = el('aiFbBalance');
+
+      if (header) {
+        header.innerHTML = allGood
+          ? `<span class="ai-fb-score">ðŸŽ‰ ${score}</span> All classifications and totals are correct!`
+          : `<span class="ai-fb-score">${score}</span> Check the feedback below.`;
+        header.className = 'ai-fb-header ' + (allGood ? 'fb-pass' : 'fb-fail');
+      }
+      if (items) {
+        items.innerHTML = feedItems.length
+          ? feedItems.map(f => `<div class="ai-fb-item"><span class="ai-fb-icon">${f.icon}</span><span class="ai-fb-text">${f.text}</span></div>`).join('')
+          : `<div class="ai-fb-item"><span class="ai-fb-icon">âœ…</span><span class="ai-fb-text">Every account is classified correctly and in the right order.</span></div>`;
+      }
+      if (balDiv) {
+        if (ta > 0 && tloe > 0) {
+          balDiv.className = 'ai-fb-balance ' + (balanced ? 'fb-balanced' : 'fb-unbalanced');
+          balDiv.innerHTML = balanced
+            ? `âœ“ Balance check passed: Total Assets ${fmtAI(ta)} = Total L &amp; OE ${fmtAI(tloe)}`
+            : `âš  Does not balance: Total Assets ${fmtAI(ta)} â‰  Total L &amp; OE ${fmtAI(tloe)}. 
+               Difference: ${fmtAI(Math.abs(ta - tloe))}. 
+               <br><small>Check whether all accounts are classified, all subtotals are correct, and that Total Assets = Total Current + Total Long-Term Assets.</small>`;
+        } else {
+          balDiv.className = 'ai-fb-balance';
+          balDiv.innerHTML = '';
         }
       }
 
-      const qa = document.getElementById('aiQuestionArea');
-      if (qa) qa.classList.remove('hidden');
+      show('aiFeedbackPanel');
+      el('aiFeedbackPanel').scrollIntoView({ behavior:'smooth', block:'nearest' });
     }
 
-    function renderAccountList(accounts) {
-      const grid = document.getElementById('aiAcctGrid');
-      if (!grid) return;
-      const shuffled = [...accounts].sort(() => Math.random() - 0.5);
-      grid.innerHTML = shuffled.map(a => `
-        <div class="ai-acct-item">
-          <div>
-            <div class="ai-acct-name">${a.name}</div>
-            ${a.note ? `<div class="ai-acct-hint">${a.note}</div>` : ''}
-          </div>
-          <span class="ai-acct-val">${fmtAI(a.value)}</span>
-        </div>`).join('');
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       CHECK ERRORS (error-finding)
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    function checkErrors() {
+      if (!currentQ?.errors) return;
+      const textarea = el('aiErrorInput');
+      const lines    = (textarea?.value || '').split('\n').map(l => l.trim()).filter(Boolean);
+      const total    = currentQ.errors.length;
+      const found    = Math.min(lines.length, total);
+      const score    = found + '/' + total;
+      const pass     = found >= Math.ceil(total * 0.7);
+
+      const fb = el('aiErrFeedback');
+      if (!fb) return;
+      fb.innerHTML = `<div class="ai-feedback-panel">
+        <div class="ai-fb-header ${pass ? 'fb-pass':'fb-fail'}">
+          <span class="ai-fb-score">${pass ? 'ðŸŽ‰' : 'ðŸ“'} You identified ${lines.length} error${lines.length !== 1 ? 's' : ''}.</span>
+          This question has ${total} errors. ${pass ? 'Great work! Click "See All Errors" to compare.' : 'Keep looking â€” try "Show Hint" for guidance.'}
+        </div>
+        <div class="ai-fb-items">
+          ${lines.map((l,i) => `<div class="ai-fb-item"><span class="ai-fb-icon">${i < total ? 'âœ…' : 'âš ï¸'}</span>
+            <span class="ai-fb-text">${l}</span></div>`).join('')}
+          ${lines.length < total ? `<div class="ai-fb-item"><span class="ai-fb-icon">â“</span>
+            <span class="ai-fb-text">${total - lines.length} more error${total-lines.length!==1?'s':''} not yet found.</span></div>` : ''}
+        </div>
+      </div>`;
+      show(fb);
+      fb.scrollIntoView({ behavior:'smooth', block:'nearest' });
     }
 
-    function revealSolution() {
-      if (!currentQuestion) return;
-      const q = currentQuestion;
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       REVEAL SOLUTION
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    function revealSolution(isErrorFinding) {
+      if (!currentQ) return;
+      const q = currentQ;
 
       renderBS(q.solution, 'aiSolutionBS');
 
-      const errReveal = document.getElementById('aiErrorsReveal');
-      const errList   = document.getElementById('aiErrorsList');
-      if (errReveal && errList && q.type === 'error_finding' && q.errors && q.errors.length) {
-        errList.innerHTML = q.errors.map((e, i) => `
-          <div class="ai-error-item">
-            <div class="ai-err-num">${i + 1}</div>
+      const errList = el('aiErrorsList');
+      const errRev  = el('aiErrorsList');
+      if (errList && isErrorFinding && q.errors?.length) {
+        errList.innerHTML = `<h4 style="padding:0 0 10px;font-size:.88rem;font-weight:800;color:var(--muted);">ðŸ” All ${q.errors.length} Errors Explained</h4>` +
+          q.errors.map((e, i) => `<div class="ai-error-item">
+            <div class="ai-err-num">${i+1}</div>
             <div class="ai-err-body">
-              <div class="ai-err-loc">📍 ${e.location}</div>
+              <div class="ai-err-loc">ðŸ“ ${e.location}</div>
               <div>${e.description}</div>
-              <div class="ai-err-fix">✅ Correction: ${e.correction}</div>
-            </div>
-          </div>`).join('');
-        errReveal.classList.remove('hidden');
-      } else if (errReveal) {
-        errReveal.classList.add('hidden');
+              <div class="ai-err-fix">âœ… Correction: ${e.correction}</div>
+            </div></div>`).join('');
+        show(errList);
+      } else if (errList) {
+        hide(errList);
       }
 
-      const check  = q.check || {};
-      const banner = document.getElementById('aiCheckBanner');
+      const banner = el('aiCheckBanner');
       if (banner) {
-        if (check.balanced) {
-          banner.innerHTML = `<span class="ai-check-pass">✓ Balanced: Total Assets ${fmtAI(check.total_assets)} = Total L &amp; OE ${fmtAI(check.total_loe)}</span>`;
+        const check = q.check || {};
+        if (check.balanced != null) {
+          banner.innerHTML = check.balanced
+            ? `<span class="ai-check-pass">âœ“ Balanced â€” Total Assets ${fmtAI(check.total_assets)} = Total L &amp; OE ${fmtAI(check.total_loe)}</span>`
+            : `<span class="ai-check-fail">âš  Does not balance: Assets ${fmtAI(check.total_assets)} â‰  L&amp;OE ${fmtAI(check.total_loe)}</span>`;
         } else {
-          banner.innerHTML = `<span class="ai-check-fail">⚠ Does not balance: Assets ${fmtAI(check.total_assets)} ≠ L&amp;OE ${fmtAI(check.total_loe)}</span>`;
+          banner.innerHTML = '';
         }
       }
 
-      const sol = document.getElementById('aiSolution');
-      if (sol) {
-        sol.classList.remove('hidden');
-        sol.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      show('aiSolutionPanel');
+      el('aiSolutionPanel').scrollIntoView({ behavior:'smooth', block:'start' });
     }
 
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       RENDER BALANCE SHEET (solution / erroneous view)
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
     function renderBS(sheet, containerId) {
       if (!sheet) return;
-      const el = document.getElementById(containerId);
-      if (!el) return;
-      const a  = sheet.assets       || {};
-      const l  = sheet.liabilities  || {};
-      const oe = sheet.equity       || {};
-      const h  = sheet.heading      || [];
+      const wrap = el(containerId);
+      if (!wrap) return;
+      const a  = sheet.assets      || {};
+      const l  = sheet.liabilities || {};
+      const oe = sheet.equity      || {};
+      const h  = sheet.heading     || [];
 
-      el.innerHTML = `<div class="ai-bs-wrap">
+      wrap.innerHTML = `<div class="ai-bs-wrap">
         <div class="ai-bs-heading">
-          ${h.map(line => `<span class="ai-bs-hline">${line}</span>`).join('')}
+          ${h.map((line, i) => {
+            const cls = i === 0 ? 'ai-bs-co' : i === 1 ? 'ai-bs-title' : 'ai-bs-date';
+            return `<span class="ai-bs-hline ${cls}">${line}</span>`;
+          }).join('')}
         </div>
         <div class="ai-bs-body">
           <div class="ai-bs-side">
             <div class="ai-bs-major ai-bs-blue">Assets</div>
             <div class="ai-bs-subhead">Current Assets</div>
-            ${(a.current || []).map(r => bsRow(r)).join('')}
-            ${subtotRow('Total Current Assets', a.current_total)}
-            <div class="ai-bs-mt"></div>
-            <div class="ai-bs-subhead">Long-Term Assets</div>
-            ${(a.longterm || []).map(r => bsRow(r)).join('')}
-            ${subtotRow('Total Long-Term Assets', a.longterm_total)}
-            ${grandRow('Total Assets', a.total)}
+            ${(a.current||[]).map(r=>bsRow(r)).join('')}
+            <div class="ai-bs-subtot"><span>Total Current Assets</span><span class="ai-bs-su">${fmtAI(a.current_total)}</span></div>
+            <div style="margin-top:12px"></div>
+            <div class="ai-bs-subhead">Long&#8209;Term Assets</div>
+            ${(a.longterm||[]).map(r=>bsRow(r)).join('')}
+            <div class="ai-bs-subtot"><span>Total Long&#8209;Term Assets</span><span class="ai-bs-su">${fmtAI(a.longterm_total)}</span></div>
+            <div class="ai-bs-grand"><span>Total Assets</span><span class="ai-bs-dbl">${fmtAI(a.total)}</span></div>
           </div>
           <div class="ai-bs-div"></div>
           <div class="ai-bs-side">
             <div class="ai-bs-major ai-bs-red">Liabilities</div>
             <div class="ai-bs-subhead">Current Liabilities</div>
-            ${(l.current || []).map(r => bsRow(r)).join('')}
-            ${subtotRow('Total Current Liabilities', l.current_total)}
-            <div class="ai-bs-mt"></div>
-            <div class="ai-bs-subhead">Long-Term Liabilities</div>
-            ${(l.longterm || []).map(r => bsRow(r)).join('')}
-            ${subtotRow('Total Long-Term Liabilities', l.longterm_total)}
-            ${subtotRow('Total Liabilities', l.total, true)}
-            <div class="ai-bs-major ai-bs-green ai-bs-mt">Owner's Equity</div>
-            ${(oe.items || []).map(r => bsRow(r)).join('')}
-            ${grandRow("Total Liabilities & Owner's Equity", sheet.total_liabilities_oe)}
+            ${(l.current||[]).map(r=>bsRow(r)).join('')}
+            <div class="ai-bs-subtot"><span>Total Current Liabilities</span><span class="ai-bs-su">${fmtAI(l.current_total)}</span></div>
+            <div style="margin-top:12px"></div>
+            <div class="ai-bs-subhead">Long&#8209;Term Liabilities</div>
+            ${(l.longterm||[]).map(r=>bsRow(r)).join('')}
+            <div class="ai-bs-subtot"><span>Total Long&#8209;Term Liabilities</span><span class="ai-bs-su">${fmtAI(l.longterm_total)}</span></div>
+            <div class="ai-bs-sectot"><span>Total Liabilities</span><span class="ai-bs-su">${fmtAI(l.total)}</span></div>
+            <div style="margin-top:12px"></div>
+            <div class="ai-bs-major ai-bs-green">Owner&#x2019;s Equity</div>
+            ${(oe.items||[]).map(r=>bsRow(r)).join('')}
+            <div class="ai-bs-grand"><span>Total Liabilities &amp; Owner&#x2019;s Equity</span><span class="ai-bs-dbl">${fmtAI(sheet.total_liabilities_oe)}</span></div>
           </div>
         </div>
       </div>`;
@@ -714,44 +1052,58 @@
 
     function bsRow(r) {
       if (!r) return '';
-      const indent = r.indent === 2 ? 'i2' : r.indent === 1 ? 'i1' : '';
-      return `<div class="ai-bs-row ${indent}"><span>${r.name || ''}</span><span class="ai-bs-amt">${r.display || fmtAI(r.value)}</span></div>`;
+      const cls = r.indent === 2 ? 'i2' : r.indent === 1 ? 'i1' : '';
+      return `<div class="ai-bs-row ${cls}"><span>${r.name||''}</span><span class="ai-bs-amt">${r.display||fmtAI(r.value)}</span></div>`;
     }
 
-    function subtotRow(label, val, isSect) {
-      const cls = isSect ? 'ai-bs-sectot' : 'ai-bs-subtot';
-      return `<div class="${cls}"><span>${label}</span><span class="ai-bs-su">${fmtAI(val)}</span></div>`;
-    }
-
-    function grandRow(label, val) {
-      return `<div class="ai-bs-grand"><span>${label}</span><span class="ai-bs-dbl">${fmtAI(val)}</span></div>`;
-    }
-
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       HELPERS
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
     function fmtAI(v) {
       if (v == null) return '$0';
-      const abs = Math.abs(Number(v));
-      const s = '$' + abs.toLocaleString('en-CA', { minimumFractionDigits: 0 });
-      return Number(v) < 0 ? '(' + s + ')' : s;
+      const n   = Number(v);
+      const abs = Math.abs(n);
+      const s   = '$' + abs.toLocaleString('en-CA', { minimumFractionDigits:0 });
+      return n < 0 ? '(' + s + ')' : s;
     }
 
+    function parseAmt(str) {
+      // Strips $, commas, parens (negatives), whitespace
+      if (!str) return 0;
+      const neg = str.includes('(') || str.trim().startsWith('-');
+      const clean = str.replace(/[$,()\s]/g, '');
+      const num = Number(clean);
+      return isNaN(num) ? 0 : (neg ? -Math.abs(num) : num);
+    }
+
+    function mkFeedback(text, cls) {
+      const d = document.createElement('div');
+      d.className = 'ai-card-feedback ' + cls;
+      d.textContent = text;
+      return d;
+    }
+
+    function el(id)         { return document.getElementById(id); }
+    function show(idOrEl)   { const e = typeof idOrEl === 'string' ? el(idOrEl) : idOrEl; if (e) e.classList.remove('hidden'); }
+    function hide(idOrEl)   { const e = typeof idOrEl === 'string' ? el(idOrEl) : idOrEl; if (e) e.classList.add('hidden'); }
+    function setText(id, t) { const e = el(id); if (e) e.textContent = t; }
+    function setHTML(id, h) { const e = el(id); if (e) e.innerHTML = h; }
+
     function setLoading(on) {
-      const spinner = document.getElementById('aiLoading');
-      const btn     = document.getElementById('aiGenerate');
-      if (spinner) spinner.classList.toggle('hidden', !on);
-      if (btn)     btn.disabled = on;
+      el('aiLoading')?.classList.toggle('hidden', !on);
+      const btn = el('aiGenerate');
+      if (btn) btn.disabled = on;
     }
 
     function showError(msg) {
-      const el = document.getElementById('aiErrorMsg');
-      if (!el) return;
-      el.textContent = '⚠ ' + msg;
-      el.classList.remove('hidden');
+      const e = el('aiErrorMsg');
+      if (e) { e.textContent = 'âš  ' + msg; e.classList.remove('hidden'); }
     }
 
     function hideError() {
-      const el = document.getElementById('aiErrorMsg');
-      if (el) el.classList.add('hidden');
+      el('aiErrorMsg')?.classList.add('hidden');
     }
+
   })();
 
 })();
