@@ -66,23 +66,31 @@
      DRAG & DROP PRACTICE (Section 5)
      ========================================================== */
 
-  /* -- Account data -- */
+  /* -- Account data: New Western Company, December 31, 2008 --
+     Correct order within each zone is enforced (order property).
+     Total Assets = $217,956  |  Total L + OE = $217,956
+  */
   const accounts = [
-    { name: 'Cash',                   value: 11000,  correct: 'CA',  tip: 'Cash is the most liquid asset — it IS money. Always the first Current Asset.' },
-    { name: 'Accounts Receivable',    value: 6500,   correct: 'CA',  tip: 'Money customers owe you, collected within 30-60 days. Current Asset (liquid).' },
-    { name: 'Merchandise Inventory',  value: 9200,   correct: 'CA',  tip: 'Goods held for resale, expected to sell within one year. Current Asset.' },
-    { name: 'Prepaid Insurance',      value: 1400,   correct: 'CA',  tip: 'Insurance paid in advance — used up within 12 months. Current Asset.' },
-    { name: 'Office Supplies',        value: 600,    correct: 'CA',  tip: 'Supplies on hand used in daily operations. Current Asset (least liquid of the group).' },
-    { name: 'Land',                   value: 35000,  correct: 'LTA', tip: 'Land has unlimited useful life and is not depreciated. Long-Term Asset.' },
-    { name: 'Building',               value: 70000,  correct: 'LTA', tip: 'Buildings are used for many years — fixed/capital asset. Long-Term Asset.' },
-    { name: 'Equipment',              value: 18300,  correct: 'LTA', tip: 'Equipment is used over multiple years. Long-Term (capital) Asset.' },
-    { name: 'Accounts Payable',       value: 7800,   correct: 'CL',  tip: 'Amounts owed to suppliers, due within 30-60 days. Current Liability.' },
-    { name: 'Wages Payable',          value: 2700,   correct: 'CL',  tip: 'Salaries owed to employees, due very soon. Current Liability.' },
-    { name: 'Unearned Revenue',       value: 1500,   correct: 'CL',  tip: 'Payment received before providing the service — must be fulfilled within the year. Current Liability.' },
-    { name: 'Mortgage Payable',       value: 50000,  correct: 'LTL', tip: 'Long-term loan secured by property, due after one year. Long-Term Liability.' },
-    { name: 'R. Owner, Capital',      value: 78000,  correct: 'OE',  tip: 'Owner\'s beginning capital — their total investment in the business. Owner\'s Equity.' },
-    { name: 'Add: Net Income',        value: 18000,  correct: 'OE',  tip: 'Profit earned increases Owner\'s Equity.' },
-    { name: 'Less: R. Owner, Drawings', value: -6000, correct: 'OE', tip: 'Drawings reduce equity — money the owner withdraws for personal use.' },
+    // ── Current Assets (liquidity order: Cash → A/R → Supplies)
+    { name: 'Cash',                        value: 1636,   correct: 'CA',  order: 1, tip: 'Cash is the most liquid asset — it IS money. Must always be listed FIRST in Current Assets.' },
+    { name: 'A/R — J. Hoedl (debtor)',     value: 370,    correct: 'CA',  order: 2, tip: 'J. Hoedl owes the company money — Accounts Receivable. A/R comes after Cash (collected in 30–60 days).' },
+    { name: 'A/R — D. Marshall (debtor)',  value: 1100,   correct: 'CA',  order: 3, tip: 'D. Marshall owes the company money — another A/R sub-account. Listed alphabetically under A/R.' },
+    { name: 'A/R — H. Burns (debtor)',     value: 850,    correct: 'CA',  order: 4, tip: 'H. Burns owes the company money — another A/R sub-account. Debtors listed alphabetically.' },
+    { name: 'Supplies',                    value: 1200,   correct: 'CA',  order: 5, tip: 'Supplies are used up within the year but are the least liquid Current Asset — always listed LAST in CA.' },
+    // ── Long-Term Assets (longest useful life first: Land → Equipment → Vehicles)
+    { name: 'Land',                        value: 160000, correct: 'LTA', order: 1, tip: 'Land has an unlimited useful life and is NEVER depreciated. Always listed first in Long-Term Assets.' },
+    { name: 'Furniture & Equipment',       value: 14700,  correct: 'LTA', order: 2, tip: 'Furniture & Equipment is a capital asset used for many years. Listed after Land.' },
+    { name: 'Delivery Equipment',          value: 20100,  correct: 'LTA', order: 3, tip: 'Delivery Equipment is a vehicle-class capital asset. Listed before Automobile (longer useful life).' },
+    { name: 'Automobile',                  value: 18000,  correct: 'LTA', order: 4, tip: 'Automobile is a capital asset with a shorter useful life — listed last in Long-Term Assets.' },
+    // ── Current Liabilities (most urgent first: A/P creditors)
+    { name: 'A/P — Anglo Supply Co.',      value: 740,    correct: 'CL',  order: 1, tip: 'Anglo Supply Co. is a creditor — the company owes them money. Accounts Payable, listed first (alphabetical).' },
+    { name: 'A/P — W. Anno',               value: 1200,   correct: 'CL',  order: 2, tip: 'W. Anno is a creditor — another A/P sub-account. Creditors listed alphabetically under A/P.' },
+    { name: 'A/P — M. Benrubi',            value: 3000,   correct: 'CL',  order: 3, tip: 'M. Benrubi is a creditor — another A/P sub-account. Largest individual creditor in this example.' },
+    // ── Long-Term Liabilities (shorter term before longer term)
+    { name: 'Bank Loan (3-year)',           value: 10000,  correct: 'LTL', order: 1, tip: 'A 3-year bank loan — due after one year. Long-Term Liability. Listed before Mortgage (shorter term).' },
+    { name: 'Mortgage Payable',            value: 80500,  correct: 'LTL', order: 2, tip: 'Mortgage Payable is a long-term debt secured by property. The largest liability — listed last in LTL.' },
+    // ── Owner's Equity
+    { name: 'L. Borel, Capital',           value: 122516, correct: 'OE',  order: 1, tip: 'Lennox Borel\'s capital — the owner\'s equity in New Western Company. Assets ($217,956) − Liabilities ($95,440) = $122,516.' },
   ];
 
   const dragBank = document.getElementById('dragBank');
@@ -99,6 +107,8 @@
       el.setAttribute('data-correct', acc.correct);
       el.setAttribute('data-index', i);
       el.setAttribute('data-value', acc.value);
+      el.setAttribute('data-order', acc.order);
+      el.setAttribute('data-correct', acc.correct);
       el.innerHTML = `${acc.name} <span class="drag-val">${formatDollar(acc.value)}</span>
         <span class="drag-tip">${acc.tip}</span>`;
       el.addEventListener('dragstart', onDragStart);
@@ -234,12 +244,12 @@
     document.getElementById('totalLOE').textContent = formatDollar(totalLOE);
   }
 
-  /* Check balance */
+  /* Check balance — validates classification AND ordering within each zone */
   document.getElementById('checkBalance').addEventListener('click', () => {
     const fb = document.getElementById('dragFeedback');
     fb.classList.remove('hidden', 'success', 'error', 'partial');
 
-    // Check placements
+    // 1. Check placements
     let correctCount = 0;
     let totalCount   = 0;
     const allItems = document.querySelectorAll('.drop-zone .drag-item');
@@ -258,6 +268,24 @@
       }
     });
 
+    // 2. Check ordering within each correctly-filled zone
+    let orderErrors = [];
+    if (correctCount === totalCount && totalCount === accounts.length) {
+      Object.entries(zones).forEach(([key, id]) => {
+        const zone = document.getElementById(id);
+        const items = [...zone.querySelectorAll('.drag-item')];
+        for (let i = 0; i < items.length - 1; i++) {
+          const curOrder  = Number(items[i].getAttribute('data-order'));
+          const nextOrder = Number(items[i + 1].getAttribute('data-order'));
+          if (curOrder > nextOrder) {
+            items[i].classList.add('wrong-placement');
+            items[i + 1].classList.add('wrong-placement');
+            orderErrors.push(key);
+          }
+        }
+      });
+    }
+
     // Items still in bank
     const bankItems = dragBank.querySelectorAll('.drag-item');
     const bankCount = bankItems.length;
@@ -265,17 +293,21 @@
     if (bankCount > 0) {
       fb.className = 'drag-feedback partial';
       fb.textContent = `You still have ${bankCount} account(s) in the bank. Drag them all into a zone first!`;
-    } else if (correctCount === totalCount && totalCount === accounts.length) {
-      // Check balance
+    } else if (correctCount === totalCount && totalCount === accounts.length && orderErrors.length === 0) {
       const tA = document.getElementById('totalAssets').textContent;
       const tL = document.getElementById('totalLOE').textContent;
       if (tA === tL) {
         fb.className = 'drag-feedback success';
-        fb.innerHTML = `&#10003; Perfect! All ${correctCount} accounts are correctly classified and the balance sheet balances (${tA} = ${tL}).`;
+        fb.innerHTML = `&#10003; Perfect! All ${correctCount} accounts are correctly classified <strong>and in the right order</strong>. Balance sheet balances: ${tA} = ${tL}.`;
       } else {
         fb.className = 'drag-feedback error';
-        fb.innerHTML = `All accounts are classified correctly, but totals don't match: Assets ${tA} ≠ L & OE ${tL}. Double-check values.`;
+        fb.innerHTML = `Classifications are correct, but totals don't match: Assets ${tA} ≠ L &amp; OE ${tL}. Check your values.`;
       }
+    } else if (orderErrors.length > 0) {
+      const zoneNames = { CA: 'Current Assets', LTA: 'Long-Term Assets', CL: 'Current Liabilities', LTL: 'Long-Term Liabilities', OE: "Owner's Equity" };
+      const names = [...new Set(orderErrors)].map(k => zoneNames[k]).join(', ');
+      fb.className = 'drag-feedback partial';
+      fb.innerHTML = `Placements are correct, but the <strong>order is wrong</strong> in: ${names}. Accounts must follow the rules (e.g., Cash first, Land first, liquidity order). Items highlighted in red.`;
     } else {
       fb.className = 'drag-feedback error';
       fb.innerHTML = `${correctCount} of ${totalCount} accounts are in the correct zone. Items outlined in <span style="color:var(--red)">red</span> are misplaced — try again!`;

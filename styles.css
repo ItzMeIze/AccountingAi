@@ -185,9 +185,63 @@ p:last-child { margin-bottom: 0; }
 .callout-green  { background: var(--green-bg);  color: #14532d; border-color: var(--green); }
 .callout-orange { background: var(--orange-bg); color: #7c2d12; border-color: var(--orange); }
 
-/* ============================================================
-   SECTION 1 — CONCEPT CARDS
-   ============================================================ */
+/* ------ Real Example Balance Sheet (lesson inset) ------ */
+.example-bs-card {
+  background: #fff; border: 2px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); margin: 28px 0 8px; overflow: hidden;
+}
+.example-bs-label {
+  background: linear-gradient(90deg, #0f172a, #1e3a8a);
+  color: #fff; font-size: .8rem; font-weight: 700; padding: 10px 20px;
+  letter-spacing: .04em; text-transform: uppercase;
+}
+.example-bs-source {
+  text-align: center; font-weight: 900; font-size: 1rem; padding: 18px 20px 4px;
+  letter-spacing: -.01em;
+}
+.example-bs-grid {
+  display: grid; grid-template-columns: 1fr 1px 1fr; padding: 0 0 4px;
+}
+.ex-divider { background: var(--border); margin: 16px 0; }
+.ex-col { padding: 12px 24px 16px; font-size: .83rem; }
+.ex-major { font-weight: 900; font-size: .9rem; letter-spacing: .08em; text-transform: uppercase; border-bottom: 2px solid; padding-bottom: 4px; margin-bottom: 8px; }
+.ex-blue  { color: var(--blue);  border-color: var(--blue); }
+.ex-red   { color: var(--red);   border-color: var(--red); }
+.ex-green { color: var(--green); border-color: var(--green); }
+.ex-subhead { font-style: italic; font-weight: 700; color: var(--muted); text-decoration: underline; margin: 6px 0 4px; font-size: .8rem; }
+.ex-mt { margin-top: 14px; }
+.ex-row { display: flex; justify-content: space-between; padding: 1px 0; }
+.ex-row span { font-family: var(--mono); }
+.ex-indent  { padding-left: 14px; }
+.ex-indent2 { padding-left: 26px; color: var(--muted); }
+.ex-subtotal-row {
+  display: flex; justify-content: space-between; font-weight: 700;
+  border-top: 1px solid var(--border); padding-top: 3px; margin-top: 3px; font-size: .82rem;
+}
+.ex-liab-total { border-top: 2px solid var(--border); margin-top: 8px; padding-top: 6px; }
+.ex-su  { font-family: var(--mono); border-bottom: 1px solid var(--text); }
+.ex-total-row {
+  display: flex; justify-content: space-between; font-weight: 900;
+  border-top: 2px solid var(--text); margin-top: 10px; padding-top: 6px; font-size: .85rem;
+}
+.ex-dbl { font-family: var(--mono); border-bottom: 3px double var(--text); padding-bottom: 1px; }
+.example-bs-callouts {
+  display: flex; flex-wrap: wrap; gap: 10px; padding: 14px 20px 18px;
+  background: #f8fafc; border-top: 1px solid var(--border);
+}
+.ex-callout {
+  flex: 1; min-width: 200px; border-radius: 8px; padding: 10px 14px;
+  font-size: .82rem; line-height: 1.5; border-left: 3px solid;
+}
+.ex-callout-blue  { background: var(--blue-bg);   border-color: var(--blue);   color: #1e40af; }
+.ex-callout-gold  { background: var(--gold-bg);   border-color: var(--gold);   color: #92400e; }
+.ex-callout-green { background: var(--green-bg);  border-color: var(--green);  color: #14532d; }
+@media (max-width: 700px) {
+  .example-bs-grid { grid-template-columns: 1fr; }
+  .ex-divider { height: 2px; width: 100%; margin: 0; }
+}
+
+/* Concept card (ensure visible) */
 .concept-card {
   background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
   padding: 28px 32px; margin-bottom: 24px; box-shadow: var(--shadow-sm);
