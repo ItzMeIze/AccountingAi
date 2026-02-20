@@ -261,13 +261,12 @@
     const fb = document.getElementById('dragFeedback');
     fb.classList.remove('hidden', 'success', 'error', 'partial');
 
-    // 1. Check placements
+    // 1. Check placements (includes header cards like A/R, A/P labels)
     let correctCount = 0;
     let totalCount   = 0;
     const allItems = document.querySelectorAll('.drop-zone .drag-item');
 
     allItems.forEach((item) => {
-      if (item.getAttribute('data-is-header') === 'true') return; // skip label cards
       totalCount++;
       const correctZone = zones[item.getAttribute('data-correct')];
       const parentZone  = item.closest('.drop-zone');
@@ -281,14 +280,13 @@
       }
     });
 
-    // 2. Check ordering within each correctly-filled zone
-    const realAccountCount = accounts.filter(a => !a.isHeader).length;
+    // 2. Check ordering within each correctly-filled zone (headers included — they must be in position)
+    const realAccountCount = accounts.length;
     let orderErrors = [];
     if (correctCount === totalCount && totalCount === realAccountCount) {
       Object.entries(zones).forEach(([key, id]) => {
         const zone = document.getElementById(id);
-        // exclude header label cards from ordering check
-        const items = [...zone.querySelectorAll('.drag-item')].filter(el => el.getAttribute('data-is-header') !== 'true');
+        const items = [...zone.querySelectorAll('.drag-item')];
         for (let i = 0; i < items.length - 1; i++) {
           const curOrder  = Number(items[i].getAttribute('data-order'));
           const nextOrder = Number(items[i + 1].getAttribute('data-order'));
@@ -301,9 +299,8 @@
       });
     }
 
-    // Items still in bank
-    const bankItems = [...dragBank.querySelectorAll('.drag-item')]
-                         .filter(el => el.getAttribute('data-is-header') !== 'true');
+    // Items still in bank (including headers)
+    const bankItems = [...dragBank.querySelectorAll('.drag-item')];
     const bankCount = bankItems.length;
 
     if (bankCount > 0) {
@@ -2204,101 +2201,159 @@
   })();
 
   /* ==========================================================
-     FLOATING CALCULATOR
+     FLOATING CALCULATOR  (Windows-style + Math.js API)
      ========================================================== */
   (function calcModule() {
     const fab   = document.getElementById('calcFab');
     const panel = document.getElementById('calcPanel');
     const closeBtn = document.getElementById('calcClose');
     const display  = document.getElementById('calcDisplay');
-    const history  = document.getElementById('calcHistory');
+    const historyEl = document.getElementById('calcHistory');
     if (!fab || !panel) return;
 
-    let state = { current: '0', prev: null, op: null, justCalc: false };
+    /* ── state ── */
+    let expr     = '';      // expression string built so far, e.g. "10+5*"
+    let current  = '0';    // number currently being typed
+    let justCalc = false;  // true right after pressing =
+    let memory   = 0;
+    let hasMem   = false;
     let activeOpBtn = null;
+
+    const mcBtn = panel.querySelector('[data-mem="mc"]');
+    const mrBtn = panel.querySelector('[data-mem="mr"]');
+    function syncMem() {
+      if (mcBtn) mcBtn.disabled = !hasMem;
+      if (mrBtn) mrBtn.disabled = !hasMem;
+    }
 
     fab.addEventListener('click', () => panel.classList.toggle('hidden'));
     closeBtn.addEventListener('click', () => panel.classList.add('hidden'));
 
-    function updateDisplay(val) {
-      display.textContent = formatNum(val);
-    }
-
-    function formatNum(s) {
-      // Keep as-is if it ends in dot, or has trailing zeros after decimal
+    /* ── helpers ── */
+    function fmt(s) {
       if (s === 'Error') return s;
       const n = parseFloat(s);
       if (isNaN(n)) return '0';
-      // Show up to 10 sig digits
       let str = parseFloat(n.toPrecision(10)).toString();
-      // Add commas to integer part
-      const parts = str.split('.');
-      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      return parts.join('.');
+      const p = str.split('.');
+      p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return p.join('.');
     }
+    function niceExpr(e) {
+      return e.replace(/\*/g, ' \u00d7 ').replace(/\//g, ' \u00f7 ').replace(/\+/g, ' + ').replace(/(?<=\d)-/g, ' \u2212 ');
+    }
+    function show() { display.textContent = fmt(current); }
+    function hist(s) { historyEl.textContent = s || ''; }
+    function clearOp() { if (activeOpBtn) { activeOpBtn.classList.remove('active-op'); activeOpBtn = null; } }
 
-    function setHistory(s) { history.textContent = s || ''; }
-
+    /* ── input ── */
     function pressNum(n) {
-      if (state.justCalc) { state.current = '0'; state.justCalc = false; }
-      if (n === '.' && state.current.includes('.')) return;
-      state.current = (state.current === '0' && n !== '.') ? n : state.current + n;
-      updateDisplay(state.current);
+      if (justCalc) { expr = ''; current = '0'; justCalc = false; hist(''); }
+      clearOp();
+      if (n === '.' && current.includes('.')) return;
+      current = (current === '0' && n !== '.') ? n : current + n;
+      show();
     }
 
     function pressOp(op) {
-      if (state.op && !state.justCalc) calculate();
-      state.prev    = state.current;
-      state.op      = op;
-      state.justCalc = false;
-      setHistory(formatNum(state.current) + ' ' + opSymbol(op));
-      // highlight active op
-      if (activeOpBtn) activeOpBtn.classList.remove('active-op');
+      if (justCalc) justCalc = false;
+      // replace last operator if user changes mind
+      if (expr && '+-*/'.includes(expr.slice(-1)) && current === '0') {
+        expr = expr.slice(0, -1) + op;
+      } else {
+        expr += current + op;
+        current = '0';
+      }
+      hist(niceExpr(expr));
+      // highlight active operator button
+      clearOp();
       const btn = panel.querySelector('[data-op="' + op + '"]');
       if (btn) { btn.classList.add('active-op'); activeOpBtn = btn; }
     }
 
-    function calculate() {
-      if (!state.op || state.prev === null) return;
-      const a = parseFloat(state.prev), b = parseFloat(state.current);
-      let result;
-      switch (state.op) {
-        case '+': result = a + b; break;
-        case '-': result = a - b; break;
-        case '*': result = a * b; break;
-        case '/': result = b === 0 ? 'Error' : a / b; break;
-        default:  result = b;
+    /* ── calculate via Math.js API (local fallback) ── */
+    async function calculate() {
+      const full = expr + current;
+      if (!full || full === '0') return;
+      hist(niceExpr(full) + ' =');
+      clearOp();
+
+      try {
+        const res  = await fetch('https://api.mathjs.org/v4/?expr=' + encodeURIComponent(full));
+        const text = await res.text();
+        if (text.toLowerCase().startsWith('error') || isNaN(parseFloat(text))) throw new Error(text);
+        current = String(parseFloat(text));
+      } catch (_) {
+        // offline / error fallback — simple local eval
+        try {
+          const r = Function('"use strict"; return (' + full + ')')();
+          current = String(parseFloat(parseFloat(r).toPrecision(12)));
+        } catch (_e) { current = 'Error'; }
       }
-      setHistory(formatNum(state.prev) + ' ' + opSymbol(state.op) + ' ' + formatNum(state.current) + ' =');
-      state.current  = result === 'Error' ? 'Error' : String(parseFloat(result.toPrecision(12)));
-      state.prev     = null;
-      state.op       = null;
-      state.justCalc = true;
-      updateDisplay(state.current);
-      if (activeOpBtn) { activeOpBtn.classList.remove('active-op'); activeOpBtn = null; }
+      expr = '';
+      justCalc = true;
+      show();
     }
 
-    function opSymbol(op) { return { '+': '+', '-': '−', '*': '×', '/': '÷' }[op] || op; }
+    /* ── actions ── */
+    function clearEntry() { current = '0'; show(); clearOp(); }
+    function clearAll()   { expr = ''; current = '0'; justCalc = false; hist(''); show(); clearOp(); }
+    function backspace()  { if (justCalc) return; current = current.length > 1 ? current.slice(0, -1) : '0'; show(); }
+    function toggleSign() {
+      if (current === '0' || current === 'Error') return;
+      current = current.startsWith('-') ? current.slice(1) : '-' + current;
+      show();
+    }
+    function pct()   { current = String(parseFloat(current) / 100); show(); }
+    function recip() {
+      const v = parseFloat(current);
+      hist('1/(' + fmt(String(v)) + ')');
+      current = v === 0 ? 'Error' : String(1 / v); justCalc = true; show();
+    }
+    function sq() {
+      const v = parseFloat(current);
+      hist('sqr(' + fmt(String(v)) + ')');
+      current = String(v * v); justCalc = true; show();
+    }
+    function sqrt() {
+      const v = parseFloat(current);
+      hist('\u221a(' + fmt(String(v)) + ')');
+      current = v < 0 ? 'Error' : String(Math.sqrt(v)); justCalc = true; show();
+    }
 
+    /* ── button router ── */
     panel.querySelectorAll('.calc-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const num    = btn.getAttribute('data-num');
-        const op     = btn.getAttribute('data-op');
-        const action = btn.getAttribute('data-action');
-        if (num !== null)       { pressNum(num); }
-        else if (op !== null)   { pressOp(op); }
-        else if (action === 'clear')  { state = { current: '0', prev: null, op: null, justCalc: false }; if (activeOpBtn) { activeOpBtn.classList.remove('active-op'); activeOpBtn = null; } setHistory(''); updateDisplay('0'); }
-        else if (action === 'sign')   { state.current = String(-parseFloat(state.current)); updateDisplay(state.current); }
-        else if (action === 'pct')    { state.current = String(parseFloat(state.current) / 100); updateDisplay(state.current); }
-        else if (action === 'dot')    { pressNum('.'); }
-        else if (action === 'equals') { calculate(); }
+        const num = btn.getAttribute('data-num');
+        const op  = btn.getAttribute('data-op');
+        const act = btn.getAttribute('data-action');
+        const mem = btn.getAttribute('data-mem');
+
+        if (num !== null)          pressNum(num);
+        else if (op !== null)      pressOp(op);
+        else if (act === 'clear')  clearAll();
+        else if (act === 'ce')     clearEntry();
+        else if (act === 'back')   backspace();
+        else if (act === 'sign')   toggleSign();
+        else if (act === 'pct')    pct();
+        else if (act === 'recip')  recip();
+        else if (act === 'sq')     sq();
+        else if (act === 'sqrt')   sqrt();
+        else if (act === 'dot')    pressNum('.');
+        else if (act === 'equals') calculate();
+
+        if (mem === 'mc')      { memory = 0; hasMem = false; syncMem(); }
+        else if (mem === 'mr') { current = String(memory); justCalc = true; show(); }
+        else if (mem === 'm+') { memory += parseFloat(current); hasMem = true; syncMem(); }
+        else if (mem === 'm-') { memory -= parseFloat(current); hasMem = true; syncMem(); }
+        else if (mem === 'ms') { memory = parseFloat(current); hasMem = true; syncMem(); }
       });
     });
 
-    // Keyboard support
+    /* ── keyboard support ── */
     document.addEventListener('keydown', (e) => {
       if (panel.classList.contains('hidden')) return;
-      if ('0123456789'.includes(e.key))  { pressNum(e.key); e.preventDefault(); }
+      if ('0123456789'.includes(e.key)) { pressNum(e.key); e.preventDefault(); }
       else if (e.key === '.')            { pressNum('.'); e.preventDefault(); }
       else if (e.key === '+')            { pressOp('+'); e.preventDefault(); }
       else if (e.key === '-')            { pressOp('-'); e.preventDefault(); }
@@ -2306,13 +2361,12 @@
       else if (e.key === '/')            { pressOp('/'); e.preventDefault(); }
       else if (e.key === 'Enter' || e.key === '=') { calculate(); e.preventDefault(); }
       else if (e.key === 'Escape')       { panel.classList.add('hidden'); }
-      else if (e.key === 'Backspace')    {
-        state.current = state.current.length > 1 ? state.current.slice(0, -1) : '0';
-        updateDisplay(state.current); e.preventDefault();
-      }
+      else if (e.key === 'Backspace')    { backspace(); e.preventDefault(); }
+      else if (e.key === 'Delete')       { clearAll(); e.preventDefault(); }
     });
 
-    updateDisplay('0');
+    show();
+    syncMem();
   })(); // end calcModule
 
 })();

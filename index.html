@@ -1175,37 +1175,67 @@
 <div id="tooltip" class="tooltip hidden"></div>
 
 <!-- ===== FLOATING CALCULATOR ===== -->
-<button class="calc-fab" id="calcFab" title="Calculator">&#128425;</button>
+<button class="calc-fab" id="calcFab" title="Calculator">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="4" y="2" width="16" height="20" rx="2"/>
+    <rect x="7" y="5" width="10" height="4" rx="1"/>
+    <circle cx="8.5" cy="13" r=".9" fill="currentColor" stroke="none"/>
+    <circle cx="12" cy="13" r=".9" fill="currentColor" stroke="none"/>
+    <circle cx="15.5" cy="13" r=".9" fill="currentColor" stroke="none"/>
+    <circle cx="8.5" cy="17" r=".9" fill="currentColor" stroke="none"/>
+    <circle cx="12" cy="17" r=".9" fill="currentColor" stroke="none"/>
+    <circle cx="15.5" cy="17" r=".9" fill="currentColor" stroke="none"/>
+  </svg>
+</button>
 <div class="calc-panel hidden" id="calcPanel">
   <div class="calc-header">
-    <span class="calc-title">Calculator</span>
+    <div class="calc-header-left">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <span class="calc-title">Calculator</span>
+    </div>
     <button class="calc-close" id="calcClose">&times;</button>
   </div>
-  <div class="calc-display" id="calcDisplay">0</div>
-  <div class="calc-history" id="calcHistory"></div>
+  <div class="calc-mode">Standard</div>
+  <div class="calc-screen">
+    <div class="calc-history" id="calcHistory"></div>
+    <div class="calc-display" id="calcDisplay">0</div>
+  </div>
+  <div class="calc-mem-row">
+    <button class="calc-btn calc-mem" data-mem="mc">MC</button>
+    <button class="calc-btn calc-mem" data-mem="mr">MR</button>
+    <button class="calc-btn calc-mem" data-mem="m+">M+</button>
+    <button class="calc-btn calc-mem" data-mem="m-">M&minus;</button>
+    <button class="calc-btn calc-mem" data-mem="ms">MS</button>
+  </div>
   <div class="calc-grid">
-    <button class="calc-btn calc-wide calc-fn" data-action="clear">AC</button>
-    <button class="calc-btn calc-fn" data-action="sign">&plusmn;</button>
     <button class="calc-btn calc-fn" data-action="pct">%</button>
+    <button class="calc-btn calc-fn" data-action="ce">CE</button>
+    <button class="calc-btn calc-fn" data-action="clear">C</button>
+    <button class="calc-btn calc-fn" data-action="back">&#9003;</button>
+
+    <button class="calc-btn calc-fn calc-fn-sm" data-action="recip"><sup>1</sup>/<sub>x</sub></button>
+    <button class="calc-btn calc-fn calc-fn-sm" data-action="sq">x&sup2;</button>
+    <button class="calc-btn calc-fn calc-fn-sm" data-action="sqrt">&sup2;&radic;x</button>
     <button class="calc-btn calc-op" data-op="/">&divide;</button>
 
-    <button class="calc-btn" data-num="7">7</button>
-    <button class="calc-btn" data-num="8">8</button>
-    <button class="calc-btn" data-num="9">9</button>
+    <button class="calc-btn calc-num" data-num="7">7</button>
+    <button class="calc-btn calc-num" data-num="8">8</button>
+    <button class="calc-btn calc-num" data-num="9">9</button>
     <button class="calc-btn calc-op" data-op="*">&times;</button>
 
-    <button class="calc-btn" data-num="4">4</button>
-    <button class="calc-btn" data-num="5">5</button>
-    <button class="calc-btn" data-num="6">6</button>
+    <button class="calc-btn calc-num" data-num="4">4</button>
+    <button class="calc-btn calc-num" data-num="5">5</button>
+    <button class="calc-btn calc-num" data-num="6">6</button>
     <button class="calc-btn calc-op" data-op="-">&minus;</button>
 
-    <button class="calc-btn" data-num="1">1</button>
-    <button class="calc-btn" data-num="2">2</button>
-    <button class="calc-btn" data-num="3">3</button>
-    <button class="calc-btn calc-op calc-op-tall" data-op="+" rowspan="2">+</button>
+    <button class="calc-btn calc-num" data-num="1">1</button>
+    <button class="calc-btn calc-num" data-num="2">2</button>
+    <button class="calc-btn calc-num" data-num="3">3</button>
+    <button class="calc-btn calc-op" data-op="+">+</button>
 
-    <button class="calc-btn calc-wide" data-num="0">0</button>
-    <button class="calc-btn" data-action="dot">.</button>
+    <button class="calc-btn calc-num" data-action="sign">+/&minus;</button>
+    <button class="calc-btn calc-num" data-num="0">0</button>
+    <button class="calc-btn calc-num" data-action="dot">.</button>
     <button class="calc-btn calc-eq" data-action="equals">=</button>
   </div>
 </div>
