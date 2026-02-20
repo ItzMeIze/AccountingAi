@@ -1340,32 +1340,144 @@
     }
 
     /* =========================================================
-       CHECK ERRORS
+       CHECK ERRORS  —  AI-powered via Gemini
        ========================================================= */
-    function checkErrors() {
+    async function checkErrors() {
       if (!currentQ?.errors) return;
       const textarea = el('aiErrorInput');
-      const lines    = (textarea?.value || '').split('\n').map(l => l.trim()).filter(Boolean);
-      const total    = currentQ.errors.length;
-      const found    = Math.min(lines.length, total);
-      const pass     = found >= Math.ceil(total * 0.7);
+      const raw      = (textarea?.value || '').trim();
+      const lines    = raw.split('\n').map(l => l.trim()).filter(Boolean);
 
       const fb = el('aiErrFeedback');
       if (!fb) return;
+
+      if (!lines.length) {
+        fb.innerHTML = `<div class="ai-feedback-panel"><div class="ai-fb-header fb-fail">
+          &#9888; Please write at least one error before checking.</div></div>`;
+        show(fb);
+        return;
+      }
+
+      /* Loading state */
       fb.innerHTML = `<div class="ai-feedback-panel">
-        <div class="ai-fb-header ${pass ? 'fb-pass':'fb-fail'}">
-          <span class="ai-fb-score">${pass ? '&#127881;' : '&#128269;'} You identified ${lines.length} error${lines.length !== 1 ? 's' : ''}.</span>
-          This question has ${total} errors. ${pass ? 'Great work! Click "See All Errors" to compare.' : 'Keep looking \u2014 try "Show Hint" for guidance.'}
-        </div>
-        <div class="ai-fb-items">
-          ${lines.map((l,i) => `<div class="ai-fb-item"><span class="ai-fb-icon">${i < total ? '&#10003;' : '&#9888;'}</span>
-            <span class="ai-fb-text">${l}</span></div>`).join('')}
-          ${lines.length < total ? `<div class="ai-fb-item"><span class="ai-fb-icon">&#10067;</span>
-            <span class="ai-fb-text">${total - lines.length} more error${total-lines.length!==1?'s':''} not yet found.</span></div>` : ''}
+        <div class="ai-fb-header fb-loading">
+          <span class="ai-fb-spinner"></span>&nbsp; Gemini is marking your answer&hellip;
         </div>
       </div>`;
       show(fb);
       fb.scrollIntoView({ behavior:'smooth', block:'nearest' });
+
+      let result;
+      try {
+        const resp = await fetch('/api/check-errors', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            studentAnswers: lines,
+            errors: currentQ.errors,
+            company: currentQ.company || '',
+            totalErrors: currentQ.errors.length
+          })
+        });
+        if (!resp.ok) throw new Error('API returned ' + resp.status);
+        result = await resp.json();
+      } catch (err) {
+        fb.innerHTML = `<div class="ai-feedback-panel"><div class="ai-fb-header fb-fail">
+          &#9888; Could not reach the AI marker (${err.message}). Click <strong>See All Errors</strong> to check manually.
+        </div></div>`;
+        show(fb);
+        return;
+      }
+
+      /* Fallback: Gemini returned unparseable text */
+      if (result.parseError) {
+        fb.innerHTML = `<div class="ai-feedback-panel"><div class="ai-fb-header fb-fail">
+          &#9888; AI response couldn't be parsed. Raw: <pre style="font-size:.75rem;white-space:pre-wrap">${result.raw}</pre>
+        </div></div>`;
+        show(fb);
+        return;
+      }
+
+      /* Render AI feedback ---------------------------------- */
+      const score     = result.score   || {};
+      const matched   = result.matched  || [];
+      const partial   = result.partial  || [];
+      const irrelevant= result.irrelevant || [];
+      const missed    = result.missed   || [];
+      const total     = score.total    ?? currentQ.errors.length;
+      const found     = score.found    ?? matched.length;
+      const partCount = score.partial  ?? partial.length;
+      const pass      = score.pass     ?? (found + partCount >= Math.ceil(total * 0.6));
+
+      const pct = total ? Math.round((found + partCount * 0.5) / total * 100) : 0;
+
+      let html = `<div class="ai-feedback-panel ai-err-panel">
+        <div class="ai-fb-header ${pass ? 'fb-pass' : 'fb-fail'}">
+          <span class="ai-fb-score">${pass ? '&#127881;' : '&#128269;'} ${found} correct, ${partCount} partial out of ${total} errors &mdash; ${pct}%</span>
+          ${result.summary ? `<div class="ai-fb-summary">${result.summary}</div>` : ''}
+        </div>`;
+
+      /* Correct answers */
+      if (matched.length) {
+        html += `<div class="ai-fb-group"><div class="ai-fb-group-label ai-fb-glabel-yes">&#10003; Correctly Identified</div>`;
+        matched.forEach(m => {
+          html += `<div class="ai-fb-item ai-fb-correct">
+            <span class="ai-fb-icon">&#10003;</span>
+            <div><div class="ai-fb-text">"${escHtml(m.studentText)}"</div>
+            <div class="ai-fb-explain">${m.feedback || ''}</div></div>
+          </div>`;
+        });
+        html += `</div>`;
+      }
+
+      /* Partial answers */
+      if (partial.length) {
+        html += `<div class="ai-fb-group"><div class="ai-fb-group-label ai-fb-glabel-partial">&#8764; Partially Correct</div>`;
+        partial.forEach(m => {
+          html += `<div class="ai-fb-item ai-fb-partial">
+            <span class="ai-fb-icon">&#126;</span>
+            <div><div class="ai-fb-text">"${escHtml(m.studentText)}"</div>
+            <div class="ai-fb-explain">${m.feedback || ''}</div></div>
+          </div>`;
+        });
+        html += `</div>`;
+      }
+
+      /* Irrelevant / wrong answers */
+      if (irrelevant.length) {
+        html += `<div class="ai-fb-group"><div class="ai-fb-group-label ai-fb-glabel-no">&#10005; Not Actually an Error</div>`;
+        irrelevant.forEach(m => {
+          html += `<div class="ai-fb-item ai-fb-wrong">
+            <span class="ai-fb-icon">&#10005;</span>
+            <div><div class="ai-fb-text">"${escHtml(m.studentText)}"</div>
+            <div class="ai-fb-explain">${m.reason || ''}</div></div>
+          </div>`;
+        });
+        html += `</div>`;
+      }
+
+      /* Missed errors (hints, no spoilers) */
+      if (missed.length) {
+        html += `<div class="ai-fb-group"><div class="ai-fb-group-label ai-fb-glabel-miss">&#128269; Still Missing (${missed.length})</div>`;
+        missed.forEach(m => {
+          html += `<div class="ai-fb-item ai-fb-miss">
+            <span class="ai-fb-icon">?</span>
+            <div><div class="ai-fb-text">${m.location ? `<em>${escHtml(m.location)}</em> &mdash; ` : ''}${escHtml(m.hint || 'Look more carefully at this section.')}</div>
+            </div>
+          </div>`;
+        });
+        html += `</div>`;
+      }
+
+      html += `</div>`;
+
+      fb.innerHTML = html;
+      show(fb);
+      fb.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    }
+
+    function escHtml(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
     /* =========================================================
