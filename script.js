@@ -1514,5 +1514,506 @@
 
   })();
 
+  /* ==========================================================
+     CUE CARDS (Section 9) — Spaced Repetition Flashcards
+     ========================================================== */
+  (function ccModule() {
+    const $  = id => document.getElementById(id);
+    if (!$('ccCard')) return;
+
+    /* ── Helpers ── */
+    function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    function pick(arr)     { return arr[Math.floor(Math.random() * arr.length)]; }
+    function fmt(n)        { return '$' + n.toLocaleString('en-CA'); }
+    function shuffle(arr)  {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    /* ── Account pools ── */
+    const POOLS = {
+      CA:  ['Cash', 'Bank', 'Accounts Receivable', 'Notes Receivable (due in 3 months)',
+            'Supplies', 'Prepaid Insurance', 'Prepaid Rent', 'Merchandise Inventory', 'Short-Term Investment'],
+      LTA: ['Land', 'Building', 'Equipment', 'Furniture & Equipment',
+            'Delivery Vehicle', 'Computer Equipment', 'Leasehold Improvements', 'Machinery'],
+      CL:  ['Accounts Payable', 'Wages Payable', 'GST/HST Payable',
+            'Rent Payable', 'Unearned Revenue', 'Bank Loan (due in 90 days)'],
+      LTL: ['Mortgage Payable', 'Bank Loan (5-year)',
+            'Long-Term Notes Payable', 'Term Loan Payable (due in 4 years)']
+    };
+    const CAT_NAMES = {
+      CA: 'Current Asset', LTA: 'Long-Term Asset',
+      CL: 'Current Liability', LTL: 'Long-Term Liability'
+    };
+
+    /* ===================================================
+       CARD TEMPLATES — each is a function → { type, q, a, hint? }
+       =================================================== */
+    const TEMPLATES = [
+
+      /* ─── DEFINITIONS ─── */
+
+      () => ({
+        type: 'Definition',
+        q: 'State the accounting equation.',
+        a: '<span class="cc-eq">Assets = Liabilities + Owner\'s Equity</span>Everything a business <strong>owns</strong> (assets) is financed by either <strong>creditors</strong> (liabilities) or the <strong>owner</strong> (equity). The two sides must always be equal.'
+      }),
+
+      () => ({
+        type: 'Definition',
+        q: 'What does a balance sheet report?',
+        a: 'A balance sheet shows the <strong>financial position</strong> of a business on a <em>specific date</em> — a snapshot of all assets, liabilities, and owner\'s equity such that:<span class="cc-eq">Total Assets = Total Liabilities + Owner\'s Equity</span>'
+      }),
+
+      () => ({
+        type: 'Definition',
+        q: 'What is Owner\'s Equity?',
+        a: '<strong>Owner\'s Equity</strong> is the owner\'s claim on the assets of the business — the residual interest after subtracting all liabilities.<span class="cc-eq">Owner\'s Equity = Assets − Liabilities</span>It appears in the <em>bottom-right</em> section of a classified balance sheet.'
+      }),
+
+      () => ({
+        type: 'Definition',
+        q: 'What is a Current Asset?',
+        a: 'A <strong>Current Asset</strong> is an asset that will be converted to cash <em>or</em> used up within <strong>one year</strong> (or the normal operating cycle).<br><br>Examples: Cash, Accounts Receivable, Supplies, Prepaid Insurance, Merchandise Inventory.<br><br>Current assets are listed in <strong>order of liquidity</strong> (most liquid first).'
+      }),
+
+      () => ({
+        type: 'Definition',
+        q: 'What is a Long-Term Asset?',
+        a: 'A <strong>Long-Term Asset</strong> is an asset with a useful life of <strong>more than one year</strong>. It will NOT be converted to cash in the normal course of business within 12 months.<br><br>Examples: Land, Building, Equipment, Vehicles.<br><br>Listed in <strong>order of usefulness</strong> (longest life → shortest life, so Land comes first).'
+      }),
+
+      () => ({
+        type: 'Definition',
+        q: 'What is a Current Liability?',
+        a: 'A <strong>Current Liability</strong> is a debt due to be paid within <strong>one year</strong>.<br><br>Examples: Accounts Payable, Wages Payable, GST Payable, Bank Loan (short-term).<br><br>Listed in <strong>order of payment</strong> — those due soonest appear first.'
+      }),
+
+      () => ({
+        type: 'Definition',
+        q: 'What is a Long-Term Liability?',
+        a: 'A <strong>Long-Term Liability</strong> is a debt that extends <strong>beyond one year</strong> — not due within 12 months.<br><br>Examples: Mortgage Payable, Bank Loan (multi-year term), Long-Term Notes Payable.'
+      }),
+
+      () => ({
+        type: 'Definition',
+        q: 'What is "order of liquidity"?',
+        a: '<strong>Order of liquidity</strong> means listing assets from <em>most easily converted to cash</em> → <em>least easily converted</em>.<br><br>Typical order:<ol style="margin:8px 0 0 20px"><li>Cash / Bank</li><li>Short-Term Investments</li><li>Notes Receivable (short-term)</li><li>Accounts Receivable</li><li>Merchandise Inventory</li><li>Prepaid Expenses (Insurance, Rent, Supplies)</li></ol>'
+      }),
+
+      () => ({
+        type: 'Definition',
+        q: 'What is the difference between a Classified and a Simplified Balance Sheet?',
+        a: '<ul><li><strong>Simplified:</strong> Lists all assets together and all liabilities together — no sub-categories or subtotals for groups.</li><li><strong>Classified:</strong> Groups assets into <em>Current</em> and <em>Long-Term</em>, and liabilities into <em>Current</em> and <em>Long-Term</em>. Shows subtotals for each group. More useful for financial decision-making.</li></ul>'
+      }),
+
+      () => ({
+        type: 'Definition',
+        q: 'What does it mean that liabilities and owner\'s equity are "claims against assets"?',
+        a: 'Every asset the business owns must be funded by <em>someone</em>:<ul><li><strong>Liabilities</strong> = creditors\' claim (money owed to outside parties)</li><li><strong>Owner\'s Equity</strong> = owner\'s claim (owner\'s net investment and retained earnings)</li></ul>Together they equal Total Assets:<span class="cc-eq">Assets = Liabilities + Owner\'s Equity</span>'
+      }),
+
+      /* ─── EQUATION REARRANGING ─── */
+
+      () => ({
+        type: 'Equation',
+        q: 'Rearrange the accounting equation to solve for Owner\'s Equity.',
+        hint: 'Start from: Assets = Liabilities + Owner\'s Equity',
+        a: '<span class="cc-eq">Owner\'s Equity = Assets − Liabilities</span>Subtract Liabilities from both sides of the original equation.'
+      }),
+
+      () => ({
+        type: 'Equation',
+        q: 'Rearrange the accounting equation to solve for Liabilities.',
+        hint: 'Start from: Assets = Liabilities + Owner\'s Equity',
+        a: '<span class="cc-eq">Liabilities = Assets − Owner\'s Equity</span>Subtract Owner\'s Equity from both sides of the original equation.'
+      }),
+
+      () => ({
+        type: 'Equation',
+        q: 'A balance sheet must always "balance." What does this mean exactly?',
+        a: 'It means the equation holds true:<span class="cc-eq">Total Assets = Total Liabilities + Owner\'s Equity</span>Both sides must be <strong>equal</strong>. An imbalance signals a classification, arithmetic, or recording error.'
+      }),
+
+      () => ({
+        type: 'Equation',
+        q: 'If Owner\'s Equity increases (e.g., from net income), but assets stay the same, what must change in the equation?',
+        a: 'If OE increases and Assets stay the same, then <strong>Liabilities must decrease</strong> by the same amount to keep the equation balanced:<span class="cc-eq">Assets = Liabilities + Owner\'s Equity</span>This is because a change to one side must be offset by an equal change on the other.'
+      }),
+
+      /* ─── EQUATION CALCULATIONS (randomised numbers) ─── */
+
+      () => {
+        const l = rnd(5, 30) * 1000, oe = rnd(10, 60) * 1000, a = l + oe;
+        return {
+          type: 'Equation',
+          q: `Total Liabilities = ${fmt(l)}<br>Owner's Equity = ${fmt(oe)}<br><br>Calculate <strong>Total Assets</strong>.`,
+          a: `<span class="cc-eq">Assets = Liabilities + Owner's Equity<br>= ${fmt(l)} + ${fmt(oe)} = <strong>${fmt(a)}</strong></span><span class="cc-correct">&#10003; Total Assets = ${fmt(a)}</span>`
+        };
+      },
+
+      () => {
+        const a = rnd(40, 200) * 1000;
+        const l = rnd(10, Math.max(11, Math.floor(a / 1000 * 0.55))) * 1000;
+        const oe = a - l;
+        return {
+          type: 'Equation',
+          q: `Total Assets = ${fmt(a)}<br>Total Liabilities = ${fmt(l)}<br><br>Calculate <strong>Owner's Equity</strong>.`,
+          a: `<span class="cc-eq">Owner's Equity = Assets − Liabilities<br>= ${fmt(a)} − ${fmt(l)} = <strong>${fmt(oe)}</strong></span><span class="cc-correct">&#10003; Owner's Equity = ${fmt(oe)}</span>`
+        };
+      },
+
+      () => {
+        const a = rnd(50, 300) * 1000;
+        const oe = rnd(15, Math.max(16, Math.floor(a / 1000 * 0.65))) * 1000;
+        const l = a - oe;
+        return {
+          type: 'Equation',
+          q: `Total Assets = ${fmt(a)}<br>Owner's Equity = ${fmt(oe)}<br><br>Calculate <strong>Total Liabilities</strong>.`,
+          a: `<span class="cc-eq">Liabilities = Assets − Owner's Equity<br>= ${fmt(a)} − ${fmt(oe)} = <strong>${fmt(l)}</strong></span><span class="cc-correct">&#10003; Total Liabilities = ${fmt(l)}</span>`
+        };
+      },
+
+      () => {
+        const ca = rnd(5, 40) * 1000, lta = rnd(20, 150) * 1000;
+        const cl = rnd(3, 20) * 1000, ltl = rnd(10, 80) * 1000;
+        const a = ca + lta, lo = cl + ltl, oe = a - lo;
+        return {
+          type: 'Equation',
+          q: `Current Assets = ${fmt(ca)}<br>Long-Term Assets = ${fmt(lta)}<br>Current Liabilities = ${fmt(cl)}<br>Long-Term Liabilities = ${fmt(ltl)}<br><br>What is <strong>Owner's Equity</strong>?`,
+          a: `<span class="cc-eq">Total Assets = ${fmt(ca)} + ${fmt(lta)} = ${fmt(a)}<br>Total Liabilities = ${fmt(cl)} + ${fmt(ltl)} = ${fmt(lo)}<br>Owner's Equity = ${fmt(a)} − ${fmt(lo)} = <strong>${fmt(oe)}</strong></span><span class="cc-correct">&#10003; Owner's Equity = ${fmt(oe)}</span>`
+        };
+      },
+
+      () => {
+        const oe1 = rnd(20, 100) * 1000, ni = rnd(5, 30) * 1000, draw = rnd(1, 15) * 1000;
+        const oe2 = oe1 + ni - draw;
+        return {
+          type: 'Equation',
+          q: `[Owner], Capital (Jan. 1) = ${fmt(oe1)}<br>Net Income = ${fmt(ni)}<br>Drawings = ${fmt(draw)}<br><br>Calculate <strong>ending Capital (Dec. 31)</strong>.`,
+          a: `<span class="cc-eq">Ending Capital = Opening Capital + Net Income − Drawings<br>= ${fmt(oe1)} + ${fmt(ni)} − ${fmt(draw)} = <strong>${fmt(oe2)}</strong></span><span class="cc-correct">&#10003; Ending Capital = ${fmt(oe2)}</span>`
+        };
+      },
+
+      () => {
+        const ca = rnd(8, 50) * 1000, lta = rnd(30, 200) * 1000;
+        return {
+          type: 'Equation',
+          q: `Current Assets total ${fmt(ca)} and Long-Term Assets total ${fmt(lta)}.<br><br>What is <strong>Total Assets</strong>?`,
+          a: `<span class="cc-eq">Total Assets = Current Assets + Long-Term Assets<br>= ${fmt(ca)} + ${fmt(lta)} = <strong>${fmt(ca + lta)}</strong></span><span class="cc-correct">&#10003; Total Assets = ${fmt(ca + lta)}</span>`
+        };
+      },
+
+      () => {
+        const cl = rnd(3, 25) * 1000, ltl = rnd(15, 80) * 1000;
+        return {
+          type: 'Equation',
+          q: `Current Liabilities = ${fmt(cl)}<br>Long-Term Liabilities = ${fmt(ltl)}<br><br>What is <strong>Total Liabilities</strong>?`,
+          a: `<span class="cc-eq">Total Liabilities = CL + LTL<br>= ${fmt(cl)} + ${fmt(ltl)} = <strong>${fmt(cl + ltl)}</strong></span><span class="cc-correct">&#10003; Total Liabilities = ${fmt(cl + ltl)}</span>`
+        };
+      },
+
+      () => {
+        const a = rnd(60, 250) * 1000;
+        const l = rnd(20, Math.max(21, Math.floor(a / 1000 * 0.55))) * 1000;
+        const oe = a - l;
+        return {
+          type: 'Equation',
+          q: `A balance sheet shows:<br>Total Assets = ${fmt(a)}<br>Total Liabilities = ${fmt(l)}<br>Owner's Equity = ${fmt(oe)}<br><br><strong>Does this balance sheet balance? How do you verify?</strong>`,
+          a: `<span class="cc-eq">L + OE = ${fmt(l)} + ${fmt(oe)} = ${fmt(l + oe)}</span><span class="cc-correct">&#10003; Yes — it balances. ${fmt(l + oe)} = ${fmt(a)}.</span><br>Always verify: <strong>Total Liabilities + OE must equal Total Assets.</strong>`
+        };
+      },
+
+      /* ─── CLASSIFICATION (10 randomised) ─── */
+
+      ...Array.from({ length: 10 }, () => () => {
+        const cats    = ['CA', 'LTA', 'CL', 'LTL'];
+        const cat     = pick(cats);
+        const acct    = pick(POOLS[cat]);
+        const catExpl = {
+          CA:  'It will be converted to cash or used up within <strong>one year</strong>.',
+          LTA: 'It has a useful life of <strong>more than one year</strong> and is not sold in the normal course of business.',
+          CL:  'This debt is due to be paid within <strong>one year</strong>.',
+          LTL: 'This debt is <strong>not</strong> due within one year — it extends beyond 12 months.'
+        };
+        return {
+          type: 'Classification',
+          q:    `How would you classify <strong>"${acct}"</strong> on a classified balance sheet?`,
+          hint: 'Think: owned or owed? Short-term or long-term?',
+          a:    `<span class="cc-correct">&#10003; ${CAT_NAMES[cat]}</span><br><br>${catExpl[cat]}<br><br>It belongs in the <strong>${CAT_NAMES[cat]}s</strong> section.`
+        };
+      }),
+
+      /* ─── ORDERING ─── */
+
+      () => ({
+        type: 'Ordering',
+        q: 'List Current Assets in correct order of liquidity (most → least liquid).',
+        a: '<ol style="margin:8px 0 0 20px"><li>Cash / Bank</li><li>Short-Term Investments</li><li>Notes Receivable (short-term)</li><li>Accounts Receivable (with sub-debtors)</li><li>Merchandise Inventory</li><li>Prepaid Expenses (Insurance, Rent, Supplies)</li></ol><strong>Rule:</strong> the asset closest to cash goes first.'
+      }),
+
+      () => ({
+        type: 'Ordering',
+        q: 'List Long-Term Assets in correct order (most permanent → least permanent).',
+        a: '<ol style="margin:8px 0 0 20px"><li>Land (never depreciates — most permanent)</li><li>Building</li><li>Equipment / Furniture & Equipment</li><li>Vehicles / Delivery Truck</li><li>Computer Equipment (shortest useful life)</li></ol><strong>Rule:</strong> longest useful life listed first.'
+      }),
+
+      () => ({
+        type: 'Ordering',
+        q: 'List Current Liabilities in correct order of payment (due soonest → due latest).',
+        a: '<ol style="margin:8px 0 0 20px"><li>Bank Loan (demand / short-term)</li><li>Accounts Payable (with sub-creditors)</li><li>Wages Payable</li><li>GST/HST Payable</li><li>Rent Payable</li><li>Unearned Revenue</li></ol><strong>Rule:</strong> debts due soonest appear first.'
+      }),
+
+      () => ({
+        type: 'Ordering',
+        q: 'What is the standard top-to-bottom section order on a classified balance sheet?',
+        a: '<ol style="margin:8px 0 0 20px"><li><strong>Assets</strong><ol style="margin:4px 0 0 16px"><li>Current Assets → Total Current Assets</li><li>Long-Term Assets → Total Long-Term Assets</li><li><strong>Total Assets</strong> (double underline)</li></ol></li><li><strong>Liabilities</strong><ol style="margin:4px 0 0 16px"><li>Current Liabilities → Total Current Liabilities</li><li>Long-Term Liabilities → Total Long-Term Liabilities</li><li>Total Liabilities</li></ol></li><li><strong>Owner\'s Equity</strong> → Total Liabilities + OE (double underline)</li></ol>'
+      }),
+
+      () => ({
+        type: 'Ordering',
+        q: 'A student lists these Current Assets: Merchandise Inventory, Cash, Prepaid Rent, Accounts Receivable.\n\nWhat is the CORRECT order?',
+        a: '<ol style="margin:8px 0 0 20px"><li><span class="cc-correct">Cash</span> (most liquid)</li><li><span class="cc-correct">Accounts Receivable</span></li><li><span class="cc-correct">Merchandise Inventory</span></li><li><span class="cc-correct">Prepaid Rent</span> (least liquid — prepaid expenses always last)</li></ol>'
+      }),
+
+      /* ─── FORMATTING RULES ─── */
+
+      () => ({
+        type: 'Formatting',
+        q: 'What are the three lines of a Balance Sheet heading?',
+        a: 'Every balance sheet heading has exactly <strong>three centred lines</strong>:<ol style="margin:8px 0 0 20px"><li><strong>Company Name</strong> (e.g., New Western Company)</li><li><strong>Statement Name:</strong> Balance Sheet</li><li><strong>Date:</strong> As at [Month Day, Year]</li></ol>Example:<span class="cc-eq">New Western Company\nBalance Sheet\nAs at December 31, 2025</span>'
+      }),
+
+      () => ({
+        type: 'Formatting',
+        q: 'What is the correct date phrase on a Balance Sheet heading?',
+        a: '<span class="cc-correct">As at [Month Day, Year]</span><br>e.g. <span class="cc-mono">As at December 31, 2025</span><br><br><span class="cc-wrong">&#10005; Wrong:</span> "For the Year Ended…" — this belongs on an <em>Income Statement</em>. A balance sheet is a <strong>point-in-time snapshot</strong>, not a period report.'
+      }),
+
+      () => ({
+        type: 'Formatting',
+        q: 'Where does a single underline appear on a classified balance sheet?',
+        a: 'A <strong>single underline</strong> appears under the <em>last item</em> before a subtotal:<ul><li>Under the last Current Asset (before Total Current Assets)</li><li>Under the last Long-Term Asset (before Total Long-Term Assets)</li><li>Under the last Current Liability, etc.</li></ul>It signals: <em>"the next line is a subtotal."</em>'
+      }),
+
+      () => ({
+        type: 'Formatting',
+        q: 'Where does a double underline appear on a classified balance sheet?',
+        a: 'A <strong>double underline</strong> appears under the two <em>grand totals</em> only:<ul><li>Under <strong>Total Assets</strong></li><li>Under <strong>Total Liabilities + Owner\'s Equity</strong></li></ul>These must be equal. The double underline signals: <em>"final answer — no more calculations."</em>'
+      }),
+
+      () => ({
+        type: 'Formatting',
+        q: 'How are individual A/R debtors presented under Accounts Receivable?',
+        a: 'Individual debtors are <strong>indented</strong> under the A/R header with their own subtotal:<span class="cc-eq">Accounts Receivable\n  A/R — J. Smith      $1 200\n  A/R — T. Lee        $2 400\nTotal Accounts Receivable $3 600</span>The same indented format applies to Accounts Payable creditors.'
+      }),
+
+      () => ({
+        type: 'Formatting',
+        q: 'What is the final line on every classified balance sheet, and what must it equal?',
+        a: 'The final line is:<br><span class="cc-mono">Total Liabilities and Owner\'s Equity</span><br><br>It is followed by a <strong>double underline</strong> and must equal <span class="cc-correct">Total Assets</span>.<br><br>If these two values differ, the balance sheet has an error.'
+      }),
+
+      () => ({
+        type: 'Formatting',
+        q: 'What dollar amounts go in the inner (indent) column vs the outer (total) column?',
+        a: '<ul><li><strong>Inner column:</strong> Individual account amounts and sub-items (e.g., each A/R debtor amount)</li><li><strong>Outer column:</strong> Subtotals and totals (e.g., Total Current Assets, Total Assets)</li></ul>This two-column layout clearly separates individual items from group totals.'
+      }),
+
+      () => ({
+        type: 'Formatting',
+        q: 'Where does Owner\'s Equity appear on a classified balance sheet, and what does it typically contain?',
+        a: 'Owner\'s Equity appears in the <strong>bottom-right section</strong>, below Total Liabilities.<br><br>It typically shows:<ul><li>[Owner], Capital, Jan. 1 (opening balance)</li><li>Add: Net Income</li><li>Less: Drawings</li><li>[Owner], Capital, Dec. 31 (closing balance)</li></ul>Ending Capital + Total Liabilities must equal Total Assets.'
+      }),
+
+      /* ─── ERROR SPOTTING ─── */
+
+      () => ({
+        type: 'Error Spotting',
+        q: 'A balance sheet heading reads:<br><em>"Maple Leaf Bakery<br>Income Statement<br>As at December 31, 2025"</em><br><br>Identify the error.',
+        a: '<span class="cc-wrong">&#10005; Error:</span> The statement type says <strong>"Income Statement"</strong> — it should say <strong>"Balance Sheet."</strong><br><br>An Income Statement reports revenues and expenses <em>over a period</em>. A Balance Sheet reports financial position <em>on a specific date</em>.'
+      }),
+
+      () => ({
+        type: 'Error Spotting',
+        q: 'A balance sheet heading reads:<br><em>"Valley Plumbing<br>Balance Sheet<br>For the Year Ended March 31, 2025"</em><br><br>Identify the error.',
+        a: '<span class="cc-wrong">&#10005; Error:</span> The date uses <strong>"For the Year Ended"</strong> — this phrase belongs on an <em>Income Statement</em>.<br><br><span class="cc-correct">&#10003; Fix:</span> Change to <strong>"As at March 31, 2025"</strong>. A balance sheet is a point-in-time snapshot.'
+      }),
+
+      () => ({
+        type: 'Error Spotting',
+        q: 'A classified balance sheet lists Cash <em>after</em> Accounts Receivable in the Current Assets section.<br><br>What is wrong?',
+        a: '<span class="cc-wrong">&#10005; Error:</span> Current Assets must be in <strong>order of liquidity</strong> — most liquid first.<br><br><span class="cc-correct">&#10003; Fix:</span> <strong>Cash</strong> is the most liquid asset and must come <em>first</em>. Accounts Receivable follows.'
+      }),
+
+      () => ({
+        type: 'Error Spotting',
+        q: 'A classified balance sheet lists "Land" inside the <em>Current Assets</em> section.<br><br>What is wrong?',
+        a: '<span class="cc-wrong">&#10005; Error:</span> <strong>Land</strong> is a <em>Long-Term Asset</em>, not a Current Asset.<br><br>Land will NOT be converted to cash within one year in normal operations — it has an indefinite useful life.<br><br><span class="cc-correct">&#10003; Fix:</span> Move Land to the Long-Term Assets section, listing it <em>first</em> (most permanent).'
+      }),
+
+      () => {
+        const a = rnd(60, 200) * 1000;
+        const loe = a - rnd(1, 5) * 1000;
+        return {
+          type: 'Error Spotting',
+          q: `A balance sheet shows:<br>Total Assets = ${fmt(a)}<br>Total Liabilities + Owner's Equity = ${fmt(loe)}<br><br>What does this indicate and what should you do?`,
+          a: `<span class="cc-wrong">&#10005; The balance sheet does NOT balance.</span><br><br>There is a ${fmt(a - loe)} discrepancy — Total Assets ≠ L + OE.<br><br>Possible causes:<ul><li>An account is mis-classified or omitted</li><li>A subtotal or total was calculated incorrectly</li><li>An amount was entered in the wrong column</li></ul><strong>Action:</strong> Re-check all account placements and arithmetic.`
+        };
+      },
+
+      () => ({
+        type: 'Error Spotting',
+        q: 'A classified balance sheet lists "Mortgage Payable" inside <em>Current Liabilities</em>.<br><br>What is wrong?',
+        a: '<span class="cc-wrong">&#10005; Error:</span> <strong>Mortgage Payable</strong> is a <em>Long-Term Liability</em>, not a Current Liability.<br><br>A mortgage is typically repaid over many years (e.g., 20–25 years), not within 12 months.<br><br><span class="cc-correct">&#10003; Fix:</span> Move Mortgage Payable to the Long-Term Liabilities section.'
+      }),
+
+    ]; // end TEMPLATES
+
+    /* ── Spaced repetition state ── */
+    let queue       = [];
+    let pointer     = 0;
+    let missedCards = [];
+    let yesCount    = 0;
+    let noCount     = 0;
+    let revealed    = false;
+    let currentCard = null;
+
+    /* ── Deck builder ── */
+    function generateDeck(fromMissed) {
+      return fromMissed ? shuffle([...missedCards]) : shuffle(TEMPLATES.map(fn => fn()));
+    }
+
+    function startSession(fromMissed) {
+      queue    = generateDeck(fromMissed);
+      pointer  = 0;
+      revealed = false;
+      if (!fromMissed) { missedCards = []; yesCount = 0; noCount = 0; }
+      hideDone();
+      updateStats();
+      showCard();
+    }
+
+    /* ── Card display ── */
+    function showCard() {
+      if (pointer >= queue.length) { showDone(); return; }
+      currentCard = queue[pointer];
+      revealed    = false;
+      $('ccCardType').textContent = currentCard.type;
+      $('ccCardType').setAttribute('data-cat', currentCard.type);
+      $('ccCardQ').innerHTML      = currentCard.q;
+      $('ccCardA').innerHTML      = currentCard.a || '';
+      $('ccCardHint').textContent = currentCard.hint || '';
+      $('ccCardAnswer').classList.remove('visible');
+      $('ccReveal').classList.remove('hidden');
+      $('ccJudge').classList.add('hidden');
+      $('ccCard').classList.remove('cc-flash-yes', 'cc-flash-no');
+      const total = queue.length;
+      $('ccProgressFill').style.width  = Math.round((pointer / total) * 100) + '%';
+      $('ccProgressLabel').textContent = 'Card ' + (pointer + 1) + ' of ' + total;
+    }
+
+    function revealAnswer() {
+      if (revealed) return;
+      revealed = true;
+      $('ccCardAnswer').classList.add('visible');
+      $('ccReveal').classList.add('hidden');
+      $('ccJudge').classList.remove('hidden');
+    }
+
+    function rate(understood) {
+      if (!revealed) return;
+      if (understood) {
+        yesCount++;
+        $('ccCard').classList.add('cc-flash-yes');
+      } else {
+        noCount++;
+        $('ccCard').classList.add('cc-flash-no');
+        // Re-insert card 3–5 positions ahead (comes back soon)
+        const insertAt = Math.min(pointer + rnd(3, 5), queue.length);
+        queue.splice(insertAt, 0, Object.assign({}, currentCard));
+        // Track unique missed cards
+        if (!missedCards.find(c => c.q === currentCard.q)) {
+          missedCards.push(Object.assign({}, currentCard));
+        }
+      }
+      pointer++;
+      updateStats();
+      setTimeout(showCard, 380);
+    }
+
+    /* ── Stats ── */
+    function updateStats() {
+      const studied = yesCount + noCount;
+      $('ccStatStudied').textContent = String(studied);
+      $('ccStatYesPct').textContent  = studied ? Math.round(yesCount / studied * 100) + '%' : '\u2014';
+      $('ccStatNoPct').textContent   = studied ? Math.round(noCount  / studied * 100) + '%' : '\u2014';
+      $('ccMissedBadge').textContent = String(missedCards.length);
+      const missedBtn = $('ccRestartMissed');
+      if (missedBtn) missedBtn.disabled = missedCards.length === 0;
+      const missedModeBtn = $('ccModeMissed');
+      if (missedModeBtn) missedModeBtn.disabled = missedCards.length === 0;
+    }
+
+    /* ── Done screen ── */
+    function showDone() {
+      $('ccCard').classList.add('hidden');
+      $('ccActions').classList.add('hidden');
+      $('ccProgressFill').style.width  = '100%';
+      $('ccProgressLabel').textContent = 'All cards reviewed';
+      const studied = yesCount + noCount;
+      $('ccDoneSub').innerHTML =
+        'You studied <strong>' + studied + '</strong> card' + (studied !== 1 ? 's' : '') + ' this session. ' +
+        '<span style="color:var(--green);font-weight:700">' + Math.round(yesCount / (studied || 1) * 100) + '% understood</span>, ' +
+        '<span style="color:var(--red);font-weight:700">' + Math.round(noCount / (studied || 1) * 100) + '% missed</span>.' +
+        (missedCards.length
+          ? '<br>You have <strong>' + missedCards.length + '</strong> missed card' + (missedCards.length !== 1 ? 's' : '') + ' ready to review.'
+          : '<br>&#127881; Perfect round — no missed cards!');
+      $('ccDone').classList.remove('hidden');
+    }
+
+    function hideDone() {
+      $('ccDone').classList.add('hidden');
+      $('ccCard').classList.remove('hidden');
+      $('ccActions').classList.remove('hidden');
+    }
+
+    /* ── Event listeners ── */
+    $('ccReveal').addEventListener('click', revealAnswer);
+    $('ccYes').addEventListener('click', () => rate(true));
+    $('ccNo').addEventListener('click',  () => rate(false));
+
+    $('ccModeAll').addEventListener('click', () => {
+      $('ccModeAll').classList.add('active');
+      $('ccModeMissed').classList.remove('active');
+      startSession(false);
+    });
+    $('ccModeMissed').addEventListener('click', () => {
+      if (!missedCards.length) return;
+      $('ccModeMissed').classList.add('active');
+      $('ccModeAll').classList.remove('active');
+      startSession(true);
+    });
+    $('ccRestartAll').addEventListener('click', () => {
+      $('ccModeAll').classList.add('active');
+      $('ccModeMissed').classList.remove('active');
+      startSession(false);
+    });
+    $('ccRestartMissed').addEventListener('click', () => {
+      if (!missedCards.length) return;
+      $('ccModeMissed').classList.add('active');
+      $('ccModeAll').classList.remove('active');
+      startSession(true);
+    });
+
+    /* ── Boot ── */
+    startSession(false);
+
+  })(); // end ccModule
+
 
 })();

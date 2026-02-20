@@ -28,6 +28,7 @@
       <li><a href="#mistakes">Mistakes</a></li>
       <li><a href="#quiz">Quiz</a></li>
       <li><a href="#ai-questions" class="nav-ai">&#10024; Practice</a></li>
+      <li><a href="#cue-cards" class="nav-cue">&#127183; Cue Cards</a></li>
     </ul>
   </div>
 </nav>
@@ -47,7 +48,7 @@
       <a href="#example" class="btn btn-ghost">Jump to Example</a>
     </div>
     <div class="hero-stats">
-      <div class="stat"><span class="stat-n">8</span><span class="stat-l">Sections</span></div>
+      <div class="stat"><span class="stat-n">9</span><span class="stat-l">Sections</span></div>
       <div class="stat-div"></div>
       <div class="stat"><span class="stat-n">15</span><span class="stat-l">Practice Accounts</span></div>
       <div class="stat-div"></div>
@@ -1091,6 +1092,70 @@
     </div><!-- /aiWorkspace -->
 
     <div class="ai-error-msg hidden" id="aiErrorMsg"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 9 — CUE CARDS
+     ============================================================ -->
+<section id="cue-cards" class="section">
+  <div class="container">
+    <div class="section-label">Section 9</div>
+    <h2 class="section-title">Cue Cards</h2>
+    <p class="section-intro">Master Unit 2 concepts with spaced repetition. Rate each card — missed cards come back sooner, mastered ones move to the back.</p>
+
+    <!-- Toolbar: modes + stats -->
+    <div class="cc-toolbar">
+      <div class="cc-modes">
+        <button class="cc-mode-btn active" id="ccModeAll">&#128218; Study All</button>
+        <button class="cc-mode-btn" id="ccModeMissed">&#128260; Review Missed&nbsp;<span class="cc-missed-badge" id="ccMissedBadge">0</span></button>
+      </div>
+      <div class="cc-stats">
+        <div class="cc-stat"><span class="cc-stat-n" id="ccStatStudied">0</span><span class="cc-stat-l">Studied</span></div>
+        <div class="cc-stat-div"></div>
+        <div class="cc-stat cc-stat-yes"><span class="cc-stat-n" id="ccStatYesPct">&mdash;</span><span class="cc-stat-l">Got It</span></div>
+        <div class="cc-stat-div"></div>
+        <div class="cc-stat cc-stat-no"><span class="cc-stat-n" id="ccStatNoPct">&mdash;</span><span class="cc-stat-l">Missed</span></div>
+      </div>
+    </div>
+
+    <!-- Session progress -->
+    <div class="cc-progress-track"><div class="cc-progress-fill" id="ccProgressFill"></div></div>
+    <div class="cc-progress-label" id="ccProgressLabel">Card 1 of 50</div>
+
+    <!-- Card -->
+    <div class="cc-stage">
+      <div class="cc-card" id="ccCard">
+        <div class="cc-card-type" id="ccCardType">Definition</div>
+        <div class="cc-card-q" id="ccCardQ">Loading&hellip;</div>
+        <div class="cc-card-hint" id="ccCardHint"></div>
+        <div class="cc-card-answer" id="ccCardAnswer">
+          <div class="cc-answer-label">&#9654; Answer</div>
+          <div class="cc-card-a" id="ccCardA"></div>
+        </div>
+      </div>
+
+      <!-- Action bar -->
+      <div class="cc-actions" id="ccActions">
+        <button class="btn btn-primary cc-reveal-btn" id="ccReveal">&#128065;&nbsp; Reveal Answer</button>
+        <div class="cc-judge hidden" id="ccJudge">
+          <button class="cc-btn-no" id="ccNo"><span class="cc-btn-icon">&#10005;</span> No &mdash; Review Again</button>
+          <button class="cc-btn-yes" id="ccYes"><span class="cc-btn-icon">&#10003;</span> Yes &mdash; Got It</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Done screen -->
+    <div class="cc-done hidden" id="ccDone">
+      <div class="cc-done-icon">&#127881;</div>
+      <h3 class="cc-done-title">Round Complete!</h3>
+      <p class="cc-done-sub" id="ccDoneSub">You reviewed all the cards in this set.</p>
+      <div class="cc-done-btns">
+        <button class="btn btn-primary" id="ccRestartAll">&#8635;&nbsp; Study All Cards Again</button>
+        <button class="btn btn-outline" id="ccRestartMissed">&#128260;&nbsp; Review Missed Only</button>
+      </div>
+    </div>
+
   </div>
 </section>
 

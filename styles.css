@@ -1458,3 +1458,162 @@ footer {
   .section { padding: 24px 0; }
   body { font-size: 12px; }
 }
+
+/* ============================================================
+   SECTION 9 — CUE CARDS
+   ============================================================ */
+
+/* Nav link */
+#nav-links a.nav-cue { color: var(--purple); font-weight: 600; }
+#nav-links a.nav-cue:hover { color: var(--purple); opacity: .8; }
+
+/* Toolbar */
+.cc-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 14px; margin-bottom: 18px;
+}
+.cc-modes { display: flex; gap: 8px; }
+.cc-mode-btn {
+  padding: 8px 18px; border-radius: 99px; border: 2px solid var(--border);
+  background: var(--card); color: var(--muted); font-size: .88rem; font-weight: 600;
+  cursor: pointer; transition: all .18s; display: flex; align-items: center; gap: 6px;
+}
+.cc-mode-btn.active, .cc-mode-btn:hover {
+  border-color: var(--purple); background: var(--purple-bg); color: var(--purple);
+}
+.cc-missed-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--red); color: #fff; border-radius: 99px;
+  font-size: .72rem; font-weight: 700; min-width: 18px; height: 18px; padding: 0 5px;
+}
+
+/* Stats row */
+.cc-stats { display: flex; align-items: center; gap: 10px; }
+.cc-stat { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.cc-stat-n { font-size: 1.3rem; font-weight: 800; color: var(--text); line-height: 1; }
+.cc-stat-l { font-size: .7rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.cc-stat-yes .cc-stat-n { color: var(--green); }
+.cc-stat-no  .cc-stat-n { color: var(--red); }
+.cc-stat-div { width: 1px; height: 32px; background: var(--border); }
+
+/* Progress */
+.cc-progress-track {
+  height: 6px; background: var(--border); border-radius: 99px;
+  overflow: hidden; margin-bottom: 6px;
+}
+.cc-progress-fill {
+  height: 100%; width: 0%; background: var(--purple);
+  border-radius: 99px; transition: width .4s ease;
+}
+.cc-progress-label {
+  font-size: .78rem; color: var(--muted); font-weight: 500; margin-bottom: 24px;
+}
+
+/* Card stage */
+.cc-stage { max-width: 680px; margin: 0 auto; }
+
+/* The card itself */
+.cc-card {
+  background: var(--card); border: 2px solid var(--border);
+  border-radius: 20px; padding: 36px 40px 32px;
+  box-shadow: var(--shadow-lg); min-height: 220px;
+  position: relative; transition: box-shadow .2s;
+}
+.cc-card:hover { box-shadow: 0 12px 48px rgba(0,0,0,.14); }
+
+.cc-card-type {
+  display: inline-block; font-size: .72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .08em;
+  background: var(--purple-bg); color: var(--purple);
+  border-radius: 99px; padding: 3px 12px; margin-bottom: 18px;
+}
+.cc-card-type[data-cat="Definition"]       { background: var(--blue-bg);   color: var(--blue); }
+.cc-card-type[data-cat="Classification"]   { background: var(--orange-bg); color: var(--orange); }
+.cc-card-type[data-cat="Ordering"]         { background: var(--green-bg);  color: var(--green); }
+.cc-card-type[data-cat="Equation"]         { background: var(--purple-bg); color: var(--purple); }
+.cc-card-type[data-cat="Formatting"]       { background: var(--gold-bg);   color: #b45309; }
+.cc-card-type[data-cat="Error Spotting"]   { background: var(--red-bg);    color: var(--red); }
+
+.cc-card-q {
+  font-size: 1.22rem; font-weight: 600; color: var(--text);
+  line-height: 1.55; margin-bottom: 10px;
+}
+.cc-card-hint {
+  font-size: .83rem; color: var(--muted); font-style: italic;
+  margin-bottom: 6px; min-height: 20px;
+}
+
+/* Answer (hidden until revealed) */
+.cc-card-answer {
+  display: none; margin-top: 20px; padding-top: 20px;
+  border-top: 1.5px solid var(--border); animation: ccFadeIn .3s ease;
+}
+.cc-card-answer.visible { display: block; }
+@keyframes ccFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.cc-answer-label {
+  font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--muted); margin-bottom: 10px;
+}
+.cc-card-a {
+  font-size: .97rem; color: var(--text); line-height: 1.65;
+}
+.cc-card-a strong { color: var(--blue); }
+.cc-card-a .cc-correct { color: var(--green); font-weight: 700; }
+.cc-card-a .cc-wrong  { color: var(--red); font-weight: 700; }
+.cc-card-a ul { margin: 8px 0 0 20px; }
+.cc-card-a li { margin-bottom: 4px; }
+.cc-card-a .cc-mono {
+  font-family: var(--mono); background: #f1f5f9;
+  padding: 2px 7px; border-radius: 4px; font-size: .88em;
+}
+.cc-card-a .cc-eq {
+  display: block; font-family: var(--mono);
+  background: var(--blue-bg); border-radius: 8px;
+  padding: 10px 14px; margin: 10px 0 4px; font-size: .95rem;
+  border-left: 3px solid var(--blue);
+}
+
+/* Action bar */
+.cc-actions { margin-top: 22px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.cc-reveal-btn { min-width: 200px; font-size: 1rem; padding: 12px 32px; border-radius: 99px; }
+
+.cc-judge {
+  display: flex; gap: 12px; width: 100%; max-width: 460px;
+}
+.cc-judge.hidden { display: none; }
+.cc-btn-no, .cc-btn-yes {
+  flex: 1; padding: 12px 18px; border-radius: 12px; border: 2px solid;
+  font-size: .93rem; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all .16s;
+}
+.cc-btn-icon { font-size: 1.05em; }
+.cc-btn-no  { background: var(--red-bg);   border-color: var(--red-border);   color: var(--red-dk); }
+.cc-btn-no:hover  { background: var(--red);   border-color: var(--red);   color: #fff; }
+.cc-btn-yes { background: var(--green-bg); border-color: var(--green-border); color: var(--green); }
+.cc-btn-yes:hover { background: var(--green); border-color: var(--green); color: #fff; }
+
+/* Done screen */
+.cc-done {
+  max-width: 520px; margin: 20px auto 0; text-align: center;
+  background: var(--card); border: 2px solid var(--border);
+  border-radius: 20px; padding: 48px 40px; box-shadow: var(--shadow-lg);
+}
+.cc-done-icon { font-size: 3rem; margin-bottom: 16px; }
+.cc-done-title { font-size: 1.6rem; font-weight: 800; color: var(--text); margin-bottom: 10px; }
+.cc-done-sub { color: var(--muted); font-size: .97rem; margin-bottom: 28px; line-height: 1.6; }
+.cc-done-btns { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+.cc-done-btns .btn { min-width: 260px; border-radius: 99px; }
+
+/* Card answered states (flash feedback) */
+.cc-card.cc-flash-yes { border-color: var(--green); box-shadow: 0 0 0 4px var(--green-bg); }
+.cc-card.cc-flash-no  { border-color: var(--red);   box-shadow: 0 0 0 4px var(--red-bg); }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .cc-card { padding: 24px 20px 20px; }
+  .cc-card-q { font-size: 1.06rem; }
+  .cc-toolbar { flex-direction: column; align-items: flex-start; }
+  .cc-judge { flex-direction: column; }
+}
