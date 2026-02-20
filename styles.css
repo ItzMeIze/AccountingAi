@@ -666,6 +666,14 @@ p:last-child { margin-bottom: 0; }
 }
 .pbs-list .drag-val { margin-left: auto; }
 
+/* A/R and A/P group header labels inside drop zones */
+.group-header-row {
+  font-size: .80rem; font-weight: 700; color: var(--text);
+  padding: 5px 10px 1px; pointer-events: none; user-select: none;
+  width: 100%; border-bottom: 1px solid var(--border); margin-bottom: 2px;
+}
+.pbs-list .drag-item.ar-ap-indent { padding-left: 22px; }
+
 .pbs-subtotal-row {
   display: flex; justify-content: space-between; align-items: baseline;
   padding: 5px 4px 2px; font-size: .85rem; font-weight: 700;

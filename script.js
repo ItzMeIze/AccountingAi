@@ -109,6 +109,7 @@
       el.setAttribute('data-value', acc.value);
       el.setAttribute('data-order', acc.order);
       el.setAttribute('data-correct', acc.correct);
+      el.setAttribute('data-type', acc.name.startsWith('A/R') ? 'AR' : acc.name.startsWith('A/P') ? 'AP' : '');
       el.innerHTML = `${acc.name} <span class="drag-val">${formatDollar(acc.value)}</span>
         <span class="drag-tip">${acc.tip}</span>`;
       el.addEventListener('dragstart', onDragStart);
@@ -242,6 +243,39 @@
     const liabEl = document.getElementById('totalLiab');
     if (liabEl) liabEl.textContent = formatDollar(totalLiab);
     document.getElementById('totalLOE').textContent = formatDollar(totalLOE);
+    updateGroupHeaders();
+  }
+
+  /* Insert "Accounts Receivable" / "Accounts Payable" parent labels in drop zones */
+  function updateGroupHeaders() {
+    document.querySelectorAll('.group-header-row').forEach(e => e.remove());
+    document.querySelectorAll('.drag-item.ar-ap-indent').forEach(e => e.classList.remove('ar-ap-indent'));
+
+    // CA zone — group A/R items under "Accounts Receivable"
+    const caList = document.querySelector('#dropCA .drop-list');
+    if (caList) {
+      const arItems = [...caList.querySelectorAll('.drag-item[data-type="AR"]')];
+      if (arItems.length) {
+        const hdr = document.createElement('div');
+        hdr.className = 'group-header-row';
+        hdr.textContent = 'Accounts Receivable';
+        caList.insertBefore(hdr, arItems[0]);
+        arItems.forEach(el => el.classList.add('ar-ap-indent'));
+      }
+    }
+
+    // CL zone — group A/P items under "Accounts Payable"
+    const clList = document.querySelector('#dropCL .drop-list');
+    if (clList) {
+      const apItems = [...clList.querySelectorAll('.drag-item[data-type="AP"]')];
+      if (apItems.length) {
+        const hdr = document.createElement('div');
+        hdr.className = 'group-header-row';
+        hdr.textContent = 'Accounts Payable';
+        clList.insertBefore(hdr, apItems[0]);
+        apItems.forEach(el => el.classList.add('ar-ap-indent'));
+      }
+    }
   }
 
   /* Check balance — validates classification AND ordering within each zone */
