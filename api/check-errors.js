@@ -177,7 +177,18 @@ Rules:
     });
 
     // Fallback: local heuristic marker so students still get feedback instead of a hard failure.
-    const fallback = gradeWithHeuristics({ studentAnswers, errors, totalErrors, requestId, quotaMsg });
+    const fallback = gradeWithHeuristics({
+      studentAnswers,
+      errors,
+      totalErrors,
+      requestId,
+      quotaMsg,
+      failure: {
+        status: lastErr?.status || 502,
+        model: lastErr?.model || null,
+        detailSnippet: String(lastErr?.detail || '').slice(0, 500)
+      }
+    });
     return new Response(JSON.stringify(fallback), {
       status: 200,
       headers: corsHeaders()
@@ -225,7 +236,7 @@ function corsHeaders() {
   };
 }
 
-function gradeWithHeuristics({ studentAnswers, errors, totalErrors, requestId, quotaMsg }) {
+function gradeWithHeuristics({ studentAnswers, errors, totalErrors, requestId, quotaMsg, failure }) {
   const answers = (Array.isArray(studentAnswers) ? studentAnswers : [studentAnswers])
     .map(s => String(s || '').trim())
     .filter(Boolean);
@@ -309,6 +320,7 @@ function gradeWithHeuristics({ studentAnswers, errors, totalErrors, requestId, q
     },
     summary: `Fallback marker used because Gemini is temporarily unavailable. ${quotaMsg}`,
     fallbackUsed: true,
+    fallbackReason: failure || null,
     requestId
   };
 }
