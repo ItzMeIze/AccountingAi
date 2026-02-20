@@ -553,6 +553,161 @@
        ========================================================= */
     const questionBank = [
 
+      /* ---------- NEW WEST PDF SET — PREPARATION Level 1 ---------- */
+      {
+        source:'pdf_new_west',
+        source_label:'PDF Set: New Western Company',
+        type:'preparation', difficulty:1,
+        company:'New Western Company', owner:'L. Borel', date:'December 31, 2008',
+        instructions:'Using the account list from the New Western Company extra-practice PDF, prepare a correctly formatted classified balance sheet as at December 31, 2008. Classify each account, place them in the correct order within each section, and calculate all subtotals and totals.',
+        accounts:[
+          { name:'Cash',                        value:1636,   correct_section:'CA',  correct_order:1 },
+          { name:'A/R — H. Burns (debtor)',     value:850,    correct_section:'CA',  correct_order:2 },
+          { name:'A/R — J. Hoedl (debtor)',     value:370,    correct_section:'CA',  correct_order:3 },
+          { name:'A/R — D. Marshall (debtor)',  value:1100,   correct_section:'CA',  correct_order:4 },
+          { name:'Supplies',                    value:1200,   correct_section:'CA',  correct_order:5 },
+          { name:'Land',                        value:160000, correct_section:'LTA', correct_order:1 },
+          { name:'Furniture & Equipment',       value:14700,  correct_section:'LTA', correct_order:2 },
+          { name:'Delivery Equipment',          value:20100,  correct_section:'LTA', correct_order:3 },
+          { name:'Automobile',                  value:18000,  correct_section:'LTA', correct_order:4 },
+          { name:'A/P — Anglo Supply Co.',      value:740,    correct_section:'CL',  correct_order:1 },
+          { name:'A/P — W. Anno',               value:1200,   correct_section:'CL',  correct_order:2 },
+          { name:'A/P — M. Benrubi',            value:3000,   correct_section:'CL',  correct_order:3 },
+          { name:'Bank Loan (3-year)',          value:10000,  correct_section:'LTL', correct_order:1 },
+          { name:'Mortgage Payable',            value:80500,  correct_section:'LTL', correct_order:2 },
+          { name:'L. Borel, Capital',           value:122516, correct_section:'OE',  correct_order:1 },
+        ],
+        solution:{
+          heading:['New Western Company','Balance Sheet','As at December 31, 2008'],
+          assets:{
+            current:[{name:'Cash',value:1636,indent:0},{name:'A/R — H. Burns (debtor)',value:850,indent:1},{name:'A/R — J. Hoedl (debtor)',value:370,indent:1},{name:'A/R — D. Marshall (debtor)',value:1100,indent:1},{name:'Supplies',value:1200,indent:0}],
+            current_total:5156,
+            longterm:[{name:'Land',value:160000,indent:0},{name:'Furniture & Equipment',value:14700,indent:0},{name:'Delivery Equipment',value:20100,indent:0},{name:'Automobile',value:18000,indent:0}],
+            longterm_total:212800,
+            total:217956
+          },
+          liabilities:{
+            current:[{name:'A/P — Anglo Supply Co.',value:740,indent:1},{name:'A/P — W. Anno',value:1200,indent:1},{name:'A/P — M. Benrubi',value:3000,indent:1}],
+            current_total:4940,
+            longterm:[{name:'Bank Loan (3-year)',value:10000,indent:0},{name:'Mortgage Payable',value:80500,indent:0}],
+            longterm_total:90500,
+            total:95440
+          },
+          equity:{items:[{name:'L. Borel, Capital',value:122516}],total:122516},
+          total_liabilities_oe:217956
+        },
+        check:{total_assets:217956,total_loe:217956,balanced:true}
+      },
+
+      /* ---------- NEW WEST PDF SET — ERROR FINDING Level 2 ---------- */
+      {
+        source:'pdf_new_west',
+        source_label:'PDF Set: New Western Company',
+        type:'error_finding', difficulty:2,
+        company:'New Western Company', owner:'L. Borel', date:'December 31, 2008',
+        instructions:'This New Western Company sheet (from the PDF data set) contains exactly 5 errors. Find all heading and ordering errors and explain what should be corrected.',
+        erroneous_sheet:{
+          heading:['New Western Company','Income Statement','As at December 31, 2008'],
+          assets:{
+            current:[{name:'A/R — D. Marshall (debtor)',value:1100,indent:1},{name:'Cash',value:1636,indent:0},{name:'A/R — H. Burns (debtor)',value:850,indent:1},{name:'A/R — J. Hoedl (debtor)',value:370,indent:1},{name:'Supplies',value:1200,indent:0}],
+            current_total:5156,
+            longterm:[{name:'Automobile',value:18000,indent:0},{name:'Delivery Equipment',value:20100,indent:0},{name:'Furniture & Equipment',value:14700,indent:0},{name:'Land',value:160000,indent:0}],
+            longterm_total:212800,
+            total:217956
+          },
+          liabilities:{
+            current:[{name:'A/P — W. Anno',value:1200,indent:1},{name:'A/P — M. Benrubi',value:3000,indent:1},{name:'A/P — Anglo Supply Co.',value:740,indent:1}],
+            current_total:4940,
+            longterm:[{name:'Mortgage Payable',value:80500,indent:0},{name:'Bank Loan (3-year)',value:10000,indent:0}],
+            longterm_total:90500,
+            total:95440
+          },
+          equity:{items:[{name:'L. Borel, Capital',value:122516}],total:122516},
+          total_liabilities_oe:217956
+        },
+        solution:{
+          heading:['New Western Company','Balance Sheet','As at December 31, 2008'],
+          assets:{
+            current:[{name:'Cash',value:1636,indent:0},{name:'A/R — H. Burns (debtor)',value:850,indent:1},{name:'A/R — J. Hoedl (debtor)',value:370,indent:1},{name:'A/R — D. Marshall (debtor)',value:1100,indent:1},{name:'Supplies',value:1200,indent:0}],
+            current_total:5156,
+            longterm:[{name:'Land',value:160000,indent:0},{name:'Furniture & Equipment',value:14700,indent:0},{name:'Delivery Equipment',value:20100,indent:0},{name:'Automobile',value:18000,indent:0}],
+            longterm_total:212800,
+            total:217956
+          },
+          liabilities:{
+            current:[{name:'A/P — Anglo Supply Co.',value:740,indent:1},{name:'A/P — W. Anno',value:1200,indent:1},{name:'A/P — M. Benrubi',value:3000,indent:1}],
+            current_total:4940,
+            longterm:[{name:'Bank Loan (3-year)',value:10000,indent:0},{name:'Mortgage Payable',value:80500,indent:0}],
+            longterm_total:90500,
+            total:95440
+          },
+          equity:{items:[{name:'L. Borel, Capital',value:122516}],total:122516},
+          total_liabilities_oe:217956
+        },
+        errors:[
+          {id:1, location:'Heading line 2', description:'Statement title is "Income Statement".', correction:'Change heading line 2 to "Balance Sheet".'},
+          {id:2, location:'Current Assets', description:'Cash is not listed first; A/R — D. Marshall appears before Cash.', correction:'List Cash first, then Accounts Receivable sub-accounts, then Supplies.'},
+          {id:3, location:'Long-Term Assets', description:'Long-term assets are reversed from useful-life order (Automobile first, Land last).', correction:'List Land first, then Furniture & Equipment, then Delivery Equipment, then Automobile.'},
+          {id:4, location:'Current Liabilities', description:'A/P creditors are not in alphabetical order.', correction:'Reorder as Anglo Supply Co., W. Anno, then M. Benrubi.'},
+          {id:5, location:'Long-Term Liabilities', description:'Mortgage is listed before the 3-year bank loan; shorter-term long-term debt should be listed first.', correction:'List Bank Loan (3-year) before Mortgage Payable.'},
+        ],
+        check:{total_assets:217956,total_loe:217956,balanced:true}
+      },
+
+      /* ---------- NEW WEST PDF SET — ADVANCED Level 3 ---------- */
+      {
+        source:'pdf_new_west',
+        source_label:'PDF Set: New Western Company',
+        type:'advanced', difficulty:3,
+        company:'New Western Company', owner:'L. Borel', date:'December 31, 2008',
+        scenario_context:'Use the PDF account list and present grouped receivable/payable headings: place "Accounts Receivable" above debtor sub-accounts and "Accounts Payable" above creditor sub-accounts.',
+        instructions:'Prepare a classified balance sheet for New Western Company as at December 31, 2008. Include A/R and A/P group labels in the correct sections, place debtor/creditor sub-accounts correctly, and ensure totals balance.',
+        advanced_notes:[
+          'Current Assets order: Cash, Accounts Receivable (heading), debtors (Burns, Hoedl, Marshall), then Supplies.',
+          'Current Liabilities order: Accounts Payable (heading), then creditors (Anglo Supply Co., W. Anno, M. Benrubi).',
+          'Long-Term Assets: Land first, then Furniture & Equipment, Delivery Equipment, and Automobile.'
+        ],
+        accounts:[
+          { name:'Cash',                        value:1636,   correct_section:'CA',  correct_order:1 },
+          { name:'Accounts Receivable',         value:0,      correct_section:'CA',  correct_order:2 },
+          { name:'A/R — H. Burns (debtor)',     value:850,    correct_section:'CA',  correct_order:3 },
+          { name:'A/R — J. Hoedl (debtor)',     value:370,    correct_section:'CA',  correct_order:4 },
+          { name:'A/R — D. Marshall (debtor)',  value:1100,   correct_section:'CA',  correct_order:5 },
+          { name:'Supplies',                    value:1200,   correct_section:'CA',  correct_order:6 },
+          { name:'Land',                        value:160000, correct_section:'LTA', correct_order:1 },
+          { name:'Furniture & Equipment',       value:14700,  correct_section:'LTA', correct_order:2 },
+          { name:'Delivery Equipment',          value:20100,  correct_section:'LTA', correct_order:3 },
+          { name:'Automobile',                  value:18000,  correct_section:'LTA', correct_order:4 },
+          { name:'Accounts Payable',            value:0,      correct_section:'CL',  correct_order:1 },
+          { name:'A/P — Anglo Supply Co.',      value:740,    correct_section:'CL',  correct_order:2 },
+          { name:'A/P — W. Anno',               value:1200,   correct_section:'CL',  correct_order:3 },
+          { name:'A/P — M. Benrubi',            value:3000,   correct_section:'CL',  correct_order:4 },
+          { name:'Bank Loan (3-year)',          value:10000,  correct_section:'LTL', correct_order:1 },
+          { name:'Mortgage Payable',            value:80500,  correct_section:'LTL', correct_order:2 },
+          { name:'L. Borel, Capital',           value:122516, correct_section:'OE',  correct_order:1 },
+        ],
+        solution:{
+          heading:['New Western Company','Balance Sheet','As at December 31, 2008'],
+          assets:{
+            current:[{name:'Cash',value:1636,indent:0},{name:'Accounts Receivable',value:0,indent:0},{name:'A/R — H. Burns (debtor)',value:850,indent:1},{name:'A/R — J. Hoedl (debtor)',value:370,indent:1},{name:'A/R — D. Marshall (debtor)',value:1100,indent:1},{name:'Supplies',value:1200,indent:0}],
+            current_total:5156,
+            longterm:[{name:'Land',value:160000,indent:0},{name:'Furniture & Equipment',value:14700,indent:0},{name:'Delivery Equipment',value:20100,indent:0},{name:'Automobile',value:18000,indent:0}],
+            longterm_total:212800,
+            total:217956
+          },
+          liabilities:{
+            current:[{name:'Accounts Payable',value:0,indent:0},{name:'A/P — Anglo Supply Co.',value:740,indent:1},{name:'A/P — W. Anno',value:1200,indent:1},{name:'A/P — M. Benrubi',value:3000,indent:1}],
+            current_total:4940,
+            longterm:[{name:'Bank Loan (3-year)',value:10000,indent:0},{name:'Mortgage Payable',value:80500,indent:0}],
+            longterm_total:90500,
+            total:95440
+          },
+          equity:{items:[{name:'L. Borel, Capital',value:122516}],total:122516},
+          total_liabilities_oe:217956
+        },
+        check:{total_assets:217956,total_loe:217956,balanced:true}
+      },
+
       /* ---------- PREPARATION Level 1 ---------- */
       {
         type:'preparation', difficulty:1,
@@ -1009,7 +1164,9 @@
         showError('No question found for that type and difficulty.');
         return;
       }
-      const pick = matches[Math.floor(Math.random() * matches.length)];
+      const preferred = matches.filter(q => q.source === 'pdf_new_west');
+      const pool = preferred.length ? preferred : matches;
+      const pick = pool[Math.floor(Math.random() * pool.length)];
       currentQ = JSON.parse(JSON.stringify(pick));
       renderQuestion(currentQ);
     }
@@ -1023,7 +1180,8 @@
       setHTML('aiQMeta', `
         <span class="ai-q-meta-chip ai-chip-type">${typeLabels[q.type] || q.type}</span>
         <span class="ai-q-meta-chip ai-chip-diff">${diffLabels[q.difficulty] || 'Level ' + q.difficulty}</span>
-        <span class="ai-q-meta-chip ai-chip-co">${q.company}</span>`);
+        <span class="ai-q-meta-chip ai-chip-co">${q.company}</span>
+        ${q.source_label ? `<span class="ai-q-meta-chip ai-chip-type">${q.source_label}</span>` : ''}`);
       setText('aiQTitle', q.company + ' \u2014 ' + q.date);
       setText('aiQInstructions', q.instructions || '');
 
