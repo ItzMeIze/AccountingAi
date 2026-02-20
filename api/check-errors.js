@@ -128,6 +128,7 @@ Rules:
 - "score.pass" = true if found + partial >= ceil(total * 0.6)
 - Keep "hint" vague — do NOT reveal the answer, only the section/area to look again
 - Keep "feedback" encouraging and Grade 11 appropriate
+- IMPORTANT: Keep ALL string values short — max 20 words each for feedback, hint, reason, and summary. Do NOT write long sentences.
 `;
 
   /* Call Gemini (with model discovery + fallback) ---------- */
@@ -160,7 +161,7 @@ Rules:
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
               temperature: 0.2,
-              maxOutputTokens: 2048,
+              maxOutputTokens: 4096,
               responseMimeType: 'application/json'
             }
           })
@@ -236,7 +237,34 @@ Rules:
         cleaned = cleaned.slice(braceStart, braceEnd + 1);
       }
     }
-    result = JSON.parse(cleaned);
+    // 3) Try direct parse first
+    try {
+      result = JSON.parse(cleaned);
+    } catch {
+      // 4) Truncation recovery — response was cut off mid-JSON.
+      // Walk back from the end to find the last complete top-level field,
+      // close any open arrays/objects, and retry.
+      let fixed = cleaned;
+      // Count open braces/brackets to determine how many closers are needed
+      let braces = 0, brackets = 0;
+      for (const ch of fixed) {
+        if (ch === '{') braces++; else if (ch === '}') braces--;
+        else if (ch === '[') brackets++; else if (ch === ']') brackets--;
+      }
+      // Trim to last complete key-value pair by cutting at the last comma or closing brace
+      fixed = fixed.replace(/,\s*$/, '')    // trailing comma
+                   .replace(/"[^"]*$/, '"') // cut-off string value → close it
+                   .replace(/:\s*$/, ': null'); // cut-off after colon
+      // Re-count and close
+      braces = 0; brackets = 0;
+      for (const ch of fixed) {
+        if (ch === '{') braces++; else if (ch === '}') braces--;
+        else if (ch === '[') brackets++; else if (ch === ']') brackets--;
+      }
+      while (brackets > 0) { fixed += ']'; brackets--; }
+      while (braces > 0)   { fixed += '}'; braces--;   }
+      result = JSON.parse(fixed);
+    }
   } catch {
     console.error('[check-errors] request:parse_error', {
       requestId,
