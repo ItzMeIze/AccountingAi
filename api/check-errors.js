@@ -11,6 +11,7 @@ const GEMINI_MODELS = [
   'gemini-1.5-flash-8b',
   'gemini-1.5-flash'
 ];
+const GEMINI_API_VERSIONS = ['v1beta', 'v1'];
 
 export default async function handler(req) {
   const requestId = `chkerr_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
@@ -133,38 +134,41 @@ Rules:
   let lastErr = null;
   const attemptLogs = [];
 
-  for (const model of GEMINI_MODELS) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-    try {
-      const start = Date.now();
-      const geminiRes = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.2,
-            maxOutputTokens: 1200,
-            responseMimeType: 'application/json'
-          }
-        })
-      });
+  for (const apiVersion of GEMINI_API_VERSIONS) {
+    for (const model of GEMINI_MODELS) {
+      const url = `https://generativelanguage.googleapis.com/${apiVersion}/models/${model}:generateContent?key=${apiKey}`;
+      try {
+        const start = Date.now();
+        const geminiRes = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+              temperature: 0.2,
+              maxOutputTokens: 1200,
+              responseMimeType: 'application/json'
+            }
+          })
+        });
 
-      if (!geminiRes.ok) {
-        const errText = await geminiRes.text().catch(() => '');
-        attemptLogs.push({ model, ok: false, status: geminiRes.status, ms: Date.now() - start });
-        lastErr = { status: geminiRes.status, detail: errText, model };
-        continue;
+        if (!geminiRes.ok) {
+          const errText = await geminiRes.text().catch(() => '');
+          attemptLogs.push({ model, apiVersion, ok: false, status: geminiRes.status, ms: Date.now() - start });
+          lastErr = { status: geminiRes.status, detail: errText, model, apiVersion };
+          continue;
+        }
+
+        geminiData = await geminiRes.json();
+        attemptLogs.push({ model, apiVersion, ok: true, status: 200, ms: Date.now() - start });
+        lastErr = null;
+        break;
+      } catch (err) {
+        attemptLogs.push({ model, apiVersion, ok: false, status: 502, ms: 0, message: String(err?.message || err) });
+        lastErr = { status: 502, detail: String(err?.message || err), model, apiVersion };
       }
-
-      geminiData = await geminiRes.json();
-      attemptLogs.push({ model, ok: true, status: 200, ms: Date.now() - start });
-      lastErr = null;
-      break;
-    } catch (err) {
-      attemptLogs.push({ model, ok: false, status: 502, ms: 0, message: String(err?.message || err) });
-      lastErr = { status: 502, detail: String(err?.message || err), model };
     }
+    if (geminiData) break;
   }
 
   if (!geminiData) {
@@ -191,6 +195,7 @@ Rules:
       failure: {
         status: lastErr?.status || 502,
         model: lastErr?.model || null,
+        apiVersion: lastErr?.apiVersion || null,
         detailSnippet: String(lastErr?.detail || '').slice(0, 500)
       }
     });
