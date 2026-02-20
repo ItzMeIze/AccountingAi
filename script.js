@@ -2392,6 +2392,7 @@
   (function calcModule() {
     const fab   = document.getElementById('calcFab');
     const panel = document.getElementById('calcPanel');
+    const dragHandle = panel?.querySelector('.calc-header');
     const closeBtn = document.getElementById('calcClose');
     const display  = document.getElementById('calcDisplay');
     const historyEl = document.getElementById('calcHistory');
@@ -2414,6 +2415,56 @@
 
     fab.addEventListener('click', () => panel.classList.toggle('hidden'));
     closeBtn.addEventListener('click', () => panel.classList.add('hidden'));
+
+    // Drag panel by header (desktop + touch via Pointer Events)
+    let dragging = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+
+    function clamp(v, min, max) {
+      return Math.max(min, Math.min(max, v));
+    }
+
+    function onDragMove(e) {
+      if (!dragging) return;
+      const w = panel.offsetWidth;
+      const h = panel.offsetHeight;
+      const maxX = Math.max(0, window.innerWidth - w - 8);
+      const maxY = Math.max(0, window.innerHeight - h - 8);
+      const x = clamp(e.clientX - dragOffsetX, 8, maxX);
+      const y = clamp(e.clientY - dragOffsetY, 8, maxY);
+      panel.style.left = x + 'px';
+      panel.style.top = y + 'px';
+      panel.style.bottom = 'auto';
+    }
+
+    function onDragEnd() {
+      if (!dragging) return;
+      dragging = false;
+      panel.classList.remove('dragging');
+      window.removeEventListener('pointermove', onDragMove);
+      window.removeEventListener('pointerup', onDragEnd);
+      window.removeEventListener('pointercancel', onDragEnd);
+    }
+
+    if (dragHandle) {
+      dragHandle.addEventListener('pointerdown', (e) => {
+        if (e.target.closest('.calc-close')) return;
+        if (panel.classList.contains('hidden')) return;
+        const rect = panel.getBoundingClientRect();
+        dragging = true;
+        dragOffsetX = e.clientX - rect.left;
+        dragOffsetY = e.clientY - rect.top;
+        panel.classList.add('dragging');
+        panel.style.left = rect.left + 'px';
+        panel.style.top = rect.top + 'px';
+        panel.style.bottom = 'auto';
+        window.addEventListener('pointermove', onDragMove);
+        window.addEventListener('pointerup', onDragEnd);
+        window.addEventListener('pointercancel', onDragEnd);
+        e.preventDefault();
+      });
+    }
 
     /* ── helpers ── */
     function fmt(s) {
