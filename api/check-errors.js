@@ -5,7 +5,12 @@
    ============================================================= */
 export const config = { runtime: 'edge' };
 
-const GEMINI_MODELS = ['gemini-2.0-flash-lite', 'gemini-1.5-flash'];
+const GEMINI_MODELS = [
+  'gemini-2.0-flash-lite',
+  'gemini-2.0-flash',
+  'gemini-1.5-flash-8b',
+  'gemini-1.5-flash'
+];
 
 export default async function handler(req) {
   const requestId = `chkerr_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
