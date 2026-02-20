@@ -53,7 +53,7 @@
       <div class="stat-div"></div>
       <div class="stat"><span class="stat-n">15</span><span class="stat-l">Practice Accounts</span></div>
       <div class="stat-div"></div>
-      <div class="stat"><span class="stat-n">10</span><span class="stat-l">Quiz Questions</span></div>
+      <div class="stat"><span class="stat-n">25+</span><span class="stat-l">Quiz Questions</span></div>
     </div>
   </div>
 </header>
@@ -845,11 +845,14 @@
   <div class="container">
     <div class="section-label">Section 7</div>
     <h2 class="section-title">Test Yourself</h2>
-    <p class="section-intro">Answer all 10 questions, then click <strong>Submit Answers</strong>. Each question reveals a full explanation after grading.</p>
+    <p class="section-intro">Each round gives you 10 randomized questions from a larger study bank. Click <strong>Randomize Questions</strong> for a new set, then submit to see full explanations.</p>
 
     <form id="quizForm" autocomplete="off">
       <div class="quiz-questions" id="quizQuestions"></div>
-      <button type="submit" class="btn btn-primary" id="quizSubmit">Submit Answers &rarr;</button>
+      <div class="quiz-actions">
+        <button type="button" class="btn btn-outline" id="quizRandomize">&#128256; Randomize Questions</button>
+        <button type="submit" class="btn btn-primary" id="quizSubmit">Submit Answers &rarr;</button>
+      </div>
     </form>
     <div id="quizResult" class="quiz-result hidden"></div>
   </div>

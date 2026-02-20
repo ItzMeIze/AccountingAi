@@ -356,7 +356,8 @@
   /* ==========================================================
      QUIZ (Section 7)
      ========================================================== */
-  const quizData = [
+  const QUIZ_QUESTIONS_PER_ROUND = 10;
+  const quizBank = [
     {
       q: 'What does the accounting equation state?',
       opts: [
@@ -436,47 +437,228 @@
       ],
       answer: 1,
       explain: 'Final totals on a balance sheet receive a double underline. This signals that the column is complete and the figures are final.'
+    },
+    {
+      q: 'Which account is the LEAST liquid current asset in this unit\'s format?',
+      opts: ['Cash', 'Supplies', 'Accounts Receivable', 'Prepaid Insurance'],
+      answer: 1,
+      explain: 'Supplies are listed last in Current Assets because they are the least liquid in the studied format.'
+    },
+    {
+      q: 'How should A/R sub-accounts (debtors) be ordered under Accounts Receivable?',
+      opts: ['By amount, highest to lowest', 'Alphabetically by debtor name', 'By due date', 'Random order'],
+      answer: 1,
+      explain: 'Debtors under Accounts Receivable are listed alphabetically by debtor name for consistent professional formatting.'
+    },
+    {
+      q: 'How should A/P sub-accounts (creditors) be ordered under Accounts Payable?',
+      opts: ['Alphabetically by creditor name', 'By amount owed', 'By invoice age', 'By payment priority'],
+      answer: 0,
+      explain: 'Creditors under Accounts Payable are listed alphabetically in this course format.'
+    },
+    {
+      q: 'A bank loan due in 8 months is classified as:',
+      opts: ['Long-Term Liability', 'Current Liability', 'Owner\'s Equity', 'Current Asset'],
+      answer: 1,
+      explain: 'If an obligation is due within one year, it is classified as a current liability.'
+    },
+    {
+      q: 'A bank loan due in 3 years is classified as:',
+      opts: ['Current Liability', 'Long-Term Liability', 'Current Asset', 'Owner\'s Equity'],
+      answer: 1,
+      explain: 'Obligations due after one year are long-term liabilities.'
+    },
+    {
+      q: 'Which heading is correct for a classified balance sheet?',
+      opts: [
+        'For the Year Ended December 31, 2025',
+        'As at December 31, 2025',
+        'From January to December 2025',
+        'Date: 2025'
+      ],
+      answer: 1,
+      explain: 'A balance sheet reports position at one point in time, so it uses a single-date heading: "As at ...".'
+    },
+    {
+      q: 'What happens if Total Assets and Total Liabilities + Owner\'s Equity do not match?',
+      opts: ['It is acceptable if close', 'The statement is unclassified only', 'There is an error that must be corrected', 'Add a balancing figure manually'],
+      answer: 2,
+      explain: 'The balance sheet must balance exactly. A mismatch means there is a classification, calculation, or posting error.'
+    },
+    {
+      q: 'Which account belongs in Owner\'s Equity?',
+      opts: ['Mortgage Payable', 'L. Borel, Capital', 'Accounts Payable', 'Bank Loan (3-year)'],
+      answer: 1,
+      explain: 'Capital accounts represent the owner\'s claim on net assets, so they belong in Owner\'s Equity.'
+    },
+    {
+      q: 'Why is Land listed before equipment/vehicles in Long-Term Assets?',
+      opts: [
+        'It has the shortest useful life',
+        'It is always cheaper',
+        'It has an unlimited useful life and is not depreciated',
+        'It is easiest to sell quickly'
+      ],
+      answer: 2,
+      explain: 'Land is typically listed first among long-term assets because it has an unlimited useful life and is not depreciated.'
+    },
+    {
+      q: 'Which is the correct formula for Total Liabilities?',
+      opts: [
+        'Current Liabilities + Long-Term Liabilities',
+        'Current Assets + Long-Term Assets',
+        'Assets − Owner\'s Equity',
+        'Current Liabilities − Long-Term Liabilities'
+      ],
+      answer: 0,
+      explain: 'Total Liabilities is the sum of current liabilities and long-term liabilities.'
+    },
+    {
+      q: 'Which pair is classified correctly?',
+      opts: [
+        'Cash = Long-Term Asset, Mortgage Payable = Current Liability',
+        'Supplies = Current Asset, Accounts Payable = Current Liability',
+        'Land = Current Asset, Capital = Long-Term Liability',
+        'Accounts Receivable = Current Liability, Bank Loan = Current Asset'
+      ],
+      answer: 1,
+      explain: 'Supplies are current assets and Accounts Payable is a current liability.'
+    },
+    {
+      q: 'The purpose of classification (current vs long-term) is mainly to:',
+      opts: [
+        'Reduce the number of accounts',
+        'Make the statement shorter',
+        'Improve analysis of liquidity and financial position',
+        'Avoid calculating totals'
+      ],
+      answer: 2,
+      explain: 'Classification helps users evaluate short-term liquidity and long-term stability more clearly.'
+    },
+    {
+      q: 'Which statement about Accounts Receivable is true?',
+      opts: [
+        'It is money the company owes suppliers',
+        'It is a current asset because customers owe the business',
+        'It is owner\'s equity',
+        'It is always long-term'
+      ],
+      answer: 1,
+      explain: 'Accounts Receivable represents amounts owed to the business by customers and is a current asset.'
+    },
+    {
+      q: 'Which formatting choice is correct for final totals?',
+      opts: ['No underline', 'Single underline only', 'Double underline', 'Italic text only'],
+      answer: 2,
+      explain: 'Double underlining indicates final totals are complete and final.'
+    },
+    {
+      q: 'If Total Assets = $217,956 and Total Liabilities = $95,440, Owner\'s Equity equals:',
+      opts: ['$122,516', '$312,396', '$95,440', '$217,956'],
+      answer: 0,
+      explain: 'Owner\'s Equity = Assets − Liabilities = $217,956 − $95,440 = $122,516.'
+    },
+    {
+      q: 'Which account is normally shown as a header with zero amount in examples?',
+      opts: ['Cash', 'Accounts Receivable', 'Supplies', 'Land'],
+      answer: 1,
+      explain: 'Accounts Receivable can appear as a header, followed by individual debtor balances.'
+    },
+    {
+      q: 'What does a classified balance sheet primarily report?',
+      opts: ['Cash flows over a period', 'Profit for the year', 'Financial position at a specific date', 'Daily transactions'],
+      answer: 2,
+      explain: 'A classified balance sheet reports financial position (assets, liabilities, and equity) at a specific date.'
+    },
+    {
+      q: 'If a creditor balance appears under Assets, that is a:',
+      opts: ['Correct placement', 'Classification error', 'Rounding difference', 'Depreciation entry'],
+      answer: 1,
+      explain: 'Creditors are liabilities; placing them under assets is a classification error.'
+    },
+    {
+      q: 'Which of the following is a strong reason to keep account ordering consistent?',
+      opts: [
+        'It changes the accounting equation',
+        'It improves readability and comparability',
+        'It eliminates the need for totals',
+        'It increases owner\'s equity'
+      ],
+      answer: 1,
+      explain: 'Consistent ordering improves readability, professionalism, and comparability across statements.'
     }
   ];
 
   const quizContainer = document.getElementById('quizQuestions');
-  quizData.forEach((item, qi) => {
-    const card = document.createElement('div');
-    card.className = 'q-card';
-    card.setAttribute('data-qi', qi);
+  const quizForm = document.getElementById('quizForm');
+  const quizResult = document.getElementById('quizResult');
+  const quizRandomizeBtn = document.getElementById('quizRandomize');
+  let quizRound = [];
 
-    let optsHTML = '';
-    item.opts.forEach((opt, oi) => {
-      optsHTML += `
-        <label class="q-option">
-          <input type="radio" name="q${qi}" value="${oi}">
-          <span>${opt}</span>
-        </label>`;
-    });
+  function shuffleArray(items) {
+    const arr = [...items];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
 
-    card.innerHTML = `
-      <div class="q-text"><span class="q-num">${qi + 1}.</span> ${item.q}</div>
-      <div class="q-options">${optsHTML}</div>
-      <div class="q-explain">${item.explain}</div>`;
+  function buildQuizRound() {
+    quizRound = shuffleArray(quizBank).slice(0, Math.min(QUIZ_QUESTIONS_PER_ROUND, quizBank.length));
+  }
 
-    // Highlight selected option
-    card.querySelectorAll('.q-option').forEach((opt) => {
-      opt.addEventListener('click', () => {
-        card.querySelectorAll('.q-option').forEach((o) => o.classList.remove('selected'));
-        opt.classList.add('selected');
-        opt.querySelector('input').checked = true;
+  function renderQuizRound() {
+    buildQuizRound();
+    quizContainer.innerHTML = '';
+    quizResult.classList.add('hidden');
+    quizResult.classList.remove('pass', 'fail');
+    quizResult.innerHTML = '';
+
+    quizRound.forEach((item, qi) => {
+      const card = document.createElement('div');
+      card.className = 'q-card';
+      card.setAttribute('data-qi', qi);
+
+      const orderedOptions = shuffleArray(item.opts.map((opt, oi) => ({ opt, originalIndex: oi })));
+
+      let optsHTML = '';
+      orderedOptions.forEach((choice) => {
+        optsHTML += `
+          <label class="q-option">
+            <input type="radio" name="q${qi}" value="${choice.originalIndex}">
+            <span>${choice.opt}</span>
+          </label>`;
       });
-    });
 
-    quizContainer.appendChild(card);
+      card.innerHTML = `
+        <div class="q-text"><span class="q-num">${qi + 1}.</span> ${item.q}</div>
+        <div class="q-options">${optsHTML}</div>
+        <div class="q-explain">${item.explain}</div>`;
+
+      card.querySelectorAll('.q-option').forEach((opt) => {
+        opt.addEventListener('click', () => {
+          card.querySelectorAll('.q-option').forEach((o) => o.classList.remove('selected'));
+          opt.classList.add('selected');
+          opt.querySelector('input').checked = true;
+        });
+      });
+
+      quizContainer.appendChild(card);
+    });
+  }
+
+  quizRandomizeBtn?.addEventListener('click', () => {
+    renderQuizRound();
+    quizContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
   /* Submit quiz */
-  document.getElementById('quizForm').addEventListener('submit', (e) => {
+  quizForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let score = 0;
 
-    quizData.forEach((item, qi) => {
+    quizRound.forEach((item, qi) => {
       const card = quizContainer.querySelector(`[data-qi="${qi}"]`);
       const selected = card.querySelector(`input[name="q${qi}"]:checked`);
       const opts = card.querySelectorAll('.q-option');
@@ -488,27 +670,34 @@
       if (selected && Number(selected.value) === item.answer) {
         score++;
         card.classList.add('correct');
-        opts[item.answer].classList.add('reveal-correct');
+        opts.forEach((o) => {
+          const input = o.querySelector('input');
+          if (Number(input.value) === item.answer) o.classList.add('reveal-correct');
+        });
       } else {
         card.classList.add('incorrect');
-        opts[item.answer].classList.add('reveal-correct');
+        opts.forEach((o) => {
+          const input = o.querySelector('input');
+          if (Number(input.value) === item.answer) o.classList.add('reveal-correct');
+        });
         if (selected) {
-          opts[Number(selected.value)].classList.add('reveal-wrong');
+          selected.closest('.q-option')?.classList.add('reveal-wrong');
         }
       }
     });
 
-    const pct = Math.round((score / quizData.length) * 100);
-    const result = document.getElementById('quizResult');
-    result.classList.remove('hidden', 'pass', 'fail');
-    result.classList.add(pct >= 70 ? 'pass' : 'fail');
-    result.innerHTML = `
-      You scored <strong>${score} / ${quizData.length}</strong> (${pct}%)
+    const pct = Math.round((score / quizRound.length) * 100);
+    quizResult.classList.remove('hidden', 'pass', 'fail');
+    quizResult.classList.add(pct >= 70 ? 'pass' : 'fail');
+    quizResult.innerHTML = `
+      You scored <strong>${score} / ${quizRound.length}</strong> (${pct}%)
       ${pct >= 70 ? '— Great job!' : '— Review the lesson above and try again.'}
       <div class="score-bar"><div class="score-fill" style="width:${pct}%;background:${pct >= 70 ? 'var(--green)' : 'var(--red)'}"></div></div>`;
 
-    result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    quizResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
+
+  renderQuizRound();
 
 
   /* ==========================================================
