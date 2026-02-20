@@ -1,5 +1,8 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/new-website/$1" }
+  "routes": [
+    { "src": "/",            "dest": "/new-website/index.html" },
+    { "src": "/styles.css",  "dest": "/new-website/styles.css" },
+    { "src": "/script.js",   "dest": "/new-website/script.js" },
+    { "src": "/(.*)",        "dest": "/new-website/$1" }
   ]
 }
