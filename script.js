@@ -1150,6 +1150,759 @@
         check:{total_assets:267500,total_loe:267500,balanced:true}
       },
 
+      /* ============================================================
+         ADDITIONAL QUESTIONS — 3+ per type × difficulty
+         ============================================================ */
+
+      /* ---------- PREPARATION Level 1 — #3: Maple Leaf Pet Grooming ---------- */
+      {
+        type:'preparation', difficulty:1,
+        company:'Maple Leaf Pet Grooming', owner:'S. Dhillon', date:'December 31, 2024',
+        instructions:'Using the following accounts, prepare a properly formatted classified balance sheet for Maple Leaf Pet Grooming as at December 31, 2024. Classify each account, arrange them in proper order, and calculate all subtotals and totals.',
+        accounts:[
+          { name:'Cash',                          value:3800,  correct_section:'CA',  correct_order:1 },
+          { name:'A/R \u2014 T. Novak',          value:950,   correct_section:'CA',  correct_order:2 },
+          { name:'Supplies',                       value:420,   correct_section:'CA',  correct_order:3 },
+          { name:'Land',                           value:38000, correct_section:'LTA', correct_order:1 },
+          { name:'Grooming Equipment',             value:6200,  correct_section:'LTA', correct_order:2 },
+          { name:'A/P \u2014 Pet Supply Depot',   value:2700,  correct_section:'CL',  correct_order:1 },
+          { name:'Bank Loan (2-year)',             value:12000, correct_section:'LTL', correct_order:1 },
+          { name:'S. Dhillon, Capital',            value:34670, correct_section:'OE',  correct_order:1 },
+        ],
+        solution:{
+          heading:['Maple Leaf Pet Grooming','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:3800,indent:0},{name:'A/R \u2014 T. Novak',value:950,indent:0},{name:'Supplies',value:420,indent:0}],
+            current_total:5170,
+            longterm:[{name:'Land',value:38000,indent:0},{name:'Grooming Equipment',value:6200,indent:0}],
+            longterm_total:44200,
+            total:49370
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Pet Supply Depot',value:2700,indent:0}],
+            current_total:2700,
+            longterm:[{name:'Bank Loan (2-year)',value:12000,indent:0}],
+            longterm_total:12000,
+            total:14700
+          },
+          equity:{items:[{name:'S. Dhillon, Capital, Dec. 31',value:34670}],total:34670},
+          total_liabilities_oe:49370
+        },
+        check:{total_assets:49370,total_loe:49370,balanced:true}
+      },
+
+      /* ---------- PREPARATION Level 2 — #2: Oakville Auto Repair ---------- */
+      {
+        type:'preparation', difficulty:2,
+        company:'Oakville Auto Repair', owner:'J. Moreau', date:'December 31, 2024',
+        instructions:'Prepare a classified balance sheet for Oakville Auto Repair as at December 31, 2024. Classify each account, arrange current assets by liquidity, long-term assets by useful life (longest first), and sub-accounts alphabetically.',
+        accounts:[
+          { name:'Cash',                           value:7600,  correct_section:'CA',  correct_order:1 },
+          { name:'A/R \u2014 B. Khalil',          value:1900,  correct_section:'CA',  correct_order:2 },
+          { name:'A/R \u2014 N. Wong',            value:2400,  correct_section:'CA',  correct_order:3 },
+          { name:'Prepaid Insurance',               value:1100,  correct_section:'CA',  correct_order:4 },
+          { name:'Supplies',                        value:850,   correct_section:'CA',  correct_order:5 },
+          { name:'Land',                            value:55000, correct_section:'LTA', correct_order:1 },
+          { name:'Building',                        value:40000, correct_section:'LTA', correct_order:2 },
+          { name:'Tools & Equipment',               value:18500, correct_section:'LTA', correct_order:3 },
+          { name:'A/P \u2014 AutoParts Wholesale', value:3600,  correct_section:'CL',  correct_order:1 },
+          { name:'A/P \u2014 Lube Supply Inc.',    value:2200,  correct_section:'CL',  correct_order:2 },
+          { name:'Mortgage Payable',                value:65000, correct_section:'LTL', correct_order:1 },
+          { name:'J. Moreau, Capital, Jan. 1',      value:48000, correct_section:'OE',  correct_order:1 },
+          { name:'Add: Net Income',                  value:12100, correct_section:'OE',  correct_order:2 },
+          { name:'Less: J. Moreau, Drawings',       value:-3550, correct_section:'OE',  correct_order:3 },
+        ],
+        solution:{
+          heading:['Oakville Auto Repair','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:7600,indent:0},{name:'A/R \u2014 B. Khalil',value:1900,indent:1},{name:'A/R \u2014 N. Wong',value:2400,indent:1},{name:'Prepaid Insurance',value:1100,indent:0},{name:'Supplies',value:850,indent:0}],
+            current_total:13850,
+            longterm:[{name:'Land',value:55000,indent:0},{name:'Building',value:40000,indent:0},{name:'Tools & Equipment',value:18500,indent:0}],
+            longterm_total:113500,
+            total:127350
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 AutoParts Wholesale',value:3600,indent:1},{name:'A/P \u2014 Lube Supply Inc.',value:2200,indent:1}],
+            current_total:5800,
+            longterm:[{name:'Mortgage Payable',value:65000,indent:0}],
+            longterm_total:65000,
+            total:70800
+          },
+          equity:{items:[{name:'J. Moreau, Capital, Jan. 1',value:48000},{name:'Add: Net Income',value:12100},{name:'Less: J. Moreau, Drawings',value:-3550},{name:'J. Moreau, Capital, Dec. 31',value:56550}],total:56550},
+          total_liabilities_oe:127350
+        },
+        check:{total_assets:127350,total_loe:127350,balanced:true}
+      },
+
+      /* ---------- PREPARATION Level 2 — #3: Clearwater Pool Service ---------- */
+      {
+        type:'preparation', difficulty:2,
+        company:'Clearwater Pool Service', owner:'A. Reyes', date:'December 31, 2024',
+        instructions:'Prepare a classified balance sheet for Clearwater Pool Service as at December 31, 2024. Arrange current assets by liquidity, long-term assets by useful life (longest first), and list A/R and A/P sub-accounts alphabetically.',
+        accounts:[
+          { name:'Cash',                            value:6300,  correct_section:'CA',  correct_order:1 },
+          { name:'A/R \u2014 D. Fontaine',         value:1500,  correct_section:'CA',  correct_order:2 },
+          { name:'A/R \u2014 K. Pham',             value:2000,  correct_section:'CA',  correct_order:3 },
+          { name:'Supplies',                         value:750,   correct_section:'CA',  correct_order:4 },
+          { name:'Land',                             value:48000, correct_section:'LTA', correct_order:1 },
+          { name:'Equipment',                        value:15000, correct_section:'LTA', correct_order:2 },
+          { name:'Vehicles',                         value:12000, correct_section:'LTA', correct_order:3 },
+          { name:'A/P \u2014 AquaChem Supply',      value:3100,  correct_section:'CL',  correct_order:1 },
+          { name:'A/P \u2014 Pool Pros Ltd.',       value:1800,  correct_section:'CL',  correct_order:2 },
+          { name:'Wages Payable',                    value:900,   correct_section:'CL',  correct_order:3 },
+          { name:'Bank Loan (4-year)',               value:20000, correct_section:'LTL', correct_order:1 },
+          { name:'A. Reyes, Capital, Jan. 1',        value:52000, correct_section:'OE',  correct_order:1 },
+          { name:'Add: Net Income',                  value:7750,  correct_section:'OE',  correct_order:2 },
+          { name:'Less: A. Reyes, Drawings',         value:-3200, correct_section:'OE',  correct_order:3 },
+        ],
+        solution:{
+          heading:['Clearwater Pool Service','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:6300,indent:0},{name:'A/R \u2014 D. Fontaine',value:1500,indent:1},{name:'A/R \u2014 K. Pham',value:2000,indent:1},{name:'Supplies',value:750,indent:0}],
+            current_total:10550,
+            longterm:[{name:'Land',value:48000,indent:0},{name:'Equipment',value:15000,indent:0},{name:'Vehicles',value:12000,indent:0}],
+            longterm_total:75000,
+            total:85550
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 AquaChem Supply',value:3100,indent:1},{name:'A/P \u2014 Pool Pros Ltd.',value:1800,indent:1},{name:'Wages Payable',value:900,indent:0}],
+            current_total:5800,
+            longterm:[{name:'Bank Loan (4-year)',value:20000,indent:0}],
+            longterm_total:20000,
+            total:25800
+          },
+          equity:{items:[{name:'A. Reyes, Capital, Jan. 1',value:52000},{name:'Add: Net Income',value:10950},{name:'Less: A. Reyes, Drawings',value:-3200},{name:'A. Reyes, Capital, Dec. 31',value:59750}],total:59750},
+          total_liabilities_oe:85550
+        },
+        check:{total_assets:85550,total_loe:85550,balanced:true}
+      },
+
+      /* ---------- PREPARATION Level 3 — #2: Westfield Event Planning ---------- */
+      {
+        type:'preparation', difficulty:3,
+        company:'Westfield Event Planning', owner:'T. Kapoor', date:'December 31, 2024',
+        instructions:'Prepare a classified balance sheet for Westfield Event Planning as at December 31, 2024. This company has multiple debtors under A/R and multiple creditors under A/P. List sub-accounts alphabetically, current assets by liquidity, and long-term assets by useful life (longest first). Include all subtotals and grand totals.',
+        accounts:[
+          { name:'Cash',                               value:11000,  correct_section:'CA',  correct_order:1 },
+          { name:'A/R \u2014 E. Chen',                value:2800,   correct_section:'CA',  correct_order:2 },
+          { name:'A/R \u2014 L. Martinez',            value:1600,   correct_section:'CA',  correct_order:3 },
+          { name:'A/R \u2014 S. Thompson',            value:3400,   correct_section:'CA',  correct_order:4 },
+          { name:'Merchandise Inventory',               value:8000,   correct_section:'CA',  correct_order:5 },
+          { name:'Prepaid Rent',                        value:2400,   correct_section:'CA',  correct_order:6 },
+          { name:'Supplies',                            value:1300,   correct_section:'CA',  correct_order:7 },
+          { name:'Land',                                value:70000,  correct_section:'LTA', correct_order:1 },
+          { name:'Building',                            value:95000,  correct_section:'LTA', correct_order:2 },
+          { name:'Equipment',                           value:25000,  correct_section:'LTA', correct_order:3 },
+          { name:'A/P \u2014 Creative Designs',        value:4100,   correct_section:'CL',  correct_order:1 },
+          { name:'A/P \u2014 Event Supply Co.',        value:2900,   correct_section:'CL',  correct_order:2 },
+          { name:'A/P \u2014 Premier Rentals',         value:3600,   correct_section:'CL',  correct_order:3 },
+          { name:'Wages Payable',                       value:1800,   correct_section:'CL',  correct_order:4 },
+          { name:'Bank Loan (5-year)',                  value:35000,  correct_section:'LTL', correct_order:1 },
+          { name:'Mortgage Payable',                    value:85000,  correct_section:'LTL', correct_order:2 },
+          { name:'T. Kapoor, Capital, Jan. 1',          value:78000,  correct_section:'OE',  correct_order:1 },
+          { name:'Add: Net Income',                     value:16500,  correct_section:'OE',  correct_order:2 },
+          { name:'Less: T. Kapoor, Drawings',           value:-6400,  correct_section:'OE',  correct_order:3 },
+        ],
+        solution:{
+          heading:['Westfield Event Planning','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:11000,indent:0},{name:'A/R \u2014 E. Chen',value:2800,indent:1},{name:'A/R \u2014 L. Martinez',value:1600,indent:1},{name:'A/R \u2014 S. Thompson',value:3400,indent:1},{name:'Merchandise Inventory',value:8000,indent:0},{name:'Prepaid Rent',value:2400,indent:0},{name:'Supplies',value:1300,indent:0}],
+            current_total:30500,
+            longterm:[{name:'Land',value:70000,indent:0},{name:'Building',value:95000,indent:0},{name:'Equipment',value:25000,indent:0}],
+            longterm_total:190000,
+            total:220500
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Creative Designs',value:4100,indent:1},{name:'A/P \u2014 Event Supply Co.',value:2900,indent:1},{name:'A/P \u2014 Premier Rentals',value:3600,indent:1},{name:'Wages Payable',value:1800,indent:0}],
+            current_total:12400,
+            longterm:[{name:'Bank Loan (5-year)',value:35000,indent:0},{name:'Mortgage Payable',value:85000,indent:0}],
+            longterm_total:120000,
+            total:132400
+          },
+          equity:{items:[{name:'T. Kapoor, Capital, Jan. 1',value:78000},{name:'Add: Net Income',value:16500},{name:'Less: T. Kapoor, Drawings',value:-6400},{name:'T. Kapoor, Capital, Dec. 31',value:88100}],total:88100},
+          total_liabilities_oe:220500
+        },
+        check:{total_assets:220500,total_loe:220500,balanced:true}
+      },
+
+      /* ---------- PREPARATION Level 3 — #3: Harbour City Bakery ---------- */
+      {
+        type:'preparation', difficulty:3,
+        company:'Harbour City Bakery', owner:'R. Osei', date:'December 31, 2024',
+        instructions:'Prepare a classified balance sheet for Harbour City Bakery as at December 31, 2024. The company has multiple debtors and creditors. List sub-accounts alphabetically, current assets by liquidity, long-term assets by useful life (longest first). Show drawings reducing equity correctly.',
+        accounts:[
+          { name:'Cash',                                value:8500,   correct_section:'CA',  correct_order:1 },
+          { name:'A/R \u2014 C. Anderson',             value:2200,   correct_section:'CA',  correct_order:2 },
+          { name:'A/R \u2014 M. Liu',                  value:1700,   correct_section:'CA',  correct_order:3 },
+          { name:'A/R \u2014 S. Patel',                value:2900,   correct_section:'CA',  correct_order:4 },
+          { name:'Merchandise Inventory',                value:6800,   correct_section:'CA',  correct_order:5 },
+          { name:'Prepaid Insurance',                    value:1600,   correct_section:'CA',  correct_order:6 },
+          { name:'Supplies',                             value:1400,   correct_section:'CA',  correct_order:7 },
+          { name:'Land',                                 value:65000,  correct_section:'LTA', correct_order:1 },
+          { name:'Building',                             value:80000,  correct_section:'LTA', correct_order:2 },
+          { name:'Equipment',                            value:18000,  correct_section:'LTA', correct_order:3 },
+          { name:'Vehicles',                             value:14000,  correct_section:'LTA', correct_order:4 },
+          { name:'A/P \u2014 Flour Mill Direct',        value:3500,   correct_section:'CL',  correct_order:1 },
+          { name:'A/P \u2014 Kitchen Supply Co.',       value:4200,   correct_section:'CL',  correct_order:2 },
+          { name:'A/P \u2014 Sweet Essentials',         value:2800,   correct_section:'CL',  correct_order:3 },
+          { name:'Mortgage Payable',                     value:72000,  correct_section:'LTL', correct_order:1 },
+          { name:'Bank Loan (3-year)',                   value:30000,  correct_section:'LTL', correct_order:2 },
+          { name:'R. Osei, Capital, Jan. 1',             value:82000,  correct_section:'OE',  correct_order:1 },
+          { name:'Add: Net Income',                      value:12800,  correct_section:'OE',  correct_order:2 },
+          { name:'Less: R. Osei, Drawings',              value:-5200,  correct_section:'OE',  correct_order:3 },
+        ],
+        solution:{
+          heading:['Harbour City Bakery','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:8500,indent:0},{name:'A/R \u2014 C. Anderson',value:2200,indent:1},{name:'A/R \u2014 M. Liu',value:1700,indent:1},{name:'A/R \u2014 S. Patel',value:2900,indent:1},{name:'Merchandise Inventory',value:6800,indent:0},{name:'Prepaid Insurance',value:1600,indent:0},{name:'Supplies',value:1400,indent:0}],
+            current_total:25100,
+            longterm:[{name:'Land',value:65000,indent:0},{name:'Building',value:80000,indent:0},{name:'Equipment',value:18000,indent:0},{name:'Vehicles',value:14000,indent:0}],
+            longterm_total:177000,
+            total:202100
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Flour Mill Direct',value:3500,indent:1},{name:'A/P \u2014 Kitchen Supply Co.',value:4200,indent:1},{name:'A/P \u2014 Sweet Essentials',value:2800,indent:1}],
+            current_total:10500,
+            longterm:[{name:'Bank Loan (3-year)',value:30000,indent:0},{name:'Mortgage Payable',value:72000,indent:0}],
+            longterm_total:102000,
+            total:112500
+          },
+          equity:{items:[{name:'R. Osei, Capital, Jan. 1',value:82000},{name:'Add: Net Income',value:12800},{name:'Less: R. Osei, Drawings',value:-5200},{name:'R. Osei, Capital, Dec. 31',value:89600}],total:89600},
+          total_liabilities_oe:202100
+        },
+        check:{total_assets:202100,total_loe:202100,balanced:true}
+      },
+
+      /* ---------- ERROR FINDING Level 1 — #2: Parkside Lawn Care ---------- */
+      {
+        type:'error_finding', difficulty:1,
+        company:'Parkside Lawn Care', owner:'P. Anderson', date:'December 31, 2024',
+        instructions:'This classified balance sheet contains exactly 4 errors. Study it carefully and list every error you can find. Be specific \u2014 state what is wrong and where.',
+        erroneous_sheet:{
+          heading:['Parkside Lawn Care','Income Statement','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Supplies',value:500,indent:0},{name:'Cash',value:3600,indent:0},{name:'A/R \u2014 M. Rivera',value:1400,indent:0}],
+            current_total:5500,
+            longterm:[{name:'Equipment',value:9000,indent:0},{name:'Land',value:25000,indent:0}],
+            longterm_total:34000,
+            total:39500
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Green Garden Supply',value:2200,indent:0},{name:'Wages Payable',value:800,indent:0}],
+            current_total:3000,
+            longterm:[{name:'Bank Loan (3-year)',value:10000,indent:0}],
+            longterm_total:10000,
+            total:13000
+          },
+          equity:{items:[{name:'P. Anderson, Capital, Jan. 1',value:28000},{name:'P. Anderson, Drawings',value:1500,display:'$1,500'},{name:'P. Anderson, Capital, Dec. 31',value:29500}],total:29500},
+          total_liabilities_oe:42500
+        },
+        solution:{
+          heading:['Parkside Lawn Care','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:3600,indent:0},{name:'A/R \u2014 M. Rivera',value:1400,indent:0},{name:'Supplies',value:500,indent:0}],
+            current_total:5500,
+            longterm:[{name:'Land',value:25000,indent:0},{name:'Equipment',value:9000,indent:0}],
+            longterm_total:34000,
+            total:39500
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Green Garden Supply',value:2200,indent:0},{name:'Wages Payable',value:800,indent:0}],
+            current_total:3000,
+            longterm:[{name:'Bank Loan (3-year)',value:10000,indent:0}],
+            longterm_total:10000,
+            total:13000
+          },
+          equity:{items:[{name:'P. Anderson, Capital, Jan. 1',value:28000},{name:'Less: P. Anderson, Drawings',value:-1500},{name:'P. Anderson, Capital, Dec. 31',value:26500}],total:26500},
+          total_liabilities_oe:39500
+        },
+        errors:[
+          {id:1, location:'Heading line 2', description:'Statement is titled "Income Statement" instead of "Balance Sheet".', correction:'Change heading to "Balance Sheet".'},
+          {id:2, location:'Current Assets', description:'Supplies is listed first instead of Cash. Cash (most liquid) must always be first.', correction:'List Cash first, then A/R, then Supplies.'},
+          {id:3, location:'Long-Term Assets', description:'Equipment is listed before Land. Land has the longest useful life.', correction:'List Land first, then Equipment (ordered by useful life, longest first).'},
+          {id:4, location:"Owner's Equity", description:'Drawings shown as positive $1,500 and added to Capital ($28,000 + $1,500 = $29,500). Drawings reduce equity.', correction:'Show as "Less: Drawings ($1,500)" and subtract: $28,000 \u2212 $1,500 = $26,500.'},
+        ],
+        check:{total_assets:39500,total_loe:39500,balanced:true}
+      },
+
+      /* ---------- ERROR FINDING Level 1 — #3: Bright Smile Dental ---------- */
+      {
+        type:'error_finding', difficulty:1,
+        company:'Bright Smile Dental', owner:'D. Kaur', date:'December 31, 2024',
+        instructions:'This classified balance sheet contains exactly 4 errors. Study every detail carefully and list each error you find.',
+        erroneous_sheet:{
+          heading:['Bright Smile Dental','Balance Sheet','For the Year Ended December 31, 2024'],
+          assets:{
+            current:[{name:'A/R \u2014 T. Bailey',value:1800,indent:0},{name:'Cash',value:8200,indent:0},{name:'Supplies',value:600,indent:0}],
+            current_total:10600,
+            longterm:[{name:'Equipment',value:15000,indent:0},{name:'Building',value:30000,indent:0},{name:'Land',value:42000,indent:0}],
+            longterm_total:87000,
+            total:97600
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Metro Supply Co.',value:1500,indent:0},{name:'A/P \u2014 Ajax Dental Supply',value:2800,indent:0}],
+            current_total:4300,
+            longterm:[{name:'Mortgage Payable',value:35000,indent:0}],
+            longterm_total:35000,
+            total:39300
+          },
+          equity:{items:[{name:'D. Kaur, Capital',value:58300}],total:58300},
+          total_liabilities_oe:97600
+        },
+        solution:{
+          heading:['Bright Smile Dental','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:8200,indent:0},{name:'A/R \u2014 T. Bailey',value:1800,indent:0},{name:'Supplies',value:600,indent:0}],
+            current_total:10600,
+            longterm:[{name:'Land',value:42000,indent:0},{name:'Building',value:30000,indent:0},{name:'Equipment',value:15000,indent:0}],
+            longterm_total:87000,
+            total:97600
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Ajax Dental Supply',value:2800,indent:0},{name:'A/P \u2014 Metro Supply Co.',value:1500,indent:0}],
+            current_total:4300,
+            longterm:[{name:'Mortgage Payable',value:35000,indent:0}],
+            longterm_total:35000,
+            total:39300
+          },
+          equity:{items:[{name:'D. Kaur, Capital',value:58300}],total:58300},
+          total_liabilities_oe:97600
+        },
+        errors:[
+          {id:1, location:'Heading line 3', description:'Date says "For the Year Ended December 31, 2024". A balance sheet is a snapshot at one point in time, not a period.', correction:'Change to "As at December 31, 2024".'},
+          {id:2, location:'Current Assets', description:'A/R \u2014 T. Bailey listed before Cash. Cash must always be first (most liquid asset).', correction:'List Cash first, then Accounts Receivable, then Supplies.'},
+          {id:3, location:'Long-Term Assets', description:'Equipment is listed first, then Building, then Land. The order is reversed \u2014 Land has unlimited useful life.', correction:'List Land first, then Building, then Equipment (longest useful life first).'},
+          {id:4, location:'Current Liabilities', description:'A/P creditors are not in alphabetical order: Metro Supply Co. listed before Ajax Dental Supply.', correction:'List Ajax Dental Supply first, then Metro Supply Co. (alphabetical).'},
+        ],
+        check:{total_assets:97600,total_loe:97600,balanced:true}
+      },
+
+      /* ---------- ERROR FINDING Level 2 — #3: Westside Fitness Studio ---------- */
+      {
+        type:'error_finding', difficulty:2,
+        company:'Westside Fitness Studio', owner:'K. Tanaka', date:'December 31, 2024',
+        instructions:'This classified balance sheet contains exactly 6 errors. Check everything \u2014 headings, ordering, classifications, and equity. List each error you find.',
+        erroneous_sheet:{
+          heading:['Westside Fitness Studio','Balance Sheet','For the Month Ended December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:5400,indent:0},{name:'A/R \u2014 S. Park',value:2100,indent:1},{name:'A/R \u2014 H. Lee',value:1600,indent:1},{name:'Supplies',value:450,indent:0}],
+            current_total:9550,
+            longterm:[{name:'Building',value:38000,indent:0},{name:'Land',value:52000,indent:0},{name:'Equipment',value:14000,indent:0},{name:'Prepaid Insurance',value:800,indent:0}],
+            longterm_total:104800,
+            total:114350
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Yoga Supplies Inc.',value:1800,indent:1},{name:'A/P \u2014 Fitness Wholesale',value:2900,indent:1}],
+            current_total:4700,
+            longterm:[{name:'Bank Loan (5-year)',value:28000,indent:0}],
+            longterm_total:28000,
+            total:32700
+          },
+          equity:{items:[{name:'K. Tanaka, Capital, Jan. 1',value:86000},{name:'K. Tanaka, Drawings',value:4350,display:'$4,350'},{name:'K. Tanaka, Capital, Dec. 31',value:90350}],total:90350},
+          total_liabilities_oe:123050
+        },
+        solution:{
+          heading:['Westside Fitness Studio','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:5400,indent:0},{name:'A/R \u2014 H. Lee',value:1600,indent:1},{name:'A/R \u2014 S. Park',value:2100,indent:1},{name:'Prepaid Insurance',value:800,indent:0},{name:'Supplies',value:450,indent:0}],
+            current_total:10350,
+            longterm:[{name:'Land',value:52000,indent:0},{name:'Building',value:38000,indent:0},{name:'Equipment',value:14000,indent:0}],
+            longterm_total:104000,
+            total:114350
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Fitness Wholesale',value:2900,indent:1},{name:'A/P \u2014 Yoga Supplies Inc.',value:1800,indent:1}],
+            current_total:4700,
+            longterm:[{name:'Bank Loan (5-year)',value:28000,indent:0}],
+            longterm_total:28000,
+            total:32700
+          },
+          equity:{items:[{name:'K. Tanaka, Capital, Jan. 1',value:86000},{name:'Less: K. Tanaka, Drawings',value:-4350},{name:'K. Tanaka, Capital, Dec. 31',value:81650}],total:81650},
+          total_liabilities_oe:114350
+        },
+        errors:[
+          {id:1, location:'Heading line 3', description:'Date says "For the Month Ended December 31, 2024". A balance sheet is at one point in time.', correction:'Change to "As at December 31, 2024".'},
+          {id:2, location:'Current Assets', description:'A/R sub-debtors not alphabetical: S. Park listed before H. Lee.', correction:'List H. Lee before S. Park (alphabetical by last name).'},
+          {id:3, location:'Long-Term Assets', description:'Prepaid Insurance classified as a Long-Term Asset. Prepaid expenses are used within one year.', correction:'Move Prepaid Insurance to Current Assets.'},
+          {id:4, location:'Long-Term Assets', description:'Building listed before Land. Land has unlimited useful life and must be first.', correction:'List Land first, then Building, then Equipment.'},
+          {id:5, location:'Current Liabilities', description:'A/P creditors not alphabetical: Yoga Supplies Inc. listed before Fitness Wholesale.', correction:'List Fitness Wholesale before Yoga Supplies Inc.'},
+          {id:6, location:"Owner's Equity", description:'Drawings shown as positive $4,350 and added to Capital ($86,000 + $4,350 = $90,350). Drawings reduce equity.', correction:'Show as "Less: Drawings ($4,350)" and subtract: $86,000 \u2212 $4,350 = $81,650.'},
+        ],
+        check:{total_assets:114350,total_loe:114350,balanced:true}
+      },
+
+      /* ---------- ERROR FINDING Level 3 — #2: Valley Creek Veterinary ---------- */
+      {
+        type:'error_finding', difficulty:3,
+        company:'Valley Creek Veterinary', owner:'N. Saberi', date:'December 31, 2024',
+        instructions:'This classified balance sheet contains exactly 8 errors across headings, ordering, classifications, and calculations. Examine every detail and list all errors.',
+        erroneous_sheet:{
+          heading:['Valey Creek Veterinary','Balance Sheet','For the Year Ended December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:9800,indent:0},{name:'A/R \u2014 R. Simmons',value:1800,indent:1},{name:'A/R \u2014 B. Grant',value:2600,indent:1},{name:'A/R \u2014 L. Choi',value:3400,indent:1},{name:'Supplies',value:1200,indent:0},{name:'Merchandise Inventory',value:5500,indent:0}],
+            current_total:24300,
+            longterm:[{name:'Land',value:70000,indent:0},{name:'Building',value:48000,indent:0},{name:'Equipment',value:22000,indent:0},{name:'Vehicles',value:16000,indent:0}],
+            longterm_total:157000,
+            total:181300
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 PetPharm Ltd.',value:4200,indent:1},{name:'A/P \u2014 Animal Care Supply',value:3800,indent:1},{name:'A/P \u2014 MedVet Inc.',value:2600,indent:1}],
+            current_total:10600,
+            longterm:[{name:'Mortgage Payable',value:60000,indent:0},{name:'Current Portion of Mortgage',value:5000,indent:0}],
+            longterm_total:65000,
+            total:75600
+          },
+          equity:{items:[{name:'N. Saberi, Capital, Jan. 1',value:98000},{name:'Less: Net Income',value:-12200,display:'($12,200)'},{name:'Less: N. Saberi, Drawings',value:-5500},{name:'N. Saberi, Capital, Dec. 31',value:80300}],total:80300},
+          total_liabilities_oe:155900
+        },
+        solution:{
+          heading:['Valley Creek Veterinary','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:9800,indent:0},{name:'A/R \u2014 B. Grant',value:2600,indent:1},{name:'A/R \u2014 L. Choi',value:3400,indent:1},{name:'A/R \u2014 R. Simmons',value:1800,indent:1},{name:'Merchandise Inventory',value:5500,indent:0},{name:'Supplies',value:1200,indent:0}],
+            current_total:24300,
+            longterm:[{name:'Land',value:70000,indent:0},{name:'Building',value:48000,indent:0},{name:'Equipment',value:22000,indent:0},{name:'Vehicles',value:16000,indent:0}],
+            longterm_total:156000,
+            total:180300
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Animal Care Supply',value:3800,indent:1},{name:'A/P \u2014 MedVet Inc.',value:2600,indent:1},{name:'A/P \u2014 PetPharm Ltd.',value:4200,indent:1},{name:'Current Portion of Mortgage',value:5000,indent:0}],
+            current_total:15600,
+            longterm:[{name:'Mortgage Payable',value:60000,indent:0}],
+            longterm_total:60000,
+            total:75600
+          },
+          equity:{items:[{name:'N. Saberi, Capital, Jan. 1',value:98000},{name:'Add: Net Income',value:12200},{name:'Less: N. Saberi, Drawings',value:-5500},{name:'N. Saberi, Capital, Dec. 31',value:104700}],total:104700},
+          total_liabilities_oe:180300
+        },
+        errors:[
+          {id:1, location:'Heading line 1', description:'Company name misspelled: "Valey" instead of "Valley".', correction:'Correct to "Valley Creek Veterinary".'},
+          {id:2, location:'Heading line 3', description:'Date reads "For the Year Ended December 31, 2024". A balance sheet is a snapshot, not a period.', correction:'Change to "As at December 31, 2024".'},
+          {id:3, location:'Current Assets', description:'A/R debtors not in alphabetical order: Simmons listed before Grant and Choi.', correction:'Reorder: B. Grant, L. Choi, R. Simmons (alphabetical by last name).'},
+          {id:4, location:'Current Assets', description:'Supplies listed before Merchandise Inventory. Inventory comes before Supplies in liquidity order.', correction:'List Merchandise Inventory before Supplies.'},
+          {id:5, location:'Long-Term Assets', description:'Total Long-Term Assets shows $157,000 instead of $156,000 (70,000 + 48,000 + 22,000 + 16,000 = 156,000).', correction:'Correct the subtotal to $156,000.'},
+          {id:6, location:'Current Liabilities', description:'A/P creditors not in alphabetical order: PetPharm before Animal Care Supply.', correction:'Reorder: Animal Care Supply, MedVet Inc., PetPharm Ltd.'},
+          {id:7, location:'Long-Term Liabilities', description:'Current Portion of Mortgage ($5,000) is in Long-Term Liabilities. Due within one year.', correction:'Move Current Portion of Mortgage to Current Liabilities.'},
+          {id:8, location:"Owner's Equity", description:'Net Income shown as "Less: Net Income ($12,200)" \u2014 subtracted instead of added. Net Income increases equity.', correction:'Show as "Add: Net Income $12,200" and add to beginning capital.'},
+        ],
+        check:{total_assets:180300,total_loe:180300,balanced:true}
+      },
+
+      /* ---------- ERROR FINDING Level 3 — #3: Prairie Wind Farm Supply ---------- */
+      {
+        type:'error_finding', difficulty:3,
+        company:'Prairie Wind Farm Supply', owner:'G. Walsh', date:'December 31, 2024',
+        instructions:'This classified balance sheet contains exactly 8 errors across headings, ordering, classifications, and calculations. Find them all.',
+        erroneous_sheet:{
+          heading:['Prairie Wind Farm Supply','Income Statement','December 31 2024'],
+          assets:{
+            current:[{name:'Cash',value:11500,indent:0},{name:'A/R \u2014 W. Torres',value:4100,indent:1},{name:'A/R \u2014 F. Hassan',value:2600,indent:1},{name:'A/R \u2014 C. McBride',value:3800,indent:1},{name:'Supplies',value:1700,indent:0},{name:'Merchandise Inventory',value:9200,indent:0},{name:'Prepaid Rent',value:2800,indent:0}],
+            current_total:35700,
+            longterm:[{name:'Land',value:85000,indent:0},{name:'Vehicles',value:20000,indent:0},{name:'Building',value:60000,indent:0},{name:'Equipment',value:30000,indent:0}],
+            longterm_total:195000,
+            total:230700
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Prairie Equipment',value:4600,indent:1},{name:'A/P \u2014 Agri-Supply Co.',value:5100,indent:1},{name:'A/P \u2014 FarmTech Ltd.',value:3400,indent:1}],
+            current_total:13100,
+            longterm:[{name:'Bank Loan (5-year)',value:42000,indent:0},{name:'Mortgage Payable',value:78000,indent:0},{name:'Wages Payable',value:2200,indent:0}],
+            longterm_total:122200,
+            total:135300
+          },
+          equity:{items:[{name:'G. Walsh, Capital, Jan. 1',value:105000},{name:'Less: Net Loss',value:-3200},{name:'G. Walsh, Drawings',value:6400,display:'$6,400'},{name:'G. Walsh, Capital, Dec. 31',value:108200}],total:108200},
+          total_liabilities_oe:243500
+        },
+        solution:{
+          heading:['Prairie Wind Farm Supply','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:11500,indent:0},{name:'A/R \u2014 F. Hassan',value:2600,indent:1},{name:'A/R \u2014 C. McBride',value:3800,indent:1},{name:'A/R \u2014 W. Torres',value:4100,indent:1},{name:'Merchandise Inventory',value:9200,indent:0},{name:'Prepaid Rent',value:2800,indent:0},{name:'Supplies',value:1700,indent:0}],
+            current_total:35700,
+            longterm:[{name:'Land',value:85000,indent:0},{name:'Building',value:60000,indent:0},{name:'Equipment',value:30000,indent:0},{name:'Vehicles',value:20000,indent:0}],
+            longterm_total:195000,
+            total:230700
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Agri-Supply Co.',value:5100,indent:1},{name:'A/P \u2014 FarmTech Ltd.',value:3400,indent:1},{name:'A/P \u2014 Prairie Equipment',value:4600,indent:1},{name:'Wages Payable',value:2200,indent:0}],
+            current_total:15300,
+            longterm:[{name:'Bank Loan (5-year)',value:42000,indent:0},{name:'Mortgage Payable',value:78000,indent:0}],
+            longterm_total:120000,
+            total:135300
+          },
+          equity:{items:[{name:'G. Walsh, Capital, Jan. 1',value:105000},{name:'Less: Net Loss',value:-3200},{name:'Less: G. Walsh, Drawings',value:-6400},{name:'G. Walsh, Capital, Dec. 31',value:95400}],total:95400},
+          total_liabilities_oe:230700
+        },
+        errors:[
+          {id:1, location:'Heading line 2', description:'Statement titled "Income Statement" instead of "Balance Sheet".', correction:'Change heading line 2 to "Balance Sheet".'},
+          {id:2, location:'Heading line 3', description:'Date reads "December 31 2024" \u2014 missing "As at" and comma after 31.', correction:'Write "As at December 31, 2024".'},
+          {id:3, location:'Current Assets', description:'A/R debtors not alphabetical: Torres, Hassan, McBride instead of Hassan, McBride, Torres.', correction:'Reorder: F. Hassan, C. McBride, W. Torres.'},
+          {id:4, location:'Current Assets', description:'Supplies listed before Merchandise Inventory. Inventory has higher liquidity.', correction:'List Merchandise Inventory before Supplies.'},
+          {id:5, location:'Long-Term Assets', description:'Vehicles listed before Building. Buildings have a longer useful life than vehicles.', correction:'Order: Land, Building, Equipment, Vehicles (longest useful life first).'},
+          {id:6, location:'Current Liabilities', description:'A/P creditors not alphabetical: Prairie Equipment listed before Agri-Supply Co.', correction:'Reorder: Agri-Supply Co., FarmTech Ltd., Prairie Equipment.'},
+          {id:7, location:'Long-Term Liabilities', description:'Wages Payable classified as Long-Term Liability. Wages owing are due within days/weeks.', correction:'Move Wages Payable to Current Liabilities.'},
+          {id:8, location:"Owner's Equity", description:'Drawings shown as positive $6,400 and added to capital. Drawings reduce equity.', correction:'Show as "Less: Drawings ($6,400)" and subtract from equity.'},
+        ],
+        check:{total_assets:230700,total_loe:230700,balanced:true}
+      },
+
+      /* ---------- ADVANCED Level 1 — #2: Cedar Hill Bookkeeping ---------- */
+      {
+        type:'advanced', difficulty:1,
+        company:'Cedar Hill Bookkeeping', owner:'F. LaRoche', date:'December 31, 2024',
+        scenario_context:'Cedar Hill Bookkeeping has a bank loan where the current portion (due within 12 months) must be separated from the long-term remainder.',
+        instructions:'Prepare a classified balance sheet for Cedar Hill Bookkeeping as at December 31, 2024. Note: the bank loan has a current portion that must be classified separately as a Current Liability.',
+        advanced_notes:['The bank loan has two parts: $4,000 due this year (Current Liability) and $16,000 due after one year (Long-Term Liability). Always split current vs. long-term portions.'],
+        accounts:[
+          { name:'Cash',                                value:9200,   correct_section:'CA',  correct_order:1 },
+          { name:'A/R \u2014 J. Fernandez',            value:2800,   correct_section:'CA',  correct_order:2 },
+          { name:'A/R \u2014 P. Ng',                   value:1600,   correct_section:'CA',  correct_order:3 },
+          { name:'Prepaid Insurance',                    value:1000,   correct_section:'CA',  correct_order:4 },
+          { name:'Supplies',                             value:700,    correct_section:'CA',  correct_order:5 },
+          { name:'Land',                                 value:50000,  correct_section:'LTA', correct_order:1 },
+          { name:'Equipment',                            value:18000,  correct_section:'LTA', correct_order:2 },
+          { name:'Vehicles',                             value:12000,  correct_section:'LTA', correct_order:3 },
+          { name:'A/P \u2014 Office Essentials',        value:3200,   correct_section:'CL',  correct_order:1 },
+          { name:'Current Portion of Bank Loan',         value:4000,   correct_section:'CL',  correct_order:2 },
+          { name:'Bank Loan (remaining)',                value:16000,  correct_section:'LTL', correct_order:1 },
+          { name:'F. LaRoche, Capital, Jan. 1',          value:65000,  correct_section:'OE',  correct_order:1 },
+          { name:'Add: Net Income',                      value:10600,  correct_section:'OE',  correct_order:2 },
+          { name:'Less: F. LaRoche, Drawings',           value:-3500,  correct_section:'OE',  correct_order:3 },
+        ],
+        solution:{
+          heading:['Cedar Hill Bookkeeping','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:9200,indent:0},{name:'A/R \u2014 J. Fernandez',value:2800,indent:1},{name:'A/R \u2014 P. Ng',value:1600,indent:1},{name:'Prepaid Insurance',value:1000,indent:0},{name:'Supplies',value:700,indent:0}],
+            current_total:15300,
+            longterm:[{name:'Land',value:50000,indent:0},{name:'Equipment',value:18000,indent:0},{name:'Vehicles',value:12000,indent:0}],
+            longterm_total:80000,
+            total:95300
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Office Essentials',value:3200,indent:1},{name:'Current Portion of Bank Loan',value:4000,indent:0}],
+            current_total:7200,
+            longterm:[{name:'Bank Loan (remaining)',value:16000,indent:0}],
+            longterm_total:16000,
+            total:23200
+          },
+          equity:{items:[{name:'F. LaRoche, Capital, Jan. 1',value:65000},{name:'Add: Net Income',value:10600},{name:'Less: F. LaRoche, Drawings',value:-3500},{name:'F. LaRoche, Capital, Dec. 31',value:72100}],total:72100},
+          total_liabilities_oe:95300
+        },
+        check:{total_assets:95300,total_loe:95300,balanced:true}
+      },
+
+      /* ---------- ADVANCED Level 1 — #3: Ridgeway Home Inspections ---------- */
+      {
+        type:'advanced', difficulty:1,
+        company:'Ridgeway Home Inspections', owner:'B. Trent', date:'December 31, 2024',
+        scenario_context:'Ridgeway has unearned revenue from a prepaid inspection deposit and a mortgage with a current portion due this year.',
+        instructions:'Prepare a classified balance sheet for Ridgeway Home Inspections as at December 31, 2024. Note: Unearned Revenue is a current liability, and the mortgage must be split into current and long-term portions.',
+        advanced_notes:[
+          'Unearned Revenue ($1,500) represents a client deposit for an inspection not yet performed \u2014 it is a current liability.',
+          'The mortgage has $6,000 due this year (Current Liability) and $48,000 remaining (Long-Term Liability).'
+        ],
+        accounts:[
+          { name:'Cash',                                value:7500,   correct_section:'CA',  correct_order:1 },
+          { name:'A/R \u2014 C. Hoffman',              value:2100,   correct_section:'CA',  correct_order:2 },
+          { name:'A/R \u2014 R. Santos',               value:1800,   correct_section:'CA',  correct_order:3 },
+          { name:'Prepaid Rent',                         value:1200,   correct_section:'CA',  correct_order:4 },
+          { name:'Supplies',                             value:600,    correct_section:'CA',  correct_order:5 },
+          { name:'Land',                                 value:55000,  correct_section:'LTA', correct_order:1 },
+          { name:'Equipment',                            value:14000,  correct_section:'LTA', correct_order:2 },
+          { name:'Vehicles',                             value:11000,  correct_section:'LTA', correct_order:3 },
+          { name:'A/P \u2014 BuildSafe Supply',         value:2800,   correct_section:'CL',  correct_order:1 },
+          { name:'Unearned Revenue',                     value:1500,   correct_section:'CL',  correct_order:2 },
+          { name:'Current Portion of Mortgage',          value:6000,   correct_section:'CL',  correct_order:3 },
+          { name:'Mortgage Payable (remaining)',         value:48000,  correct_section:'LTL', correct_order:1 },
+          { name:'B. Trent, Capital, Jan. 1',            value:32000,  correct_section:'OE',  correct_order:1 },
+          { name:'Add: Net Income',                      value:5400,   correct_section:'OE',  correct_order:2 },
+          { name:'Less: B. Trent, Drawings',             value:-2500,  correct_section:'OE',  correct_order:3 },
+        ],
+        solution:{
+          heading:['Ridgeway Home Inspections','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:7500,indent:0},{name:'A/R \u2014 C. Hoffman',value:2100,indent:1},{name:'A/R \u2014 R. Santos',value:1800,indent:1},{name:'Prepaid Rent',value:1200,indent:0},{name:'Supplies',value:600,indent:0}],
+            current_total:13200,
+            longterm:[{name:'Land',value:55000,indent:0},{name:'Equipment',value:14000,indent:0},{name:'Vehicles',value:11000,indent:0}],
+            longterm_total:80000,
+            total:93200
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 BuildSafe Supply',value:2800,indent:1},{name:'Unearned Revenue',value:1500,indent:0},{name:'Current Portion of Mortgage',value:6000,indent:0}],
+            current_total:10300,
+            longterm:[{name:'Mortgage Payable (remaining)',value:48000,indent:0}],
+            longterm_total:48000,
+            total:58300
+          },
+          equity:{items:[{name:'B. Trent, Capital, Jan. 1',value:32000},{name:'Add: Net Income',value:5400},{name:'Less: B. Trent, Drawings',value:-2500},{name:'B. Trent, Capital, Dec. 31',value:34900}],total:34900},
+          total_liabilities_oe:93200
+        },
+        check:{total_assets:93200,total_loe:93200,balanced:true}
+      },
+
+      /* ---------- ADVANCED Level 2 — #2: Northgate Landscaping ---------- */
+      {
+        type:'advanced', difficulty:2,
+        company:'Northgate Landscaping', owner:'E. Volkov', date:'December 31, 2024',
+        scenario_context:'Northgate has multiple named debtors (A/R) and creditors (A/P), unearned revenue from a prepaid landscaping contract, and net income with drawings.',
+        instructions:'Prepare a classified balance sheet for Northgate Landscaping as at December 31, 2024. List all A/R debtors and A/P creditors alphabetically. Unearned Revenue is a current liability.',
+        advanced_notes:[
+          'A/R sub-accounts (debtors) alphabetically: Armstrong, Beaumont, Kwon.',
+          'A/P sub-accounts (creditors) alphabetically: Green Solutions, Landscape Pro, Terra Supply.',
+          'Unearned Revenue ($1,800) = prepaid landscaping contract deposit \u2014 current liability.'
+        ],
+        accounts:[
+          { name:'Cash',                                value:8800,   correct_section:'CA',  correct_order:1 },
+          { name:'A/R \u2014 D. Armstrong',            value:2400,   correct_section:'CA',  correct_order:2 },
+          { name:'A/R \u2014 T. Beaumont',             value:1700,   correct_section:'CA',  correct_order:3 },
+          { name:'A/R \u2014 G. Kwon',                 value:3100,   correct_section:'CA',  correct_order:4 },
+          { name:'Merchandise Inventory',                value:7200,   correct_section:'CA',  correct_order:5 },
+          { name:'Prepaid Insurance',                    value:1400,   correct_section:'CA',  correct_order:6 },
+          { name:'Supplies',                             value:900,    correct_section:'CA',  correct_order:7 },
+          { name:'Land',                                 value:68000,  correct_section:'LTA', correct_order:1 },
+          { name:'Building',                             value:42000,  correct_section:'LTA', correct_order:2 },
+          { name:'Equipment',                            value:20000,  correct_section:'LTA', correct_order:3 },
+          { name:'Vehicles',                             value:15000,  correct_section:'LTA', correct_order:4 },
+          { name:'A/P \u2014 Green Solutions Ltd.',     value:3800,   correct_section:'CL',  correct_order:1 },
+          { name:'A/P \u2014 Landscape Pro',            value:4500,   correct_section:'CL',  correct_order:2 },
+          { name:'A/P \u2014 Terra Supply Co.',         value:2600,   correct_section:'CL',  correct_order:3 },
+          { name:'Unearned Revenue',                     value:1800,   correct_section:'CL',  correct_order:4 },
+          { name:'Bank Loan (5-year)',                   value:38000,  correct_section:'LTL', correct_order:1 },
+          { name:'Mortgage Payable',                     value:52000,  correct_section:'LTL', correct_order:2 },
+          { name:'E. Volkov, Capital, Jan. 1',           value:60000,  correct_section:'OE',  correct_order:1 },
+          { name:'Add: Net Income',                      value:12300,  correct_section:'OE',  correct_order:2 },
+          { name:'Less: E. Volkov, Drawings',            value:-4500,  correct_section:'OE',  correct_order:3 },
+        ],
+        solution:{
+          heading:['Northgate Landscaping','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:8800,indent:0},{name:'A/R \u2014 D. Armstrong',value:2400,indent:1},{name:'A/R \u2014 T. Beaumont',value:1700,indent:1},{name:'A/R \u2014 G. Kwon',value:3100,indent:1},{name:'Merchandise Inventory',value:7200,indent:0},{name:'Prepaid Insurance',value:1400,indent:0},{name:'Supplies',value:900,indent:0}],
+            current_total:25500,
+            longterm:[{name:'Land',value:68000,indent:0},{name:'Building',value:42000,indent:0},{name:'Equipment',value:20000,indent:0},{name:'Vehicles',value:15000,indent:0}],
+            longterm_total:145000,
+            total:170500
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Green Solutions Ltd.',value:3800,indent:1},{name:'A/P \u2014 Landscape Pro',value:4500,indent:1},{name:'A/P \u2014 Terra Supply Co.',value:2600,indent:1},{name:'Unearned Revenue',value:1800,indent:0}],
+            current_total:12700,
+            longterm:[{name:'Bank Loan (5-year)',value:38000,indent:0},{name:'Mortgage Payable',value:52000,indent:0}],
+            longterm_total:90000,
+            total:102700
+          },
+          equity:{items:[{name:'E. Volkov, Capital, Jan. 1',value:60000},{name:'Add: Net Income',value:12300},{name:'Less: E. Volkov, Drawings',value:-4500},{name:'E. Volkov, Capital, Dec. 31',value:67800}],total:67800},
+          total_liabilities_oe:170500
+        },
+        check:{total_assets:170500,total_loe:170500,balanced:true}
+      },
+
+      /* ---------- ADVANCED Level 2 — #3: Sunrise Bakery & Cafe ---------- */
+      {
+        type:'advanced', difficulty:2,
+        company:'Sunrise Bakery & Caf\u00e9', owner:'H. Morales', date:'December 31, 2024',
+        scenario_context:'Sunrise Bakery has a bank loan that must be split into a current portion and long-term remainder. There are multiple debtors and creditors, plus wages payable.',
+        instructions:'Prepare a classified balance sheet for Sunrise Bakery & Caf\u00e9 as at December 31, 2024. Split the bank loan into its current and long-term portions. List all A/R debtors and A/P creditors alphabetically.',
+        advanced_notes:[
+          'A/R debtors alphabetically: L. Caruso, N. Patel, S. Williams.',
+          'A/P creditors alphabetically: Bake Supply Co., Fresh Ingredients, Sweet Source Ltd.',
+          'Bank loan current portion ($5,000) is a current liability; remaining $35,000 is long-term.'
+        ],
+        accounts:[
+          { name:'Cash',                                value:10500,  correct_section:'CA',  correct_order:1 },
+          { name:'A/R \u2014 L. Caruso',               value:2200,   correct_section:'CA',  correct_order:2 },
+          { name:'A/R \u2014 N. Patel',                value:3500,   correct_section:'CA',  correct_order:3 },
+          { name:'A/R \u2014 S. Williams',             value:1800,   correct_section:'CA',  correct_order:4 },
+          { name:'Merchandise Inventory',                value:8400,   correct_section:'CA',  correct_order:5 },
+          { name:'Prepaid Rent',                         value:2000,   correct_section:'CA',  correct_order:6 },
+          { name:'Supplies',                             value:1100,   correct_section:'CA',  correct_order:7 },
+          { name:'Land',                                 value:72000,  correct_section:'LTA', correct_order:1 },
+          { name:'Building',                             value:55000,  correct_section:'LTA', correct_order:2 },
+          { name:'Equipment',                            value:22000,  correct_section:'LTA', correct_order:3 },
+          { name:'A/P \u2014 Bake Supply Co.',          value:3600,   correct_section:'CL',  correct_order:1 },
+          { name:'A/P \u2014 Fresh Ingredients',        value:4800,   correct_section:'CL',  correct_order:2 },
+          { name:'A/P \u2014 Sweet Source Ltd.',        value:2400,   correct_section:'CL',  correct_order:3 },
+          { name:'Wages Payable',                        value:1900,   correct_section:'CL',  correct_order:4 },
+          { name:'Current Portion of Bank Loan',         value:5000,   correct_section:'CL',  correct_order:5 },
+          { name:'Bank Loan (remaining)',                value:35000,  correct_section:'LTL', correct_order:1 },
+          { name:'Mortgage Payable',                     value:60000,  correct_section:'LTL', correct_order:2 },
+          { name:'H. Morales, Capital, Jan. 1',          value:58000,  correct_section:'OE',  correct_order:1 },
+          { name:'Add: Net Income',                      value:11800,  correct_section:'OE',  correct_order:2 },
+          { name:'Less: H. Morales, Drawings',           value:-4000,  correct_section:'OE',  correct_order:3 },
+        ],
+        solution:{
+          heading:['Sunrise Bakery & Caf\u00e9','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:10500,indent:0},{name:'A/R \u2014 L. Caruso',value:2200,indent:1},{name:'A/R \u2014 N. Patel',value:3500,indent:1},{name:'A/R \u2014 S. Williams',value:1800,indent:1},{name:'Merchandise Inventory',value:8400,indent:0},{name:'Prepaid Rent',value:2000,indent:0},{name:'Supplies',value:1100,indent:0}],
+            current_total:29500,
+            longterm:[{name:'Land',value:72000,indent:0},{name:'Building',value:55000,indent:0},{name:'Equipment',value:22000,indent:0}],
+            longterm_total:149000,
+            total:178500
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Bake Supply Co.',value:3600,indent:1},{name:'A/P \u2014 Fresh Ingredients',value:4800,indent:1},{name:'A/P \u2014 Sweet Source Ltd.',value:2400,indent:1},{name:'Wages Payable',value:1900,indent:0},{name:'Current Portion of Bank Loan',value:5000,indent:0}],
+            current_total:17700,
+            longterm:[{name:'Bank Loan (remaining)',value:35000,indent:0},{name:'Mortgage Payable',value:60000,indent:0}],
+            longterm_total:95000,
+            total:112700
+          },
+          equity:{items:[{name:'H. Morales, Capital, Jan. 1',value:58000},{name:'Add: Net Income',value:11800},{name:'Less: H. Morales, Drawings',value:-4000},{name:'H. Morales, Capital, Dec. 31',value:65800}],total:65800},
+          total_liabilities_oe:178500
+        },
+        check:{total_assets:178500,total_loe:178500,balanced:true}
+      },
+
+      /* ---------- ADVANCED Level 3 — #3: Westcoast Marine Services ---------- */
+      {
+        type:'advanced', difficulty:3,
+        company:'Westcoast Marine Services', owner:'J. Lindgren', date:'December 31, 2024',
+        scenario_context:'Westcoast Marine had a net loss this period. The mortgage has a current portion due within 12 months. There are multiple debtors and creditors, plus wages payable.',
+        instructions:'Prepare a classified balance sheet for Westcoast Marine Services as at December 31, 2024. The company had a net loss (which reduces equity), the mortgage must be split into current and long-term, and all A/R and A/P sub-accounts must be alphabetical.',
+        advanced_notes:[
+          'A net loss REDUCES equity. Show it as "Less: Net Loss" and subtract from beginning capital.',
+          'The mortgage current portion ($7,000) is a current liability; remaining $75,000 is long-term.',
+          'Both net loss and drawings are subtracted from beginning capital.'
+        ],
+        accounts:[
+          { name:'Cash',                                value:13500,  correct_section:'CA',  correct_order:1 },
+          { name:'A/R \u2014 M. Chang',                value:3600,   correct_section:'CA',  correct_order:2 },
+          { name:'A/R \u2014 B. Hendricks',            value:4200,   correct_section:'CA',  correct_order:3 },
+          { name:'A/R \u2014 T. Nikolaidis',           value:2800,   correct_section:'CA',  correct_order:4 },
+          { name:'Merchandise Inventory',                value:10800,  correct_section:'CA',  correct_order:5 },
+          { name:'Prepaid Insurance',                    value:3200,   correct_section:'CA',  correct_order:6 },
+          { name:'Supplies',                             value:2100,   correct_section:'CA',  correct_order:7 },
+          { name:'Land',                                 value:90000,  correct_section:'LTA', correct_order:1 },
+          { name:'Building',                             value:68000,  correct_section:'LTA', correct_order:2 },
+          { name:'Equipment',                            value:35000,  correct_section:'LTA', correct_order:3 },
+          { name:'Vehicles',                             value:22000,  correct_section:'LTA', correct_order:4 },
+          { name:'A/P \u2014 Coastal Supply Co.',       value:5500,   correct_section:'CL',  correct_order:1 },
+          { name:'A/P \u2014 Harbour Equipment',        value:4800,   correct_section:'CL',  correct_order:2 },
+          { name:'A/P \u2014 Pacific Marine Ltd.',      value:3200,   correct_section:'CL',  correct_order:3 },
+          { name:'Wages Payable',                        value:2800,   correct_section:'CL',  correct_order:4 },
+          { name:'Current Portion of Mortgage',          value:7000,   correct_section:'CL',  correct_order:5 },
+          { name:'Bank Loan (5-year)',                   value:48000,  correct_section:'LTL', correct_order:1 },
+          { name:'Mortgage Payable (remaining)',         value:75000,  correct_section:'LTL', correct_order:2 },
+          { name:'J. Lindgren, Capital, Jan. 1',         value:120000, correct_section:'OE',  correct_order:1 },
+          { name:'Less: Net Loss',                       value:-3800,  correct_section:'OE',  correct_order:2 },
+          { name:'Less: J. Lindgren, Drawings',          value:-7300,  correct_section:'OE',  correct_order:3 },
+        ],
+        solution:{
+          heading:['Westcoast Marine Services','Balance Sheet','As at December 31, 2024'],
+          assets:{
+            current:[{name:'Cash',value:13500,indent:0},{name:'A/R \u2014 M. Chang',value:3600,indent:1},{name:'A/R \u2014 B. Hendricks',value:4200,indent:1},{name:'A/R \u2014 T. Nikolaidis',value:2800,indent:1},{name:'Merchandise Inventory',value:10800,indent:0},{name:'Prepaid Insurance',value:3200,indent:0},{name:'Supplies',value:2100,indent:0}],
+            current_total:40200,
+            longterm:[{name:'Land',value:90000,indent:0},{name:'Building',value:68000,indent:0},{name:'Equipment',value:35000,indent:0},{name:'Vehicles',value:22000,indent:0}],
+            longterm_total:215000,
+            total:255200
+          },
+          liabilities:{
+            current:[{name:'A/P \u2014 Coastal Supply Co.',value:5500,indent:1},{name:'A/P \u2014 Harbour Equipment',value:4800,indent:1},{name:'A/P \u2014 Pacific Marine Ltd.',value:3200,indent:1},{name:'Wages Payable',value:2800,indent:0},{name:'Current Portion of Mortgage',value:7000,indent:0}],
+            current_total:23300,
+            longterm:[{name:'Bank Loan (5-year)',value:48000,indent:0},{name:'Mortgage Payable (remaining)',value:75000,indent:0}],
+            longterm_total:123000,
+            total:146300
+          },
+          equity:{items:[{name:'J. Lindgren, Capital, Jan. 1',value:120000},{name:'Less: Net Loss',value:-3800},{name:'Less: J. Lindgren, Drawings',value:-7300},{name:'J. Lindgren, Capital, Dec. 31',value:108900}],total:108900},
+          total_liabilities_oe:255200
+        },
+        check:{total_assets:255200,total_loe:255200,balanced:true}
+      },
+
     ]; /* end questionBank */
 
     /* =========================================================
@@ -1164,8 +1917,7 @@
         showError('No question found for that type and difficulty.');
         return;
       }
-      const preferred = matches.filter(q => q.source === 'pdf_new_west');
-      const pool = preferred.length ? preferred : matches;
+      const pool = matches;
       const pick = pool[Math.floor(Math.random() * pool.length)];
       currentQ = JSON.parse(JSON.stringify(pick));
       renderQuestion(currentQ);

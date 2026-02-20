@@ -221,8 +221,19 @@ Rules:
   /* Parse JSON from Gemini response ----------------------- */
   let result;
   try {
-    // Strip possible markdown code fences if model ignores responseMimeType
-    const cleaned = rawText.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
+    let cleaned = rawText.trim();
+    // 1) Try to extract JSON from markdown code fences (```json ... ``` or ``` ... ```)
+    const fenceMatch = cleaned.match(/```(?:json)?\s*\n?([\s\S]*?)```/i);
+    if (fenceMatch) {
+      cleaned = fenceMatch[1].trim();
+    } else {
+      // 2) No fences found — try to extract the outermost { ... } block
+      const braceStart = cleaned.indexOf('{');
+      const braceEnd = cleaned.lastIndexOf('}');
+      if (braceStart !== -1 && braceEnd > braceStart) {
+        cleaned = cleaned.slice(braceStart, braceEnd + 1);
+      }
+    }
     result = JSON.parse(cleaned);
   } catch {
     console.error('[check-errors] request:parse_error', {
