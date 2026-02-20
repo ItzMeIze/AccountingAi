@@ -1376,8 +1376,12 @@
             totalErrors: currentQ.errors.length
           })
         });
-        if (!resp.ok) throw new Error('API returned ' + resp.status);
-        result = await resp.json();
+        const payload = await resp.json().catch(() => ({}));
+        if (!resp.ok) {
+          const msg = payload?.userMessage || payload?.error || ('API returned ' + resp.status);
+          throw new Error(msg);
+        }
+        result = payload;
       } catch (err) {
         fb.innerHTML = `<div class="ai-feedback-panel"><div class="ai-fb-header fb-fail">
           &#9888; Could not reach the AI marker (${err.message}). Click <strong>See All Errors</strong> to check manually.

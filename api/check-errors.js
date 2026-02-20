@@ -5,8 +5,7 @@
    ============================================================= */
 export const config = { runtime: 'edge' };
 
-const GEMINI_MODEL  = 'gemini-2.0-flash-lite';
-const GEMINI_URL    = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+const GEMINI_MODELS = ['gemini-2.0-flash-lite', 'gemini-1.5-flash'];
 
 export default async function handler(req) {
   if (req.method !== 'POST') {
@@ -113,35 +112,57 @@ Rules:
 - Keep "feedback" encouraging and Grade 11 appropriate
 `;
 
-  /* Call Gemini -------------------------------------------- */
-  let geminiRes;
-  try {
-    geminiRes = await fetch(`${GEMINI_URL}?key=${apiKey}`, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature:     0.2,
-          maxOutputTokens: 1200,
-          responseMimeType: 'application/json'
-        }
-      })
-    });
-  } catch (err) {
-    return new Response(JSON.stringify({ error: 'Failed to reach Gemini: ' + err.message }), {
-      status: 502, headers: corsHeaders()
+  /* Call Gemini (with model fallback) ---------------------- */
+  let geminiData = null;
+  let lastErr = null;
+
+  for (const model of GEMINI_MODELS) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    try {
+      const geminiRes = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.2,
+            maxOutputTokens: 1200,
+            responseMimeType: 'application/json'
+          }
+        })
+      });
+
+      if (!geminiRes.ok) {
+        const errText = await geminiRes.text().catch(() => '');
+        lastErr = { status: geminiRes.status, detail: errText, model };
+        continue;
+      }
+
+      geminiData = await geminiRes.json();
+      lastErr = null;
+      break;
+    } catch (err) {
+      lastErr = { status: 502, detail: String(err?.message || err), model };
+    }
+  }
+
+  if (!geminiData) {
+    const status = lastErr?.status === 429 ? 429 : 502;
+    const quotaMsg = status === 429
+      ? 'Gemini quota exceeded for this API key/project. Check AI Studio quotas or billing, then retry.'
+      : 'Could not reach Gemini right now. Please try again in a moment.';
+
+    return new Response(JSON.stringify({
+      error: `Gemini API error ${lastErr?.status || 502}`,
+      userMessage: quotaMsg,
+      detail: lastErr?.detail || '',
+      modelTried: lastErr?.model || null
+    }), {
+      status,
+      headers: corsHeaders()
     });
   }
 
-  if (!geminiRes.ok) {
-    const errText = await geminiRes.text().catch(() => '');
-    return new Response(JSON.stringify({ error: `Gemini API error ${geminiRes.status}`, detail: errText }), {
-      status: 502, headers: corsHeaders()
-    });
-  }
-
-  const geminiData = await geminiRes.json();
   const rawText = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
   /* Parse JSON from Gemini response ----------------------- */
