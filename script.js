@@ -497,4 +497,261 @@
     result.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
+  /* ==========================================================
+     SECTION 8 — AI QUESTIONS CONTROLLER
+     ========================================================== */
+  (function initAIQuestions() {
+    let currentType = 'preparation';
+    let currentDiff = 1;
+    let currentQuestion = null;
+
+    // Type button toggles
+    document.querySelectorAll('.ai-type-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.ai-type-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentType = btn.dataset.type;
+      });
+    });
+
+    // Difficulty button toggles
+    document.querySelectorAll('.ai-diff-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.ai-diff-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentDiff = Number(btn.dataset.diff);
+      });
+    });
+
+    const genBtn = document.getElementById('aiGenerate');
+    if (genBtn) genBtn.addEventListener('click', () => generateQuestion(currentType, currentDiff));
+
+    const revealBtn = document.getElementById('aiReveal');
+    if (revealBtn) revealBtn.addEventListener('click', revealSolution);
+
+    const newSameBtn = document.getElementById('aiNewSame');
+    if (newSameBtn) newSameBtn.addEventListener('click', () => generateQuestion(currentType, currentDiff));
+
+    async function generateQuestion(type, difficulty) {
+      setLoading(true);
+      hideError();
+      const qa = document.getElementById('aiQuestionArea');
+      const kn = document.getElementById('aiKeyNotice');
+      if (qa) qa.classList.add('hidden');
+      if (kn) kn.classList.add('hidden');
+
+      try {
+        const resp = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type, difficulty })
+        });
+        const data = await resp.json();
+        if (data.error) { showError(data.error); return; }
+        currentQuestion = data;
+        renderQuestion(data);
+      } catch (err) {
+        showError('Network error: ' + err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    function renderQuestion(q) {
+      const typeLabels = { preparation: '📋 Preparation', error_finding: '🔍 Error Finding', advanced: '⚡ Advanced' };
+      const diffLabels = { 1: 'Level 1 — Basic', 2: 'Level 2 — Intermediate', 3: 'Level 3 — Advanced' };
+
+      const metaEl = document.getElementById('aiQMeta');
+      if (metaEl) metaEl.innerHTML = `
+        <span class="ai-q-meta-chip ai-chip-type">${typeLabels[q.type] || q.type}</span>
+        <span class="ai-q-meta-chip ai-chip-diff">${diffLabels[q.difficulty] || 'Level ' + q.difficulty}</span>
+        <span class="ai-q-meta-chip ai-chip-co">🏢 ${q.company}</span>`;
+
+      const titleEl = document.getElementById('aiQTitle');
+      if (titleEl) titleEl.textContent = q.company + ' — ' + q.date;
+
+      const instrEl = document.getElementById('aiQInstructions');
+      if (instrEl) instrEl.textContent = q.instructions;
+
+      const scenNote = document.getElementById('aiScenarioNote');
+      if (scenNote) {
+        if (q.scenario_context) {
+          scenNote.textContent = '📌 Scenario: ' + q.scenario_context;
+          scenNote.classList.remove('hidden');
+        } else {
+          scenNote.classList.add('hidden');
+        }
+      }
+
+      // Reset panels
+      ['aiAcctPanel','aiErrorPanel','aiSolution','aiErrorsReveal'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+      const errInput = document.getElementById('aiErrorInput');
+      if (errInput) errInput.value = '';
+
+      if (q.type === 'error_finding') {
+        const ep = document.getElementById('aiErrorPanel');
+        if (ep) ep.classList.remove('hidden');
+        renderBS(q.erroneous_sheet, 'aiErrorBS');
+      } else {
+        const ap = document.getElementById('aiAcctPanel');
+        if (ap) ap.classList.remove('hidden');
+        renderAccountList(q.accounts || []);
+        const advNotes = document.getElementById('aiAdvNotes');
+        if (advNotes) {
+          if (q.advanced_notes && q.advanced_notes.length) {
+            advNotes.innerHTML = q.advanced_notes.map(n => `<div class="ai-adv-note">💡 ${n}</div>`).join('');
+            advNotes.classList.remove('hidden');
+          } else {
+            advNotes.classList.add('hidden');
+          }
+        }
+      }
+
+      const qa = document.getElementById('aiQuestionArea');
+      if (qa) qa.classList.remove('hidden');
+    }
+
+    function renderAccountList(accounts) {
+      const grid = document.getElementById('aiAcctGrid');
+      if (!grid) return;
+      const shuffled = [...accounts].sort(() => Math.random() - 0.5);
+      grid.innerHTML = shuffled.map(a => `
+        <div class="ai-acct-item">
+          <div>
+            <div class="ai-acct-name">${a.name}</div>
+            ${a.note ? `<div class="ai-acct-hint">${a.note}</div>` : ''}
+          </div>
+          <span class="ai-acct-val">${fmtAI(a.value)}</span>
+        </div>`).join('');
+    }
+
+    function revealSolution() {
+      if (!currentQuestion) return;
+      const q = currentQuestion;
+
+      renderBS(q.solution, 'aiSolutionBS');
+
+      const errReveal = document.getElementById('aiErrorsReveal');
+      const errList   = document.getElementById('aiErrorsList');
+      if (errReveal && errList && q.type === 'error_finding' && q.errors && q.errors.length) {
+        errList.innerHTML = q.errors.map((e, i) => `
+          <div class="ai-error-item">
+            <div class="ai-err-num">${i + 1}</div>
+            <div class="ai-err-body">
+              <div class="ai-err-loc">📍 ${e.location}</div>
+              <div>${e.description}</div>
+              <div class="ai-err-fix">✅ Correction: ${e.correction}</div>
+            </div>
+          </div>`).join('');
+        errReveal.classList.remove('hidden');
+      } else if (errReveal) {
+        errReveal.classList.add('hidden');
+      }
+
+      const check  = q.check || {};
+      const banner = document.getElementById('aiCheckBanner');
+      if (banner) {
+        if (check.balanced) {
+          banner.innerHTML = `<span class="ai-check-pass">✓ Balanced: Total Assets ${fmtAI(check.total_assets)} = Total L &amp; OE ${fmtAI(check.total_loe)}</span>`;
+        } else {
+          banner.innerHTML = `<span class="ai-check-fail">⚠ Does not balance: Assets ${fmtAI(check.total_assets)} ≠ L&amp;OE ${fmtAI(check.total_loe)}</span>`;
+        }
+      }
+
+      const sol = document.getElementById('aiSolution');
+      if (sol) {
+        sol.classList.remove('hidden');
+        sol.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function renderBS(sheet, containerId) {
+      if (!sheet) return;
+      const el = document.getElementById(containerId);
+      if (!el) return;
+      const a  = sheet.assets       || {};
+      const l  = sheet.liabilities  || {};
+      const oe = sheet.equity       || {};
+      const h  = sheet.heading      || [];
+
+      el.innerHTML = `<div class="ai-bs-wrap">
+        <div class="ai-bs-heading">
+          ${h.map(line => `<span class="ai-bs-hline">${line}</span>`).join('')}
+        </div>
+        <div class="ai-bs-body">
+          <div class="ai-bs-side">
+            <div class="ai-bs-major ai-bs-blue">Assets</div>
+            <div class="ai-bs-subhead">Current Assets</div>
+            ${(a.current || []).map(r => bsRow(r)).join('')}
+            ${subtotRow('Total Current Assets', a.current_total)}
+            <div class="ai-bs-mt"></div>
+            <div class="ai-bs-subhead">Long-Term Assets</div>
+            ${(a.longterm || []).map(r => bsRow(r)).join('')}
+            ${subtotRow('Total Long-Term Assets', a.longterm_total)}
+            ${grandRow('Total Assets', a.total)}
+          </div>
+          <div class="ai-bs-div"></div>
+          <div class="ai-bs-side">
+            <div class="ai-bs-major ai-bs-red">Liabilities</div>
+            <div class="ai-bs-subhead">Current Liabilities</div>
+            ${(l.current || []).map(r => bsRow(r)).join('')}
+            ${subtotRow('Total Current Liabilities', l.current_total)}
+            <div class="ai-bs-mt"></div>
+            <div class="ai-bs-subhead">Long-Term Liabilities</div>
+            ${(l.longterm || []).map(r => bsRow(r)).join('')}
+            ${subtotRow('Total Long-Term Liabilities', l.longterm_total)}
+            ${subtotRow('Total Liabilities', l.total, true)}
+            <div class="ai-bs-major ai-bs-green ai-bs-mt">Owner's Equity</div>
+            ${(oe.items || []).map(r => bsRow(r)).join('')}
+            ${grandRow("Total Liabilities & Owner's Equity", sheet.total_liabilities_oe)}
+          </div>
+        </div>
+      </div>`;
+    }
+
+    function bsRow(r) {
+      if (!r) return '';
+      const indent = r.indent === 2 ? 'i2' : r.indent === 1 ? 'i1' : '';
+      return `<div class="ai-bs-row ${indent}"><span>${r.name || ''}</span><span class="ai-bs-amt">${r.display || fmtAI(r.value)}</span></div>`;
+    }
+
+    function subtotRow(label, val, isSect) {
+      const cls = isSect ? 'ai-bs-sectot' : 'ai-bs-subtot';
+      return `<div class="${cls}"><span>${label}</span><span class="ai-bs-su">${fmtAI(val)}</span></div>`;
+    }
+
+    function grandRow(label, val) {
+      return `<div class="ai-bs-grand"><span>${label}</span><span class="ai-bs-dbl">${fmtAI(val)}</span></div>`;
+    }
+
+    function fmtAI(v) {
+      if (v == null) return '$0';
+      const abs = Math.abs(Number(v));
+      const s = '$' + abs.toLocaleString('en-CA', { minimumFractionDigits: 0 });
+      return Number(v) < 0 ? '(' + s + ')' : s;
+    }
+
+    function setLoading(on) {
+      const spinner = document.getElementById('aiLoading');
+      const btn     = document.getElementById('aiGenerate');
+      if (spinner) spinner.classList.toggle('hidden', !on);
+      if (btn)     btn.disabled = on;
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('aiErrorMsg');
+      if (!el) return;
+      el.textContent = '⚠ ' + msg;
+      el.classList.remove('hidden');
+    }
+
+    function hideError() {
+      const el = document.getElementById('aiErrorMsg');
+      if (el) el.classList.add('hidden');
+    }
+  })();
+
 })();

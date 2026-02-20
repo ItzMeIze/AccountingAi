@@ -27,6 +27,7 @@
       <li><a href="#practice">Practice</a></li>
       <li><a href="#mistakes">Mistakes</a></li>
       <li><a href="#quiz">Quiz</a></li>
+      <li><a href="#ai-questions" class="nav-ai">&#10024; AI Questions</a></li>
     </ul>
   </div>
 </nav>
@@ -46,7 +47,7 @@
       <a href="#example" class="btn btn-ghost">Jump to Example</a>
     </div>
     <div class="hero-stats">
-      <div class="stat"><span class="stat-n">7</span><span class="stat-l">Sections</span></div>
+      <div class="stat"><span class="stat-n">8</span><span class="stat-l">Sections</span></div>
       <div class="stat-div"></div>
       <div class="stat"><span class="stat-n">15</span><span class="stat-l">Practice Accounts</span></div>
       <div class="stat-div"></div>
@@ -848,6 +849,101 @@
       <button type="submit" class="btn btn-primary" id="quizSubmit">Submit Answers &rarr;</button>
     </form>
     <div id="quizResult" class="quiz-result hidden"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 8 — AI QUESTIONS
+     ============================================================ -->
+<section id="ai-questions" class="section section-alt">
+  <div class="container">
+    <div class="section-label">Section 8</div>
+    <h2 class="section-title">AI-Generated Practice Questions</h2>
+    <p class="section-intro">Generate unlimited unique classified balance sheet questions powered by AI. Choose a question type and difficulty, then test yourself with detailed feedback.</p>
+
+    <!-- Config row -->
+    <div class="ai-config">
+      <div class="ai-config-group">
+        <label class="ai-cfg-label">Question Type</label>
+        <div class="ai-type-btns" id="aiTypeGroup">
+          <button class="ai-type-btn active" data-type="preparation">&#128203; Preparation</button>
+          <button class="ai-type-btn" data-type="error_finding">&#128269; Error Finding</button>
+          <button class="ai-type-btn" data-type="advanced">&#9889; Advanced</button>
+        </div>
+      </div>
+      <div class="ai-config-group">
+        <label class="ai-cfg-label">Difficulty</label>
+        <div class="ai-diff-btns" id="aiDiffGroup">
+          <button class="ai-diff-btn active" data-diff="1">Level 1 <span class="diff-tag diff-1">Basic</span></button>
+          <button class="ai-diff-btn" data-diff="2">Level 2 <span class="diff-tag diff-2">Intermediate</span></button>
+          <button class="ai-diff-btn" data-diff="3">Level 3 <span class="diff-tag diff-3">Advanced</span></button>
+        </div>
+      </div>
+      <button class="btn btn-primary ai-generate-btn" id="aiGenerate">&#8981; Generate Question</button>
+    </div>
+
+    <!-- API key notice -->
+    <div class="ai-key-notice" id="aiKeyNotice">
+      <span>&#128274;</span>
+      <span>To use AI Questions, add your <strong>OpenAI API key</strong> as <code>OPENAI_API_KEY</code> in your <a href="https://vercel.com/dashboard" target="_blank">Vercel project &rarr; Settings &rarr; Environment Variables</a>, then redeploy.</span>
+    </div>
+
+    <!-- Loading state -->
+    <div class="ai-loading hidden" id="aiLoading">
+      <div class="ai-spinner"></div>
+      <p>Generating your question&hellip; this takes a few seconds.</p>
+    </div>
+
+    <!-- Question display -->
+    <div class="ai-question-area hidden" id="aiQuestionArea">
+
+      <!-- Question header -->
+      <div class="ai-q-header" id="aiQHeader">
+        <div class="ai-q-meta" id="aiQMeta"></div>
+        <h3 class="ai-q-title" id="aiQTitle"></h3>
+        <p class="ai-q-instructions" id="aiQInstructions"></p>
+        <div class="ai-scenario-note hidden" id="aiScenarioNote"></div>
+      </div>
+
+      <!-- Preparation / Advanced: account list to organize -->
+      <div class="ai-acct-panel hidden" id="aiAcctPanel">
+        <h4 class="ai-panel-head">&#128203; Account List</h4>
+        <div class="ai-acct-grid" id="aiAcctGrid"></div>
+        <div class="ai-advanced-notes hidden" id="aiAdvNotes"></div>
+      </div>
+
+      <!-- Error-finding: erroneous balance sheet display -->
+      <div class="ai-error-panel hidden" id="aiErrorPanel">
+        <div class="ai-bs-render" id="aiErrorBS"></div>
+        <div class="ai-error-input-wrap">
+          <label class="ai-panel-head">&#9998; List the errors you found (one per line):</label>
+          <textarea id="aiErrorInput" class="ai-textarea" rows="6" placeholder="e.g.&#10;Error 1: Supplies is listed first in Current Assets — Cash must come first&#10;Error 2: Total Current Assets subtotal is missing..."></textarea>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="ai-actions">
+        <button class="btn btn-primary" id="aiReveal">&#10003; Reveal Complete Solution</button>
+        <button class="btn btn-outline" id="aiNewSame">&#8635; New Question (same settings)</button>
+      </div>
+
+      <!-- Solution panel (hidden until revealed) -->
+      <div class="ai-solution hidden" id="aiSolution">
+        <div class="ai-sol-header">
+          <span class="ai-sol-icon">&#10003;</span>
+          <h4>Complete Solution</h4>
+        </div>
+        <div class="ai-bs-render" id="aiSolutionBS"></div>
+        <div class="ai-errors-reveal hidden" id="aiErrorsReveal">
+          <h4 class="ai-panel-head">&#128270; All Errors Explained</h4>
+          <div id="aiErrorsList"></div>
+        </div>
+        <div class="ai-check-banner" id="aiCheckBanner"></div>
+      </div>
+
+    </div><!-- /ai-question-area -->
+
+    <div class="ai-error-msg hidden" id="aiErrorMsg"></div>
   </div>
 </section>
 
