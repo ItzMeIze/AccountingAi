@@ -3358,6 +3358,175 @@
     syncMem();
   })(); // end calcModule
 
+  /* ==========================================================
+     SECTION 10 — SHORT ANSWER QUESTIONS
+     ========================================================== */
+  (() => {
+    const SHORT_ANSWER_QUESTIONS = [
+      // ── Definitions ──────────────────────────────────────────────
+      { id: 1,  cat: 'definitions',    q: 'What is a classified balance sheet and how does it differ from a simple balance sheet?', model: 'A classified balance sheet groups assets and liabilities into meaningful sub-categories — Current Assets, Long-Term Assets, Current Liabilities, Long-Term Liabilities, and Owner\'s Equity — making it easier to assess liquidity and financial position. A simple balance sheet lists all accounts without grouping.' },
+      { id: 2,  cat: 'definitions',    q: 'What is liquidity, and why is it important when ordering items on a balance sheet?', model: 'Liquidity is how quickly and easily an asset can be converted to cash without a significant loss of value. On a balance sheet, assets are ordered from most to least liquid so users can quickly assess whether the business can meet its short-term obligations.' },
+      { id: 3,  cat: 'definitions',    q: 'Define "current assets" and give two examples.', model: 'Current assets are assets that will be converted to cash or used up within one year (or the normal operating cycle). Examples include Cash and Accounts Receivable (amounts owed by customers).' },
+      { id: 4,  cat: 'definitions',    q: 'Define "current liabilities" and give two examples.', model: 'Current liabilities are debts or obligations that must be paid within one year. Examples include Accounts Payable (amounts owed to suppliers) and Bank Overdraft.' },
+      { id: 5,  cat: 'definitions',    q: 'What is owner\'s equity and how is it calculated?', model: 'Owner\'s equity is the owner\'s residual claim on the assets of the business after all liabilities are deducted. It is calculated as: Owner\'s Equity = Total Assets − Total Liabilities.' },
+      { id: 6,  cat: 'definitions',    q: 'What are long-term assets? Give two examples.', model: 'Long-term assets (also called capital assets or fixed assets) are assets with a useful life extending beyond one year that are used in the operation of the business. Examples include Land and Delivery Equipment.' },
+      { id: 7,  cat: 'definitions',    q: 'What are long-term liabilities? Give one example.', model: 'Long-term liabilities are debts that are not due within the next year. A common example is a Mortgage Payable, which is typically repaid over 10–25 years.' },
+
+      // ── Rules ─────────────────────────────────────────────────────
+      { id: 8,  cat: 'rules',          q: 'State the rule for ordering accounts within Current Assets and explain the reasoning behind it.', model: 'Current assets are listed in order of decreasing liquidity — Cash first, then Accounts Receivable, then Supplies last. This ordering lets the reader immediately see the most liquid resources and assess the business\'s ability to meet short-term obligations.' },
+      { id: 9,  cat: 'rules',          q: 'Why must Accounts Receivable debtors be listed in alphabetical order?', model: 'Debtors are listed alphabetically within the Accounts Receivable sub-section as a standard formatting convention. Alphabetical ordering makes it easy to locate a specific debtor\'s balance and provides a consistent, professional presentation.' },
+      { id: 10, cat: 'rules',          q: 'Explain the underline rule used for subtotals and grand totals on a classified balance sheet.', model: 'A single underline is drawn beneath the last item before a subtotal (and the subtotal itself in some formats) to indicate addition is being performed. A double underline (ruling off) is placed beneath the grand total (Total Assets and Total Liabilities + Owner\'s Equity) to signal the final, authoritative figure.' },
+      { id: 11, cat: 'rules',          q: 'Where does Land appear in a classified balance sheet, and why is it always listed first among long-term assets?', model: 'Land appears first in the Long-Term Assets section because it has an unlimited useful life — it is never depreciated. Since it is the most permanent and highest-value long-term asset, it is placed at the top of that section.' },
+      { id: 12, cat: 'rules',          q: 'Why is Supplies always listed last within Current Assets?', model: 'Supplies are the least liquid current asset because they must be physically used in the business before they provide cash value — they cannot simply be sold like Accounts Receivable or spent like Cash. Therefore, following the liquidity rule, they are listed last in Current Assets.' },
+
+      // ── Concepts ──────────────────────────────────────────────────
+      { id: 13, cat: 'concepts',       q: 'Explain why the two sides of every balance sheet must always be equal.', model: 'The balance sheet is based on the accounting equation: Assets = Liabilities + Owner\'s Equity. Every transaction affects at least two accounts in a way that keeps both sides equal (double-entry bookkeeping). If the two sides do not balance, it means an error has been made in recording or preparing the statement.' },
+      { id: 14, cat: 'concepts',       q: 'What does it mean for a business to be "solvent"? How can you tell from a balance sheet?', model: 'A business is solvent when it has enough assets to cover all its liabilities — i.e., Total Assets exceed Total Liabilities. On a balance sheet, solvency can be assessed by comparing Total Assets with Total Liabilities or by checking whether Owner\'s Equity is positive.' },
+      { id: 15, cat: 'concepts',       q: 'Why is it important for Grade 11 accounting students to distinguish between current and long-term items?', model: 'Separating current and long-term items lets users analyse the business\'s liquidity (ability to pay short-term debts) separately from its long-term financial stability. Lenders and investors rely on this distinction to assess risk and make decisions.' },
+      { id: 16, cat: 'concepts',       q: 'A business has Total Assets of $150,000 and Total Liabilities of $95,000. What is Owner\'s Equity? Show your calculation.', model: 'Owner\'s Equity = Total Assets − Total Liabilities = $150,000 − $95,000 = $55,000. This represents the owner\'s net claim on the business\'s assets.' },
+      { id: 17, cat: 'concepts',       q: 'How does the heading of a classified balance sheet differ from other financial statements, and what three pieces of information must it include?', model: 'The balance sheet heading states the entity\'s name, the title of the statement ("Classified Balance Sheet"), and the specific date the statement is prepared (e.g., "December 31, 2008") — using "as at" rather than "for the year ended". Other statements like the income statement cover a period rather than a single point in time.' },
+
+      // ── Classification ────────────────────────────────────────────
+      { id: 18, cat: 'classification', q: 'Classify each of the following accounts and explain your reasoning: Cash, Mortgage Payable, Land, Accounts Payable, Supplies.', model: 'Cash → Current Asset (most liquid). Mortgage Payable → Long-Term Liability (not due within 1 year). Land → Long-Term Asset (unlimited useful life). Accounts Payable → Current Liability (due within 1 year). Supplies → Current Asset (used up within 1 year, listed last in CA).' },
+      { id: 19, cat: 'classification', q: 'A company has a Bank Loan due in 18 months. Where does it appear on the classified balance sheet?', model: 'Because the bank loan is not due within the next year (it matures in 18 months), it is classified as a Long-Term Liability. It would appear in the Long-Term Liabilities section, above any longer-term debt such as a Mortgage Payable.' },
+      { id: 20, cat: 'classification', q: 'What is the difference between Accounts Receivable and Accounts Payable? Which section of the balance sheet does each belong to?', model: 'Accounts Receivable represents amounts owed TO the business by customers — it is a Current Asset. Accounts Payable represents amounts the business owes TO its suppliers — it is a Current Liability.' },
+      { id: 21, cat: 'classification', q: 'Why is Owner\'s Equity listed separately from liabilities, even though both represent claims on the business\'s assets?', model: 'Liabilities are legal obligations owed to external creditors who must be repaid on specific terms. Owner\'s Equity is the owner\'s residual interest — there is no obligation to repay it on a schedule. Separating them shows clearly who has the primary claim (creditors) and who absorbs any residual gain or loss (the owner).' },
+      { id: 22, cat: 'classification', q: 'Delivery Equipment appears in Long-Term Assets. Explain what criteria it meets and where exactly it is ordered within that section.', model: 'Delivery Equipment is a capital asset used in the business with a useful life greater than one year, so it belongs in Long-Term Assets. Within LTA it is ordered by decreasing useful life: Land first (unlimited), then fixed equipment/furniture, then vehicles such as Delivery Equipment and Automobile last.' },
+    ];
+
+    const saCard       = document.getElementById('saCard');
+    const saCardMeta   = document.getElementById('saCardMeta');
+    const saCardQ      = document.getElementById('saCardQ');
+    const saAnswerArea = document.getElementById('saAnswerArea');
+    const saInput      = document.getElementById('saInput');
+    const saFeedback   = document.getElementById('saFeedback');
+    const saModelAnswerBox  = document.getElementById('saModelAnswer');
+    const saModelAnswerText = document.getElementById('saModelAnswerText');
+    const saCheck      = document.getElementById('saCheck');
+    const saReveal     = document.getElementById('saReveal');
+    const saNext       = document.getElementById('saNext');
+    const saProgLabel  = document.getElementById('saProgLabel');
+    const saProgFill   = document.getElementById('saProgFill');
+
+    if (!saCard) return; // section not in DOM
+
+    let activeCat = 'all';
+    let currentQ  = null;
+    let answered  = 0;
+    let total     = SHORT_ANSWER_QUESTIONS.length;
+    let usedIds   = new Set();
+
+    const catBtns = document.querySelectorAll('.sa-cat-btn');
+    catBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        catBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCat = btn.dataset.cat;
+        usedIds.clear();
+        loadQuestion();
+      });
+    });
+
+    function filteredPool() {
+      return SHORT_ANSWER_QUESTIONS.filter(q =>
+        activeCat === 'all' || q.cat === activeCat
+      );
+    }
+
+    function loadQuestion() {
+      const pool = filteredPool();
+      if (!pool.length) return;
+      // Pick from unused; reset when exhausted
+      let available = pool.filter(q => !usedIds.has(q.id));
+      if (!available.length) { usedIds.clear(); available = pool; }
+      const pick = available[Math.floor(Math.random() * available.length)];
+      usedIds.add(pick.id);
+      currentQ = pick;
+
+      const catLabel = pick.cat.charAt(0).toUpperCase() + pick.cat.slice(1);
+      const num = usedIds.size;
+      const tot = filteredPool().length;
+      saCardMeta.textContent = `${catLabel} · Question ${num} of ${tot}`;
+      saCardQ.textContent = pick.q;
+
+      saInput.value = '';
+      saFeedback.innerHTML = '';
+      saFeedback.classList.add('hidden');
+      saModelAnswerBox.classList.add('hidden');
+      saAnswerArea.classList.remove('hidden');
+      saInput.focus();
+    }
+
+    function updateProgress() {
+      const pct = total ? Math.round(answered / total * 100) : 0;
+      saProgLabel.textContent = `${answered} answered this session`;
+      saProgFill.style.width = Math.min(pct, 100) + '%';
+    }
+
+    saNext.addEventListener('click', loadQuestion);
+
+    saCheck.addEventListener('click', async () => {
+      const answer = saInput.value.trim();
+      if (!answer) {
+        saFeedback.innerHTML = `<div class="sa-fb-panel sa-fb-warn">&#9888; Please write an answer before checking.</div>`;
+        saFeedback.classList.remove('hidden');
+        return;
+      }
+      saFeedback.innerHTML = `<div class="sa-fb-panel sa-fb-loading"><span class="ai-fb-spinner"></span>&nbsp; Gemini is reviewing your answer&hellip;</div>`;
+      saFeedback.classList.remove('hidden');
+      saFeedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      try {
+        const resp = await fetch('/api/check-short', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            question:    currentQ.q,
+            modelAnswer: currentQ.model,
+            studentAnswer: answer,
+            category:    currentQ.cat
+          })
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (!resp.ok) throw new Error(data?.error || `API ${resp.status}`);
+        renderFeedback(data);
+        answered++;
+        updateProgress();
+      } catch (err) {
+        saFeedback.innerHTML = `<div class="sa-fb-panel sa-fb-fail">&#9888; Could not reach the AI marker (${err.message}). Check your internet connection and try again.</div>`;
+      }
+    });
+
+    saReveal.addEventListener('click', () => {
+      if (!currentQ) return;
+      saModelAnswerText.textContent = currentQ.model;
+      saModelAnswerBox.classList.remove('hidden');
+      saModelAnswerBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    function renderFeedback(data) {
+      const score = data.score || 0;          // 0–100
+      const grade = data.grade || '?';        // e.g. "Good"
+      const pass  = score >= 60;
+      const color = score >= 80 ? 'sa-fb-pass' : score >= 60 ? 'sa-fb-partial' : 'sa-fb-fail';
+
+      let html = `<div class="sa-fb-panel ${color}">
+        <div class="sa-fb-header">
+          <span class="sa-fb-icon">${pass ? '&#10003;' : '&#9888;'}</span>
+          <span class="sa-fb-grade">${grade}</span>
+          <span class="sa-fb-score">${score}/100</span>
+        </div>`;
+      if (data.feedback) html += `<div class="sa-fb-body">${escHtml(data.feedback)}</div>`;
+      if (data.missing)  html += `<div class="sa-fb-missing"><strong>Missing:</strong> ${escHtml(data.missing)}</div>`;
+      if (data.tip)      html += `<div class="sa-fb-tip">&#128161; ${escHtml(data.tip)}</div>`;
+      html += `</div>`;
+      saFeedback.innerHTML = html;
+    }
+
+    // Initialise with no question selected (wait for user click)
+    updateProgress();
+  })(); // end shortAnswerModule
+
   // Global diagnostics for quicker debugging in browser console
   window.addEventListener('error', (event) => {
     console.groupCollapsed('[Global JS Error]');

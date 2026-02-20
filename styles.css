@@ -1818,3 +1818,123 @@ footer {
   .calc-fab   { width: 52px; height: 52px; bottom: 20px; left: 16px; }
   .calc-fab svg { width: 24px; height: 24px; }
 }
+
+/* ============================================================
+   SECTION 10 — SHORT ANSWER QUESTIONS
+   ============================================================ */
+#nav-links a.nav-short { color: #e67e22; font-weight: 600; }
+#nav-links a.nav-short:hover { opacity: .8; }
+
+/* Config row */
+.sa-config {
+  display: flex; flex-wrap: wrap; align-items: flex-end;
+  gap: 16px; margin-bottom: 28px;
+}
+.sa-cat-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.sa-cat-btn {
+  padding: 7px 16px; border-radius: 99px; border: 2px solid var(--border);
+  background: #fff; color: var(--text); font-size: .88rem; font-weight: 500;
+  cursor: pointer; transition: all .15s;
+}
+.sa-cat-btn:hover  { border-color: #e67e22; color: #e67e22; }
+.sa-cat-btn.active { background: #e67e22; border-color: #e67e22; color: #fff; }
+.sa-next-btn { margin-left: auto; }
+
+/* Question card */
+.sa-card {
+  background: #fff; border: 2px solid var(--border);
+  border-left: 5px solid #e67e22;
+  border-radius: 12px; padding: 24px 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+.sa-card-meta {
+  font-size: .78rem; font-weight: 600; letter-spacing: .04em;
+  text-transform: uppercase; color: #e67e22; margin-bottom: 10px;
+}
+.sa-card-q {
+  font-size: 1.13rem; font-weight: 600; color: var(--text);
+  line-height: 1.55;
+}
+
+/* Answer area */
+.sa-answer-area { margin-bottom: 16px; }
+.sa-answer-label {
+  display: block; font-size: .85rem; font-weight: 600;
+  color: var(--muted); margin-bottom: 8px;
+}
+.sa-textarea {
+  width: 100%; padding: 14px 16px; border: 2px solid var(--border);
+  border-radius: 10px; font-size: .97rem; line-height: 1.6;
+  font-family: inherit; resize: vertical; transition: border-color .18s;
+  box-sizing: border-box;
+}
+.sa-textarea:focus { outline: none; border-color: #e67e22; }
+.sa-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+
+/* Feedback panel */
+.sa-feedback { margin-bottom: 16px; }
+.sa-fb-panel {
+  border-radius: 12px; padding: 20px 22px;
+  border: 2px solid transparent;
+  animation: fbFadeIn .3s ease;
+}
+.sa-fb-pass    { background: #f0fdf4; border-color: #86efac; }
+.sa-fb-partial { background: #fffbeb; border-color: #fcd34d; }
+.sa-fb-fail    { background: #fef2f2; border-color: #fca5a5; }
+.sa-fb-warn    { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+.sa-fb-loading { background: #f8fafc; border-color: var(--border); display: flex; align-items: center; gap: 10px; color: var(--muted); }
+
+.sa-fb-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 10px; font-weight: 700; font-size: 1.04rem;
+}
+.sa-fb-icon { font-size: 1.2rem; }
+.sa-fb-grade { flex: 1; }
+.sa-fb-score {
+  background: rgba(0,0,0,.07); border-radius: 99px;
+  padding: 3px 12px; font-size: .84rem;
+}
+.sa-fb-body    { font-size: .97rem; line-height: 1.6; margin-bottom: 8px; }
+.sa-fb-missing { font-size: .92rem; color: #b45309; margin-bottom: 6px; }
+.sa-fb-tip     { font-size: .88rem; color: var(--muted); font-style: italic; }
+
+/* Model answer box */
+.sa-model-answer {
+  background: #f0fdf4; border: 2px solid #86efac;
+  border-radius: 12px; padding: 18px 22px; margin-bottom: 16px;
+  animation: fbFadeIn .3s ease;
+}
+.sa-ma-label {
+  font-size: .8rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #16a34a; margin-bottom: 8px;
+}
+.sa-ma-text { font-size: .97rem; line-height: 1.6; color: var(--text); }
+
+/* Progress row */
+.sa-progress-row {
+  display: flex; align-items: center; gap: 14px;
+  margin-top: 24px;
+}
+.sa-prog-label { font-size: .82rem; color: var(--muted); white-space: nowrap; }
+.sa-prog-bar {
+  flex: 1; height: 7px; background: var(--border);
+  border-radius: 99px; overflow: hidden;
+}
+.sa-prog-fill {
+  height: 100%; background: #e67e22;
+  border-radius: 99px; transition: width .4s ease;
+}
+
+@keyframes fbFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (max-width: 600px) {
+  .sa-card { padding: 18px 16px; }
+  .sa-card-q { font-size: 1rem; }
+  .sa-actions { flex-direction: column; }
+  .sa-next-btn { margin-left: 0; }
+}
+
