@@ -1899,22 +1899,38 @@
     }
 
     /* ── Card display ── */
-    function showCard() {
+    function showCard(skipAnim) {
       if (pointer >= queue.length) { showDone(); return; }
       currentCard = queue[pointer];
       revealed    = false;
-      $('ccCardType').textContent = currentCard.type;
-      $('ccCardType').setAttribute('data-cat', currentCard.type);
-      $('ccCardQ').innerHTML      = currentCard.q;
-      $('ccCardA').innerHTML      = currentCard.a || '';
-      $('ccCardHint').textContent = currentCard.hint || '';
-      $('ccCardAnswer').classList.remove('visible');
-      $('ccReveal').classList.remove('hidden');
-      $('ccJudge').classList.add('hidden');
-      $('ccCard').classList.remove('cc-flash-yes', 'cc-flash-no');
-      const total = queue.length;
-      $('ccProgressFill').style.width  = Math.round((pointer / total) * 100) + '%';
-      $('ccProgressLabel').textContent = 'Card ' + (pointer + 1) + ' of ' + total;
+
+      const doRender = () => {
+        $('ccCardType').textContent = currentCard.type;
+        $('ccCardType').setAttribute('data-cat', currentCard.type);
+        $('ccCardQ').innerHTML      = currentCard.q;
+        $('ccCardA').innerHTML      = currentCard.a || '';
+        $('ccCardHint').textContent = currentCard.hint || '';
+        $('ccCardAnswer').classList.remove('visible');
+        $('ccReveal').classList.remove('hidden');
+        $('ccReveal').disabled    = false;
+        $('ccNo').disabled        = true;
+        $('ccYes').disabled       = true;
+        $('ccCard').classList.remove('cc-flash-yes', 'cc-flash-no', 'sliding-out', 'sliding-in');
+        if (!skipAnim) {
+          $('ccCard').classList.add('sliding-in');
+          $('ccCard').addEventListener('animationend', () => $('ccCard').classList.remove('sliding-in'), { once: true });
+        }
+        const total = queue.length;
+        $('ccProgressFill').style.width  = Math.round((pointer / total) * 100) + '%';
+        $('ccProgressLabel').textContent = 'Card ' + (pointer + 1) + ' of ' + total;
+      };
+
+      if (!skipAnim) {
+        $('ccCard').classList.add('sliding-out');
+        $('ccCard').addEventListener('animationend', doRender, { once: true });
+      } else {
+        doRender();
+      }
     }
 
     function revealAnswer() {
@@ -1922,7 +1938,8 @@
       revealed = true;
       $('ccCardAnswer').classList.add('visible');
       $('ccReveal').classList.add('hidden');
-      $('ccJudge').classList.remove('hidden');
+      $('ccNo').disabled  = false;
+      $('ccYes').disabled = false;
     }
 
     function rate(understood) {
@@ -1943,7 +1960,7 @@
       }
       pointer++;
       updateStats();
-      setTimeout(showCard, 380);
+      setTimeout(showCard, 300);
     }
 
     /* ── Stats ── */
@@ -2010,10 +2027,180 @@
       startSession(true);
     });
 
+    // Shuffle: re-shuffle remaining unplayed cards
+    $('ccShuffle').addEventListener('click', () => {
+      const remaining = queue.slice(pointer);
+      const played    = queue.slice(0, pointer);
+      const reshuffled = shuffle(remaining);
+      queue = played.concat(reshuffled);
+      showCard(true);
+    });
+
+    // Restart: reset all state + start fresh
+    $('ccRestart').addEventListener('click', () => {
+      yesCount = 0; noCount = 0; missedCards = [];
+      $('ccModeAll').classList.add('active');
+      $('ccModeMissed').classList.remove('active');
+      startSession(false);
+    });
+
     /* ── Boot ── */
     startSession(false);
 
   })(); // end ccModule
 
+  /* ==========================================================
+     DRAG-DROP EXTRAS: Hint toggle + See Answer
+     ========================================================== */
+  (function dragExtras() {
+    const bankEl     = document.getElementById('dragBank');
+    const hintBtn    = document.getElementById('toggleHints');
+    const seeAnsBtn  = document.getElementById('seeAnswer');
+    if (!hintBtn || !seeAnsBtn || !bankEl) return;
+
+    let hintsOn = false;
+
+    hintBtn.addEventListener('click', () => {
+      hintsOn = !hintsOn;
+      const practiceSection = document.getElementById('practice');
+      if (practiceSection) practiceSection.classList.toggle('hints-visible', hintsOn);
+      hintBtn.textContent = hintsOn ? '\u{1F4A1} Hide Hints' : '\u{1F4A1} Show Hints';
+      hintBtn.classList.toggle('btn-primary', hintsOn);
+      hintBtn.classList.toggle('btn-subtle', !hintsOn);
+    });
+
+    seeAnsBtn.addEventListener('click', () => {
+      // Move every card to its correct zone
+      const zoneMap = { CA: 'dropCA', LTA: 'dropLTA', CL: 'dropCL', LTL: 'dropLTL', OE: 'dropOE' };
+      const allCards = [...document.querySelectorAll('.drag-item')];
+      allCards.forEach(card => {
+        const correctZoneId = zoneMap[card.getAttribute('data-correct')];
+        if (!correctZoneId) return;
+        const zone = document.getElementById(correctZoneId);
+        if (!zone) return;
+        zone.querySelector('.drop-list').appendChild(card);
+        card.classList.add('correct-placement');
+        card.classList.remove('wrong-placement');
+      });
+      // Recalc totals (function is defined in outer scope)
+      if (typeof recalcTotals === 'function') recalcTotals();
+      else {
+        // trigger input-style recalc via dispatching a drop event indirectly
+        document.getElementById('checkBalance').dispatchEvent(new Event('click'));
+      }
+    });
+  })();
+
+  /* ==========================================================
+     FLOATING CALCULATOR
+     ========================================================== */
+  (function calcModule() {
+    const fab   = document.getElementById('calcFab');
+    const panel = document.getElementById('calcPanel');
+    const closeBtn = document.getElementById('calcClose');
+    const display  = document.getElementById('calcDisplay');
+    const history  = document.getElementById('calcHistory');
+    if (!fab || !panel) return;
+
+    let state = { current: '0', prev: null, op: null, justCalc: false };
+    let activeOpBtn = null;
+
+    fab.addEventListener('click', () => panel.classList.toggle('hidden'));
+    closeBtn.addEventListener('click', () => panel.classList.add('hidden'));
+
+    function updateDisplay(val) {
+      display.textContent = formatNum(val);
+    }
+
+    function formatNum(s) {
+      // Keep as-is if it ends in dot, or has trailing zeros after decimal
+      if (s === 'Error') return s;
+      const n = parseFloat(s);
+      if (isNaN(n)) return '0';
+      // Show up to 10 sig digits
+      let str = parseFloat(n.toPrecision(10)).toString();
+      // Add commas to integer part
+      const parts = str.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return parts.join('.');
+    }
+
+    function setHistory(s) { history.textContent = s || ''; }
+
+    function pressNum(n) {
+      if (state.justCalc) { state.current = '0'; state.justCalc = false; }
+      if (n === '.' && state.current.includes('.')) return;
+      state.current = (state.current === '0' && n !== '.') ? n : state.current + n;
+      updateDisplay(state.current);
+    }
+
+    function pressOp(op) {
+      if (state.op && !state.justCalc) calculate();
+      state.prev    = state.current;
+      state.op      = op;
+      state.justCalc = false;
+      setHistory(formatNum(state.current) + ' ' + opSymbol(op));
+      // highlight active op
+      if (activeOpBtn) activeOpBtn.classList.remove('active-op');
+      const btn = panel.querySelector('[data-op="' + op + '"]');
+      if (btn) { btn.classList.add('active-op'); activeOpBtn = btn; }
+    }
+
+    function calculate() {
+      if (!state.op || state.prev === null) return;
+      const a = parseFloat(state.prev), b = parseFloat(state.current);
+      let result;
+      switch (state.op) {
+        case '+': result = a + b; break;
+        case '-': result = a - b; break;
+        case '*': result = a * b; break;
+        case '/': result = b === 0 ? 'Error' : a / b; break;
+        default:  result = b;
+      }
+      setHistory(formatNum(state.prev) + ' ' + opSymbol(state.op) + ' ' + formatNum(state.current) + ' =');
+      state.current  = result === 'Error' ? 'Error' : String(parseFloat(result.toPrecision(12)));
+      state.prev     = null;
+      state.op       = null;
+      state.justCalc = true;
+      updateDisplay(state.current);
+      if (activeOpBtn) { activeOpBtn.classList.remove('active-op'); activeOpBtn = null; }
+    }
+
+    function opSymbol(op) { return { '+': '+', '-': '−', '*': '×', '/': '÷' }[op] || op; }
+
+    panel.querySelectorAll('.calc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const num    = btn.getAttribute('data-num');
+        const op     = btn.getAttribute('data-op');
+        const action = btn.getAttribute('data-action');
+        if (num !== null)       { pressNum(num); }
+        else if (op !== null)   { pressOp(op); }
+        else if (action === 'clear')  { state = { current: '0', prev: null, op: null, justCalc: false }; if (activeOpBtn) { activeOpBtn.classList.remove('active-op'); activeOpBtn = null; } setHistory(''); updateDisplay('0'); }
+        else if (action === 'sign')   { state.current = String(-parseFloat(state.current)); updateDisplay(state.current); }
+        else if (action === 'pct')    { state.current = String(parseFloat(state.current) / 100); updateDisplay(state.current); }
+        else if (action === 'dot')    { pressNum('.'); }
+        else if (action === 'equals') { calculate(); }
+      });
+    });
+
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+      if (panel.classList.contains('hidden')) return;
+      if ('0123456789'.includes(e.key))  { pressNum(e.key); e.preventDefault(); }
+      else if (e.key === '.')            { pressNum('.'); e.preventDefault(); }
+      else if (e.key === '+')            { pressOp('+'); e.preventDefault(); }
+      else if (e.key === '-')            { pressOp('-'); e.preventDefault(); }
+      else if (e.key === '*')            { pressOp('*'); e.preventDefault(); }
+      else if (e.key === '/')            { pressOp('/'); e.preventDefault(); }
+      else if (e.key === 'Enter' || e.key === '=') { calculate(); e.preventDefault(); }
+      else if (e.key === 'Escape')       { panel.classList.add('hidden'); }
+      else if (e.key === 'Backspace')    {
+        state.current = state.current.length > 1 ? state.current.slice(0, -1) : '0';
+        updateDisplay(state.current); e.preventDefault();
+      }
+    });
+
+    updateDisplay('0');
+  })(); // end calcModule
 
 })();

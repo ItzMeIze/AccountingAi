@@ -672,7 +672,8 @@
 
     <div class="practice-toolbar">
       <button class="btn btn-outline" id="resetDrag">&#8635; Reset</button>
-      <span class="practice-hint">&#128161; Hover any card for a placement hint</span>
+      <button class="btn btn-subtle" id="toggleHints">&#128161; Show Hints</button>
+      <button class="btn btn-subtle" id="seeAnswer">&#128065; See Answer</button>
     </div>
 
     <!-- Account bank -->
@@ -1109,6 +1110,8 @@
       <div class="cc-modes">
         <button class="cc-mode-btn active" id="ccModeAll">&#128218; Study All</button>
         <button class="cc-mode-btn" id="ccModeMissed">&#128260; Review Missed&nbsp;<span class="cc-missed-badge" id="ccMissedBadge">0</span></button>
+        <button class="cc-mode-btn" id="ccShuffle">&#128256; Shuffle</button>
+        <button class="cc-mode-btn" id="ccRestart">&#8635; Restart</button>
       </div>
       <div class="cc-stats">
         <div class="cc-stat"><span class="cc-stat-n" id="ccStatStudied">0</span><span class="cc-stat-l">Studied</span></div>
@@ -1138,9 +1141,9 @@
       <!-- Action bar -->
       <div class="cc-actions" id="ccActions">
         <button class="btn btn-primary cc-reveal-btn" id="ccReveal">&#128065;&nbsp; Reveal Answer</button>
-        <div class="cc-judge hidden" id="ccJudge">
-          <button class="cc-btn-no" id="ccNo"><span class="cc-btn-icon">&#10005;</span> No &mdash; Review Again</button>
-          <button class="cc-btn-yes" id="ccYes"><span class="cc-btn-icon">&#10003;</span> Yes &mdash; Got It</button>
+        <div class="cc-judge" id="ccJudge">
+          <button class="cc-btn-no" id="ccNo" disabled><span class="cc-btn-icon">&#10005;</span> No &mdash; Review Again</button>
+          <button class="cc-btn-yes" id="ccYes" disabled><span class="cc-btn-icon">&#10003;</span> Yes &mdash; Got It</button>
         </div>
       </div>
     </div>
@@ -1170,6 +1173,43 @@
 </footer>
 
 <div id="tooltip" class="tooltip hidden"></div>
+
+<!-- ===== FLOATING CALCULATOR ===== -->
+<button class="calc-fab" id="calcFab" title="Calculator">&#128425;</button>
+<div class="calc-panel hidden" id="calcPanel">
+  <div class="calc-header">
+    <span class="calc-title">Calculator</span>
+    <button class="calc-close" id="calcClose">&times;</button>
+  </div>
+  <div class="calc-display" id="calcDisplay">0</div>
+  <div class="calc-history" id="calcHistory"></div>
+  <div class="calc-grid">
+    <button class="calc-btn calc-wide calc-fn" data-action="clear">AC</button>
+    <button class="calc-btn calc-fn" data-action="sign">&plusmn;</button>
+    <button class="calc-btn calc-fn" data-action="pct">%</button>
+    <button class="calc-btn calc-op" data-op="/">&divide;</button>
+
+    <button class="calc-btn" data-num="7">7</button>
+    <button class="calc-btn" data-num="8">8</button>
+    <button class="calc-btn" data-num="9">9</button>
+    <button class="calc-btn calc-op" data-op="*">&times;</button>
+
+    <button class="calc-btn" data-num="4">4</button>
+    <button class="calc-btn" data-num="5">5</button>
+    <button class="calc-btn" data-num="6">6</button>
+    <button class="calc-btn calc-op" data-op="-">&minus;</button>
+
+    <button class="calc-btn" data-num="1">1</button>
+    <button class="calc-btn" data-num="2">2</button>
+    <button class="calc-btn" data-num="3">3</button>
+    <button class="calc-btn calc-op calc-op-tall" data-op="+" rowspan="2">+</button>
+
+    <button class="calc-btn calc-wide" data-num="0">0</button>
+    <button class="calc-btn" data-action="dot">.</button>
+    <button class="calc-btn calc-eq" data-action="equals">=</button>
+  </div>
+</div>
+
 <script src="script.js"></script>
 </body>
 </html>
