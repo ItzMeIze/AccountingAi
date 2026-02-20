@@ -1439,6 +1439,7 @@
         <div class="ai-fb-header ${pass ? 'fb-pass' : 'fb-fail'}">
           <span class="ai-fb-score">${pass ? '&#127881;' : '&#128269;'} ${found} correct, ${partCount} partial out of ${total} errors &mdash; ${pct}%</span>
           ${result.summary ? `<div class="ai-fb-summary">${result.summary}</div>` : ''}
+          ${result.fallbackUsed ? `<div class="ai-fb-summary"><strong>Note:</strong> Gemini is unavailable right now, so this was marked with a backup checker.</div>` : ''}
         </div>`;
 
       /* Correct answers */

@@ -176,14 +176,10 @@ Rules:
       detail: lastErr?.detail || ''
     });
 
-    return new Response(JSON.stringify({
-      error: `Gemini API error ${lastErr?.status || 502}`,
-      userMessage: quotaMsg,
-      detail: lastErr?.detail || '',
-      modelTried: lastErr?.model || null,
-      requestId
-    }), {
-      status,
+    // Fallback: local heuristic marker so students still get feedback instead of a hard failure.
+    const fallback = gradeWithHeuristics({ studentAnswers, errors, totalErrors, requestId, quotaMsg });
+    return new Response(JSON.stringify(fallback), {
+      status: 200,
       headers: corsHeaders()
     });
   }
@@ -226,5 +222,93 @@ function corsHeaders() {
   return {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*'
+  };
+}
+
+function gradeWithHeuristics({ studentAnswers, errors, totalErrors, requestId, quotaMsg }) {
+  const answers = (Array.isArray(studentAnswers) ? studentAnswers : [studentAnswers])
+    .map(s => String(s || '').trim())
+    .filter(Boolean);
+
+  const norm = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+  const keyTerms = (s) => {
+    const stop = new Set(['the','and','for','with','that','this','from','into','under','over','after','before','is','are','was','were','to','of','in','on','a','an','by']);
+    return norm(s).split(' ').filter(w => w.length > 2 && !stop.has(w));
+  };
+
+  const key = errors.map((e, i) => ({
+    errorId: e?.id || (i + 1),
+    location: e?.location || '',
+    terms: [...new Set([...keyTerms(e?.description), ...keyTerms(e?.correction), ...keyTerms(e?.location)])]
+  }));
+
+  const used = new Set();
+  const matched = [];
+  const partial = [];
+  const irrelevant = [];
+
+  answers.forEach((studentText, idx) => {
+    const aTerms = keyTerms(studentText);
+    let best = null;
+
+    key.forEach((k, kIdx) => {
+      if (used.has(kIdx)) return;
+      const overlap = aTerms.filter(t => k.terms.includes(t)).length;
+      const ratio = k.terms.length ? (overlap / k.terms.length) : 0;
+      if (!best || ratio > best.ratio) best = { k, kIdx, overlap, ratio };
+    });
+
+    if (best && (best.overlap >= 2 || best.ratio >= 0.34)) {
+      used.add(best.kIdx);
+      matched.push({
+        studentIndex: idx,
+        studentText,
+        errorId: best.k.errorId,
+        quality: 'correct',
+        feedback: 'Good identification. Your answer aligns with one of the expected errors.'
+      });
+    } else if (best && best.overlap === 1) {
+      partial.push({
+        studentIndex: idx,
+        studentText,
+        errorId: best.k.errorId,
+        quality: 'partial',
+        feedback: 'You are close, but include a clearer accounting reason and correction.'
+      });
+    } else {
+      irrelevant.push({
+        studentIndex: idx,
+        studentText,
+        reason: 'This does not match the known error list closely enough. Re-check section placement and ordering rules.'
+      });
+    }
+  });
+
+  const missed = key
+    .filter((_, i) => !used.has(i))
+    .map(k => ({
+      errorId: k.errorId,
+      location: k.location,
+      hint: 'Check this section again for classification, ordering, or subtotal logic.'
+    }));
+
+  const total = Number(totalErrors) || errors.length || key.length;
+  const found = matched.length;
+  const part = partial.length;
+
+  return {
+    matched,
+    partial,
+    irrelevant,
+    missed,
+    score: {
+      found,
+      partial: part,
+      total,
+      pass: (found + part) >= Math.ceil(total * 0.6)
+    },
+    summary: `Fallback marker used because Gemini is temporarily unavailable. ${quotaMsg}`,
+    fallbackUsed: true,
+    requestId
   };
 }
