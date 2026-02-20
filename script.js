@@ -71,21 +71,23 @@
      Total Assets = $217,956  |  Total L + OE = $217,956
   */
   const accounts = [
-    // ── Current Assets (liquidity order: Cash → A/R alphabetically → Supplies)
-    { name: 'Cash',                        value: 1636,   correct: 'CA',  order: 1, tip: 'Cash is the most liquid asset — it IS money. Must always be listed FIRST in Current Assets.' },
-    { name: 'A/R — H. Burns (debtor)',     value: 850,    correct: 'CA',  order: 2, tip: 'H. Burns owes the company money — Accounts Receivable. A/R sub-accounts are listed alphabetically by debtor name.' },
-    { name: 'A/R — J. Hoedl (debtor)',     value: 370,    correct: 'CA',  order: 3, tip: 'J. Hoedl owes the company money — another A/R sub-account. Debtors listed alphabetically (Burns, Hoedl, Marshall).' },
-    { name: 'A/R — D. Marshall (debtor)',  value: 1100,   correct: 'CA',  order: 4, tip: 'D. Marshall owes the company money — another A/R sub-account. Listed last alphabetically under Accounts Receivable.' },
-    { name: 'Supplies',                    value: 1200,   correct: 'CA',  order: 5, tip: 'Supplies are used up within the year but are the least liquid Current Asset — always listed LAST in CA.' },
+    // ── Current Assets (liquidity order: Cash → A/R header → A/R debtors alphabetically → Supplies)
+    { name: 'Cash',                        value: 1636,   correct: 'CA',  order: 1,   tip: 'Cash is the most liquid asset — it IS money. Must always be listed FIRST in Current Assets.' },
+    { name: 'Accounts Receivable',         value: 0,      correct: 'CA',  order: 2,   isHeader: true, tip: 'Drag this as the parent label above your A/R debtor sub-accounts, just like in class. Header rows have no dollar value — the individual debtors are listed and indented below.' },
+    { name: 'A/R — H. Burns (debtor)',     value: 850,    correct: 'CA',  order: 3,   tip: 'H. Burns owes the company money — Accounts Receivable. A/R sub-accounts are listed alphabetically by debtor name.' },
+    { name: 'A/R — J. Hoedl (debtor)',     value: 370,    correct: 'CA',  order: 4,   tip: 'J. Hoedl owes the company money — another A/R sub-account. Debtors listed alphabetically (Burns, Hoedl, Marshall).' },
+    { name: 'A/R — D. Marshall (debtor)',  value: 1100,   correct: 'CA',  order: 5,   tip: 'D. Marshall owes the company money — another A/R sub-account. Listed last alphabetically under Accounts Receivable.' },
+    { name: 'Supplies',                    value: 1200,   correct: 'CA',  order: 6,   tip: 'Supplies are used up within the year but are the least liquid Current Asset — always listed LAST in CA.' },
     // ── Long-Term Assets (longest useful life first: Land → Equipment → Vehicles)
-    { name: 'Land',                        value: 160000, correct: 'LTA', order: 1, tip: 'Land has an unlimited useful life and is NEVER depreciated. Always listed first in Long-Term Assets.' },
-    { name: 'Furniture & Equipment',       value: 14700,  correct: 'LTA', order: 2, tip: 'Furniture & Equipment is a capital asset used for many years. Listed after Land.' },
-    { name: 'Delivery Equipment',          value: 20100,  correct: 'LTA', order: 3, tip: 'Delivery Equipment is a vehicle-class capital asset. Listed before Automobile (longer useful life).' },
-    { name: 'Automobile',                  value: 18000,  correct: 'LTA', order: 4, tip: 'Automobile is a capital asset with a shorter useful life — listed last in Long-Term Assets.' },
-    // ── Current Liabilities (most urgent first: A/P creditors)
-    { name: 'A/P — Anglo Supply Co.',      value: 740,    correct: 'CL',  order: 1, tip: 'Anglo Supply Co. is a creditor — the company owes them money. Accounts Payable, listed first (alphabetical).' },
-    { name: 'A/P — W. Anno',               value: 1200,   correct: 'CL',  order: 2, tip: 'W. Anno is a creditor — another A/P sub-account. Creditors listed alphabetically under A/P.' },
-    { name: 'A/P — M. Benrubi',            value: 3000,   correct: 'CL',  order: 3, tip: 'M. Benrubi is a creditor — another A/P sub-account. Largest individual creditor in this example.' },
+    { name: 'Land',                        value: 160000, correct: 'LTA', order: 1,   tip: 'Land has an unlimited useful life and is NEVER depreciated. Always listed first in Long-Term Assets.' },
+    { name: 'Furniture & Equipment',       value: 14700,  correct: 'LTA', order: 2,   tip: 'Furniture & Equipment is a capital asset used for many years. Listed after Land.' },
+    { name: 'Delivery Equipment',          value: 20100,  correct: 'LTA', order: 3,   tip: 'Delivery Equipment is a vehicle-class capital asset. Listed before Automobile (longer useful life).' },
+    { name: 'Automobile',                  value: 18000,  correct: 'LTA', order: 4,   tip: 'Automobile is a capital asset with a shorter useful life — listed last in Long-Term Assets.' },
+    // ── Current Liabilities (A/P header first, then creditors alphabetically)
+    { name: 'Accounts Payable',            value: 0,      correct: 'CL',  order: 1,   isHeader: true, tip: 'Drag this as the parent label above your A/P creditor sub-accounts, just like in class. Header rows have no dollar value — the individual creditors are listed and indented below.' },
+    { name: 'A/P — Anglo Supply Co.',      value: 740,    correct: 'CL',  order: 2,   tip: 'Anglo Supply Co. is a creditor — the company owes them money. Accounts Payable, listed first (alphabetical).' },
+    { name: 'A/P — W. Anno',               value: 1200,   correct: 'CL',  order: 3,   tip: 'W. Anno is a creditor — another A/P sub-account. Creditors listed alphabetically under A/P.' },
+    { name: 'A/P — M. Benrubi',            value: 3000,   correct: 'CL',  order: 4,   tip: 'M. Benrubi is a creditor — another A/P sub-account. Largest individual creditor in this example.' },
     // ── Long-Term Liabilities (shorter term before longer term)
     { name: 'Bank Loan (3-year)',           value: 10000,  correct: 'LTL', order: 1, tip: 'A 3-year bank loan — due after one year. Long-Term Liability. Listed before Mortgage (shorter term).' },
     { name: 'Mortgage Payable',            value: 80500,  correct: 'LTL', order: 2, tip: 'Mortgage Payable is a long-term debt secured by property. The largest liability — listed last in LTL.' },
@@ -110,8 +112,14 @@
       el.setAttribute('data-order', acc.order);
       el.setAttribute('data-correct', acc.correct);
       el.setAttribute('data-type', acc.name.startsWith('A/R') ? 'AR' : acc.name.startsWith('A/P') ? 'AP' : '');
-      el.innerHTML = `${acc.name} <span class="drag-val">${formatDollar(acc.value)}</span>
-        <span class="drag-tip">${acc.tip}</span>`;
+      if (acc.isHeader) {
+        el.setAttribute('data-is-header', 'true');
+        el.classList.add('drag-item-header');
+        el.innerHTML = `${acc.name} <span class="drag-header-label">(label — no $)</span><span class="drag-tip">${acc.tip}</span>`;
+      } else {
+        el.innerHTML = `${acc.name} <span class="drag-val">${formatDollar(acc.value)}</span>
+          <span class="drag-tip">${acc.tip}</span>`;
+      }
       el.addEventListener('dragstart', onDragStart);
       // Touch support
       el.addEventListener('touchstart', onTouchStart, { passive: false });
@@ -230,7 +238,10 @@
       const zone = document.getElementById(id);
       const items = zone.querySelectorAll('.drag-item');
       let sub = 0;
-      items.forEach((item) => { sub += Number(item.getAttribute('data-value')); });
+      items.forEach((item) => {
+        if (item.getAttribute('data-is-header') === 'true') return; // label cards — no dollar value
+        sub += Number(item.getAttribute('data-value'));
+      });
       zone.querySelector('.sub-val').textContent = formatDollar(sub);
 
       if (key === 'CA' || key === 'LTA') totalA += sub;
@@ -243,39 +254,6 @@
     const liabEl = document.getElementById('totalLiab');
     if (liabEl) liabEl.textContent = formatDollar(totalLiab);
     document.getElementById('totalLOE').textContent = formatDollar(totalLOE);
-    updateGroupHeaders();
-  }
-
-  /* Insert "Accounts Receivable" / "Accounts Payable" parent labels in drop zones */
-  function updateGroupHeaders() {
-    document.querySelectorAll('.group-header-row').forEach(e => e.remove());
-    document.querySelectorAll('.drag-item.ar-ap-indent').forEach(e => e.classList.remove('ar-ap-indent'));
-
-    // CA zone — group A/R items under "Accounts Receivable"
-    const caList = document.querySelector('#dropCA .drop-list');
-    if (caList) {
-      const arItems = [...caList.querySelectorAll('.drag-item[data-type="AR"]')];
-      if (arItems.length) {
-        const hdr = document.createElement('div');
-        hdr.className = 'group-header-row';
-        hdr.textContent = 'Accounts Receivable';
-        caList.insertBefore(hdr, arItems[0]);
-        arItems.forEach(el => el.classList.add('ar-ap-indent'));
-      }
-    }
-
-    // CL zone — group A/P items under "Accounts Payable"
-    const clList = document.querySelector('#dropCL .drop-list');
-    if (clList) {
-      const apItems = [...clList.querySelectorAll('.drag-item[data-type="AP"]')];
-      if (apItems.length) {
-        const hdr = document.createElement('div');
-        hdr.className = 'group-header-row';
-        hdr.textContent = 'Accounts Payable';
-        clList.insertBefore(hdr, apItems[0]);
-        apItems.forEach(el => el.classList.add('ar-ap-indent'));
-      }
-    }
   }
 
   /* Check balance — validates classification AND ordering within each zone */

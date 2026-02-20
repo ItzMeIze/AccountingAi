@@ -666,13 +666,17 @@ p:last-child { margin-bottom: 0; }
 }
 .pbs-list .drag-val { margin-left: auto; }
 
-/* A/R and A/P group header labels inside drop zones */
-.group-header-row {
-  font-size: .80rem; font-weight: 700; color: var(--text);
-  padding: 5px 10px 1px; pointer-events: none; user-select: none;
-  width: 100%; border-bottom: 1px solid var(--border); margin-bottom: 2px;
+/* Accounts Receivable / Accounts Payable draggable header cards */
+.drag-item.drag-item-header {
+  font-style: italic; font-weight: 800; letter-spacing: .01em;
+  border-style: solid; opacity: .92;
 }
-.pbs-list .drag-item.ar-ap-indent { padding-left: 22px; }
+.drag-item.drag-item-header .drag-header-label {
+  font-size: .72rem; font-weight: 400; opacity: .65; font-style: normal; margin-left: 4px;
+}
+/* Indent A/R and A/P sub-account chips when placed in a drop zone */
+.pbs-list .drag-item[data-type="AR"],
+.pbs-list .drag-item[data-type="AP"] { padding-left: 22px; }
 
 .pbs-subtotal-row {
   display: flex; justify-content: space-between; align-items: baseline;
