@@ -609,51 +609,107 @@
   <div class="container">
     <div class="section-label">Section 5</div>
     <h2 class="section-title">Drag-and-Drop Practice</h2>
-    <p class="section-intro">Drag every account card into the correct classification zone. Subtotals update live. Click <strong>Check My Balance Sheet</strong> for detailed feedback.</p>
+    <p class="section-intro">Drag every account from the bank into the correct section of the balance sheet below. Subtotals update live. Click <strong>Check My Balance Sheet</strong> when done.</p>
 
     <div class="practice-toolbar">
       <button class="btn btn-outline" id="resetDrag">&#8635; Reset</button>
-      <span class="practice-hint">&#128161; Hover any card for a placement clue</span>
+      <span class="practice-hint">&#128161; Hover any card for a placement hint</span>
     </div>
 
+    <!-- Account bank -->
+    <p class="bank-label">Account Bank — drag accounts below</p>
     <div class="drag-bank" id="dragBank"></div>
 
-    <div class="drop-grid">
-      <div class="drop-side drop-left">
-        <h4 class="drop-side-head blue-side-head">Assets</h4>
-        <div class="drop-zone" id="dropCA" data-label="Current Assets">
-          <h5>Current Assets</h5>
-          <div class="drop-list"></div>
-          <div class="subtotal-line">Subtotal: <span class="sub-val">$0</span></div>
-        </div>
-        <div class="drop-zone" id="dropLTA" data-label="Long-Term Assets">
-          <h5>Long-Term Assets</h5>
-          <div class="drop-list"></div>
-          <div class="subtotal-line">Subtotal: <span class="sub-val">$0</span></div>
-        </div>
-        <div class="total-line blue-total">Total Assets: <span id="totalAssets">$0</span></div>
+    <!-- Balance sheet practice layout -->
+    <div class="pbs-wrapper">
+
+      <!-- Heading -->
+      <div class="pbs-heading">
+        <div class="pbs-hline pbs-co">Your Company Name</div>
+        <div class="pbs-hline pbs-title">Balance Sheet</div>
+        <div class="pbs-hline pbs-date">As at December 31, 20XX</div>
       </div>
 
-      <div class="drop-side drop-right">
-        <h4 class="drop-side-head red-side-head">Liabilities &amp; Owner&rsquo;s Equity</h4>
-        <div class="drop-zone" id="dropCL" data-label="Current Liabilities">
-          <h5>Current Liabilities</h5>
-          <div class="drop-list"></div>
-          <div class="subtotal-line">Subtotal: <span class="sub-val">$0</span></div>
+      <!-- Two-column body -->
+      <div class="pbs-body">
+
+        <!-- LEFT — Assets -->
+        <div class="pbs-col pbs-col-left">
+          <div class="pbs-major-head pbs-blue-head">ASSETS</div>
+
+          <div class="pbs-section-head">Current Assets</div>
+          <div class="drop-zone pbs-zone" id="dropCA" data-label="Current Assets">
+            <div class="drop-list pbs-list"></div>
+            <div class="pbs-drop-hint">Drop Current Assets here</div>
+          </div>
+          <div class="pbs-subtotal-row">
+            <span class="pbs-subtotal-label">Total Current Assets</span>
+            <span class="pbs-subtotal-amt su"><span class="sub-val">$0</span></span>
+          </div>
+
+          <div class="pbs-section-head pbs-mt">Long-Term Assets</div>
+          <div class="drop-zone pbs-zone" id="dropLTA" data-label="Long-Term Assets">
+            <div class="drop-list pbs-list"></div>
+            <div class="pbs-drop-hint">Drop Long-Term Assets here</div>
+          </div>
+          <div class="pbs-subtotal-row">
+            <span class="pbs-subtotal-label">Total Long-Term Assets</span>
+            <span class="pbs-subtotal-amt su"><span class="sub-val">$0</span></span>
+          </div>
+
+          <div class="pbs-total-row pbs-grand">
+            <span>Total Assets</span>
+            <span class="double-ul" id="totalAssets">$0</span>
+          </div>
         </div>
-        <div class="drop-zone" id="dropLTL" data-label="Long-Term Liabilities">
-          <h5>Long-Term Liabilities</h5>
-          <div class="drop-list"></div>
-          <div class="subtotal-line">Subtotal: <span class="sub-val">$0</span></div>
+
+        <!-- Divider -->
+        <div class="pbs-divider"></div>
+
+        <!-- RIGHT — Liabilities & OE -->
+        <div class="pbs-col pbs-col-right">
+          <div class="pbs-major-head pbs-red-head">LIABILITIES</div>
+
+          <div class="pbs-section-head">Current Liabilities</div>
+          <div class="drop-zone pbs-zone" id="dropCL" data-label="Current Liabilities">
+            <div class="drop-list pbs-list"></div>
+            <div class="pbs-drop-hint">Drop Current Liabilities here</div>
+          </div>
+          <div class="pbs-subtotal-row">
+            <span class="pbs-subtotal-label">Total Current Liabilities</span>
+            <span class="pbs-subtotal-amt su"><span class="sub-val">$0</span></span>
+          </div>
+
+          <div class="pbs-section-head pbs-mt">Long-Term Liabilities</div>
+          <div class="drop-zone pbs-zone" id="dropLTL" data-label="Long-Term Liabilities">
+            <div class="drop-list pbs-list"></div>
+            <div class="pbs-drop-hint">Drop Long-Term Liabilities here</div>
+          </div>
+          <div class="pbs-subtotal-row">
+            <span class="pbs-subtotal-label">Total Long-Term Liabilities</span>
+            <span class="pbs-subtotal-amt su"><span class="sub-val">$0</span></span>
+          </div>
+
+          <div class="pbs-subtotal-row pbs-section-total-row">
+            <span class="pbs-subtotal-label">Total Liabilities</span>
+            <span class="pbs-subtotal-amt su"><span id="totalLiab">$0</span></span>
+          </div>
+
+          <div class="pbs-major-head pbs-green-head pbs-mt">OWNER&rsquo;S EQUITY</div>
+
+          <div class="drop-zone pbs-zone" id="dropOE" data-label="Owner's Equity">
+            <div class="drop-list pbs-list"></div>
+            <div class="pbs-drop-hint">Drop Owner&rsquo;s Equity items here</div>
+          </div>
+
+          <div class="pbs-total-row pbs-grand">
+            <span>Total Liabilities &amp; OE</span>
+            <span class="double-ul" id="totalLOE">$0</span>
+          </div>
         </div>
-        <div class="drop-zone" id="dropOE" data-label="Owner's Equity">
-          <h5>Owner&rsquo;s Equity</h5>
-          <div class="drop-list"></div>
-          <div class="subtotal-line">Subtotal: <span class="sub-val">$0</span></div>
-        </div>
-        <div class="total-line red-total">Total L &amp; OE: <span id="totalLOE">$0</span></div>
-      </div>
-    </div>
+      </div><!-- /pbs-body -->
+
+    </div><!-- /pbs-wrapper -->
 
     <div id="dragFeedback" class="drag-feedback hidden"></div>
     <button class="btn btn-primary" id="checkBalance">&#10003; Check My Balance Sheet</button>

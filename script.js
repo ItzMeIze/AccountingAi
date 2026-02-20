@@ -213,7 +213,7 @@
 
   /* Recalculate subtotals and totals */
   function recalcTotals() {
-    let totalA = 0, totalL = 0;
+    let totalA = 0, totalLiab = 0, totalOE = 0;
 
     Object.entries(zones).forEach(([key, id]) => {
       const zone = document.getElementById(id);
@@ -223,11 +223,15 @@
       zone.querySelector('.sub-val').textContent = formatDollar(sub);
 
       if (key === 'CA' || key === 'LTA') totalA += sub;
-      else totalL += sub;
+      else if (key === 'CL' || key === 'LTL') totalLiab += sub;
+      else totalOE += sub;
     });
 
+    const totalLOE = totalLiab + totalOE;
     document.getElementById('totalAssets').textContent = formatDollar(totalA);
-    document.getElementById('totalLOE').textContent    = formatDollar(totalL);
+    const liabEl = document.getElementById('totalLiab');
+    if (liabEl) liabEl.textContent = formatDollar(totalLiab);
+    document.getElementById('totalLOE').textContent = formatDollar(totalLOE);
   }
 
   /* Check balance */

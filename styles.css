@@ -481,6 +481,8 @@ p:last-child { margin-bottom: 0; }
 /* ============================================================
    SECTION 5 — DRAG & DROP
    ============================================================ */
+.bank-label { font-size: .82rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+
 .practice-toolbar { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
 .practice-hint { font-size: .88rem; color: var(--muted); }
 
@@ -553,6 +555,87 @@ p:last-child { margin-bottom: 0; }
 .drag-feedback.partial { background: var(--gold-bg);  color: #92400e;      border: 1px solid var(--gold); }
 
 @media (max-width: 700px) { .drop-grid { grid-template-columns: 1fr; } }
+
+/* ------ Practice Balance Sheet layout ------ */
+.bank-label { font-size: .82rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+
+.pbs-wrapper {
+  background: #fff; border: 2px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); margin: 20px 0 28px; overflow: hidden;
+}
+.pbs-heading {
+  text-align: center; padding: 22px 24px 16px; border-bottom: 2px solid var(--border);
+  background: #fafafa;
+}
+.pbs-hline { display: block; line-height: 2.2; }
+.pbs-co    { font-weight: 900; font-size: 1.1rem; letter-spacing: -.01em; }
+.pbs-title { font-weight: 700; font-size: 1rem; text-decoration: underline; }
+.pbs-date  { font-weight: 500; font-size: .9rem; color: var(--muted); text-decoration: underline; }
+
+.pbs-body {
+  display: grid; grid-template-columns: 1fr 1px 1fr;
+}
+.pbs-divider { background: var(--border); }
+.pbs-col { padding: 24px 28px; min-width: 0; }
+
+.pbs-major-head {
+  font-size: .85rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase;
+  padding-bottom: 6px; margin-bottom: 10px; border-bottom: 2px solid currentColor;
+}
+.pbs-blue-head  { color: var(--blue); }
+.pbs-red-head   { color: var(--red); }
+.pbs-green-head { color: var(--green); }
+
+.pbs-section-head {
+  font-size: .82rem; font-weight: 700; color: var(--muted); text-decoration: underline;
+  margin-bottom: 6px;
+}
+.pbs-mt { margin-top: 18px; }
+
+.pbs-zone {
+  border: 2px dashed var(--border); border-radius: 8px;
+  min-height: 64px; padding: 6px; transition: border-color .2s, background .2s;
+  margin-bottom: 2px;
+}
+.pbs-zone.drag-over { border-color: var(--blue); background: #eef4ff; }
+
+.pbs-drop-hint {
+  color: #bbb; font-size: .78rem; text-align: center; padding: 8px 4px;
+  pointer-events: none; user-select: none;
+}
+.pbs-zone:has(.drag-item) .pbs-drop-hint { display: none; }
+
+.pbs-list { display: flex; flex-direction: column; gap: 2px; }
+.pbs-list .drag-item {
+  width: 100%; justify-content: space-between; border-radius: 5px;
+  font-size: .84rem; padding: 5px 10px; cursor: grab;
+}
+.pbs-list .drag-val { margin-left: auto; }
+
+.pbs-subtotal-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 5px 4px 2px; font-size: .85rem; font-weight: 700;
+}
+.pbs-subtotal-label { color: var(--muted); font-size: .78rem; }
+.pbs-subtotal-amt { font-family: var(--mono); }
+.pbs-section-total-row {
+  margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border);
+}
+.pbs-section-total-row .pbs-subtotal-label { color: var(--text); font-size: .85rem; }
+
+.pbs-total-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 10px 4px 4px; margin-top: 8px; border-top: 2px solid var(--text);
+  font-weight: 900; font-size: .92rem;
+}
+.pbs-grand .double-ul {
+  font-family: var(--mono); border-bottom: 3px double var(--text); padding-bottom: 1px;
+}
+
+@media (max-width: 700px) {
+  .pbs-body { grid-template-columns: 1fr; }
+  .pbs-divider { height: 2px; width: 100%; }
+}
 
 /* ============================================================
    SECTION 6 — COMMON MISTAKES
