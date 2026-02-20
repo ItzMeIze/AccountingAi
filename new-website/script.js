@@ -4,6 +4,18 @@
 (function () {
   'use strict';
 
+  /* ---------- Reading progress bar ---------- */
+  const progressBar = document.getElementById('readingProgress');
+  if (progressBar) {
+    const updateProgress = () => {
+      const h   = document.documentElement;
+      const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      progressBar.style.width = Math.min(pct, 100) + '%';
+    };
+    document.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  }
+
   /* ---------- Mobile nav toggle ---------- */
   const hamburger = document.getElementById('hamburger');
   const navLinks  = document.getElementById('nav-links');
